@@ -10,7 +10,7 @@
 |--------|--------------------------------|---------------|--------------|-------|
 | 0      | Project Preparation            | ✅ Complete   | 2026-05-16   | —     |
 | 1      | Solution Setup & Docker        | ✅ Complete   | 2026-05-16   | ✓     |
-| 2      | Authentication & Roles         | 🔲 Not Started | —            | —     |
+| 2      | Authentication & Roles         | ✅ Complete   | 2026-05-16   | ✓     |
 | 3      | Course Management Backend      | 🔲 Not Started | —            | —     |
 | 4      | Course Management Frontend     | 🔲 Not Started | —            | —     |
 | 5      | Lesson Management Backend      | 🔲 Not Started | —            | —     |
@@ -43,7 +43,7 @@
 
 | File                              | Last Updated | Sprint |
 |-----------------------------------|--------------|--------|
-| knowledge-graph/entities.md       | 2026-05-16   | 1      |
-| knowledge-graph/api-map.md        | 2026-05-16   | 1      |
-| knowledge-graph/dependency-graph.md | 2026-05-16 | 1      |
-| specs/PROGRESS.md                 | 2026-05-16   | 1      |
+| knowledge-graph/entities.md       | 2026-05-16   | 2      |
+| knowledge-graph/api-map.md        | 2026-05-16   | 2      |
+| knowledge-graph/dependency-graph.md | 2026-05-16 | 2      |
+| specs/PROGRESS.md                 | 2026-05-16   | 2      |

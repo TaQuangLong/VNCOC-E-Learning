@@ -1,19 +1,22 @@
 # ChurchLearn — Entity Relationships
 
-_Updated: Sprint 0 (initial). Update this file each sprint as new entities are added._
+_Updated: Sprint 2 (auth). Update this file each sprint as new entities are added._
 
 ---
 
-## User (AspNetUsers)
+## AppUser (AspNetUsers) — ✅ Sprint 2
+- Extends `IdentityUser` (ASP.NET Core Identity)
+- Extra fields: `DisplayName` (string), `IsActive` (bool, default true), `CreatedAt` (DateTime UTC)
 - Has many Enrollments
 - Has many LessonProgress records
 - Has many QuizAttempts
 - Has many Discussions
 - Belongs to many Roles (via AspNetUserRoles)
 
-## Role (AspNetRoles)
-- Values: Student | Admin | SuperAdmin
-- Default on registration: Student
+## Role (AspNetRoles) — ✅ Sprint 2
+- Values: `Student` | `Admin` | `SuperAdmin`
+- Default on registration: `Student`
+- Seeded at app startup via `DatabaseSeeder`
 
 ## Author
 - Optionally linked to one User (UserId nullable)

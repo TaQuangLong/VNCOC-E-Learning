@@ -6,24 +6,25 @@ _Update this file each sprint as new endpoints are implemented._
 
 ## Auth
 
-| Method | Path                          | Auth | Roles | Sprint | Status      |
-|--------|-------------------------------|------|-------|--------|-------------|
-| POST   | /api/auth/register            | No   | Any   | 2      | not-started |
-| POST   | /api/auth/login               | No   | Any   | 2      | not-started |
-| POST   | /api/auth/logout              | Yes  | Any   | 2      | not-started |
-| GET    | /api/auth/me                  | Yes  | Any   | 2      | not-started |
-| POST   | /api/auth/forgot-password     | No   | Any   | 2      | not-started |
-| POST   | /api/auth/reset-password      | No   | Any   | 2      | not-started |
+| Method | Path                          | Auth | Roles | Sprint | Status |
+|--------|-------------------------------|------|-------|--------|--------|
+| POST   | /api/auth/register            | No   | Any   | 2      | ✅ done |
+| POST   | /api/auth/login               | No   | Any   | 2      | ✅ done |
+| POST   | /api/auth/logout              | Yes  | Any   | 2      | ✅ done |
+| GET    | /api/auth/me                  | Yes  | Any   | 2      | ✅ done |
+| POST   | /api/auth/refresh             | No   | Any   | 2      | ✅ done |
+| POST   | /api/auth/forgot-password     | No   | Any   | 2      | ✅ done |
+| POST   | /api/auth/reset-password      | No   | Any   | 2      | ✅ done |
 
 ## Admin — Users
 
 | Method | Path                              | Auth | Roles             | Sprint | Status      |
 |--------|-----------------------------------|------|-------------------|--------|-------------|
-| GET    | /api/admin/users                  | Yes  | Admin, SuperAdmin | 2      | not-started |
-| GET    | /api/admin/users/{id}             | Yes  | Admin, SuperAdmin | 2      | not-started |
-| PUT    | /api/admin/users/{id}/roles       | Yes  | SuperAdmin        | 2      | not-started |
-| POST   | /api/admin/users/{id}/activate    | Yes  | Admin, SuperAdmin | 2      | not-started |
-| POST   | /api/admin/users/{id}/deactivate  | Yes  | Admin, SuperAdmin | 2      | not-started |
+| GET    | /api/admin/users                  | Yes  | Admin, SuperAdmin | 2      | ✅ done     |
+| GET    | /api/admin/users/{id}             | Yes  | Admin, SuperAdmin | 2      | ✅ done     |
+| PUT    | /api/admin/users/{id}/roles       | Yes  | SuperAdmin        | 2      | ✅ done     |
+| POST   | /api/admin/users/{id}/activate    | Yes  | Admin, SuperAdmin | 3      | not-started |
+| POST   | /api/admin/users/{id}/deactivate  | Yes  | Admin, SuperAdmin | 3      | not-started |
 
 ## Courses
 

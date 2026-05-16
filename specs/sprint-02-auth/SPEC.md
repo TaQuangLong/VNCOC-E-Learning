@@ -143,14 +143,33 @@ Auth is the gate to every other feature. No enrollment, progress, quiz, or discu
 
 ## Archive
 
-### Status: 🔲 Not Started
-### Completed: —
+### Status: ✅ Complete
+### Completed: 2026-05-16
 
 ### What Was Built
-_To be filled after sprint completes._
+- `AppUser` entity extending `IdentityUser` with `DisplayName`, `IsActive`, `CreatedAt`
+- `AppRoles` static constants (Student, Admin, SuperAdmin)
+- `AppDbContext` extending `IdentityDbContext<AppUser>` with Npgsql
+- `DatabaseSeeder` — seeds 3 roles + SuperAdmin from config on startup
+- `ICurrentUser` interface + `CurrentUserService` reading from `ClaimsPrincipal`
+- `JwtTokenService` — generates 60-min access tokens + 7-day refresh JWTs
+- `IEmailSender` / `NoOpEmailSender` / `SmtpEmailSender`
+- `GlobalExceptionHandler` middleware — maps exceptions to HTTP status codes
+- Rate limiting: fixed window 10 req/min per IP on `/auth/login` and `/auth/register`
+- EF Core migration: `InitialIdentity`
+- Auth vertical slices: Register, Login, Logout, RefreshToken, GetCurrentUser, ForgotPassword, ResetPassword
+- Admin user vertical slices: GetUsers (paginated), GetUser, UpdateUserRoles (SuperAdmin only)
+- Frontend: `AuthContext`, `useAuth`, `LoginPage`, `RegisterPage`, `ForgotPasswordPage`, `ResetPasswordPage`
+- Frontend: `ProtectedRoute`, `AdminRoute` guards
+- Frontend: Silent session restore on app load via `/api/auth/refresh`
+- CI: `.github/workflows/ci.yml` — backend + frontend builds on push/PR
 
 ### Known Issues
-_To be filled after sprint completes._
+- `shadcn/ui` CLI writes to literal `@/` directory due to missing `baseUrl` → fixed by adding `"baseUrl": "."` + `"ignoreDeprecations": "6.0"` to `tsconfig.app.json`
+- Refresh cookie `Secure: true` will not be set in HTTP local dev (only HTTPS in production) — acceptable for development
 
 ### Notes
-_To be filled after sprint completes._
+- Refresh token = signed JWT (7-day) in httpOnly SameSite=Strict cookie — no DB table needed
+- Access token = 60-min JWT in response body only — stored in React state via `AuthContext`
+- SuperAdmin credentials configured via `SuperAdmin:Email` / `SuperAdmin:Password` in `appsettings.json` (override with env vars in production)
+- `NoOpEmailSender` logs reset emails to console — switch to `SmtpEmailSender` in production by swapping DI registration
