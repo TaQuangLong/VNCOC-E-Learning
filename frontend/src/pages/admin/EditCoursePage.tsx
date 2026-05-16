@@ -8,12 +8,24 @@ export default function EditCoursePage() {
   const courseId = Number(id)
   const navigate = useNavigate()
 
-  const { data: course, isLoading, isError } = useAdminCourse(courseId)
-  const mutation = useUpdateCourse(courseId)
+  const isValidId = !Number.isNaN(courseId) && courseId > 0
+  const { data: course, isLoading, isError } = useAdminCourse(isValidId ? courseId : 0)
+  const mutation = useUpdateCourse(isValidId ? courseId : 0)
 
   const handleSubmit = async (data: CourseFormInput) => {
     await mutation.mutateAsync(data)
     navigate('/admin/courses')
+  }
+
+  if (!isValidId) {
+    return (
+      <div className="mx-auto max-w-2xl px-4 py-8 sm:px-6">
+        <p className="text-muted-foreground">Invalid course ID.</p>
+        <Link to="/admin/courses" className="mt-2 block text-sm text-primary hover:underline">
+          Back to courses
+        </Link>
+      </div>
+    )
   }
 
   if (isLoading) {

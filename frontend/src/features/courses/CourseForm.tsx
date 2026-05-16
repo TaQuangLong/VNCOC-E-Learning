@@ -63,7 +63,7 @@ export default function CourseForm({
   }
 
   return (
-    <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-4">
+    <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-4" noValidate>
       {/* Title */}
       <div className="space-y-1">
         <label htmlFor="title" className="text-sm font-medium">

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import {
   useAdminCourses,
@@ -18,6 +18,13 @@ export default function AdminCoursesPage() {
   const [titleFilter, setTitleFilter] = useState('')
   const [page, setPage] = useState(1)
   const [message, setMessage] = useState<AlertMessage | null>(null)
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current)
+    }
+  }, [])
 
   const { data, isLoading, isError } = useAdminCourses({
     page,
@@ -33,8 +40,9 @@ export default function AdminCoursesPage() {
   const totalPages = data ? Math.ceil(data.totalCount / data.pageSize) : 0
 
   const notify = (type: 'success' | 'error', text: string) => {
+    if (timeoutRef.current) clearTimeout(timeoutRef.current)
     setMessage({ type, text })
-    setTimeout(() => setMessage(null), 3500)
+    timeoutRef.current = setTimeout(() => setMessage(null), 3500)
   }
 
   const handleAction = async (
