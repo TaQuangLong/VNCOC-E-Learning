@@ -3,6 +3,11 @@ import LoginPage from '@/pages/public/LoginPage'
 import RegisterPage from '@/pages/public/RegisterPage'
 import ForgotPasswordPage from '@/pages/public/ForgotPasswordPage'
 import ResetPasswordPage from '@/pages/public/ResetPasswordPage'
+import CoursesPage from '@/pages/public/CoursesPage'
+import CourseDetailPage from '@/pages/public/CourseDetailPage'
+import AdminCoursesPage from '@/pages/admin/AdminCoursesPage'
+import CreateCoursePage from '@/pages/admin/CreateCoursePage'
+import EditCoursePage from '@/pages/admin/EditCoursePage'
 import ProtectedRoute from '@/components/layout/ProtectedRoute'
 import AdminRoute from '@/components/layout/AdminRoute'
 
@@ -10,7 +15,7 @@ export default function AppRouter() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Navigate to="/login" replace />} />
+        <Route path="/" element={<Navigate to="/courses" replace />} />
 
         {/* Public auth routes */}
         <Route path="/login" element={<LoginPage />} />
@@ -18,13 +23,45 @@ export default function AppRouter() {
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
         <Route path="/reset-password" element={<ResetPasswordPage />} />
 
-        {/* Student routes (protected) */}
-        <Route path="/dashboard" element={<ProtectedRoute><div>Dashboard (coming soon)</div></ProtectedRoute>} />
-        <Route path="/courses" element={<ProtectedRoute><div>Courses (coming soon)</div></ProtectedRoute>} />
-        <Route path="/courses/:id" element={<ProtectedRoute><div>Course Detail (coming soon)</div></ProtectedRoute>} />
+        {/* Public course routes */}
+        <Route path="/courses" element={<CoursesPage />} />
+        <Route path="/courses/:slug" element={<CourseDetailPage />} />
 
-        {/* Admin routes */}
-        <Route path="/admin" element={<AdminRoute><div>Admin (coming soon)</div></AdminRoute>} />
+        {/* Student routes (protected) */}
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <div>Dashboard (coming soon)</div>
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Admin — courses */}
+        <Route
+          path="/admin/courses"
+          element={
+            <AdminRoute>
+              <AdminCoursesPage />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/courses/new"
+          element={
+            <AdminRoute>
+              <CreateCoursePage />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/courses/:id/edit"
+          element={
+            <AdminRoute>
+              <EditCoursePage />
+            </AdminRoute>
+          }
+        />
 
         {/* Catch-all */}
         <Route path="*" element={<div>404 — Page not found</div>} />

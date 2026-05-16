@@ -34,9 +34,10 @@ public static class CoursesEndpoints
             [FromQuery] int pageSize = 20,
             [FromQuery] string? category = null,
             [FromQuery] string? level = null,
+            [FromQuery] string? title = null,
             CancellationToken ct = default) =>
         {
-            var result = await handler.HandleAsync(page, pageSize, category, level, ct);
+            var result = await handler.HandleAsync(page, pageSize, category, level, title, ct);
             return Results.Ok(result);
         });
 

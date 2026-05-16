@@ -25,6 +25,7 @@ public class GetPublishedCoursesHandler(AppDbContext db)
         int pageSize,
         string? category,
         string? level,
+        string? title,
         CancellationToken cancellationToken)
     {
         page = Math.Max(1, page);
@@ -34,6 +35,9 @@ public class GetPublishedCoursesHandler(AppDbContext db)
             .Include(c => c.Author)
             .Where(c => c.Status == CourseStatus.Published)
             .AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(title))
+            query = query.Where(c => EF.Functions.ILike(c.Title, $"%{title}%"));
 
         if (!string.IsNullOrWhiteSpace(category))
             query = query.Where(c => c.Category == category);
