@@ -1,6 +1,6 @@
 # ChurchLearn — Entity Relationships
 
-_Updated: Sprint 2 (auth). Update this file each sprint as new entities are added._
+_Updated: Sprint 3 (courses backend). Update this file each sprint as new entities are added._
 
 ---
 
@@ -18,12 +18,12 @@ _Updated: Sprint 2 (auth). Update this file each sprint as new entities are adde
 - Default on registration: `Student`
 - Seeded at app startup via `DatabaseSeeder`
 
-## Author
+## Author — ✅ Sprint 3
 - Optionally linked to one User (UserId nullable)
 - Has many Courses
 - Fields: Id, UserId, Name, Bio, AvatarUrl, CreatedAt, UpdatedAt
 
-## Course
+## Course — ✅ Sprint 3
 - Belongs to one Author
 - Has many Lessons
 - Has many Enrollments

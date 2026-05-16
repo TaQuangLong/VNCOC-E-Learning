@@ -28,7 +28,7 @@ Foundation (no deps)
 | 0      | Project Setup          | ✅ done     | —                                           | None                  | specs/sprint-00-preparation/SPEC.md         |
 | 1      | Foundation             | ✅ done     | —                                           | None                  | specs/sprint-01-setup/SPEC.md               |
 | 2      | Auth                   | ✅ done     | AppUser, Role                                | Foundation            | specs/sprint-02-auth/SPEC.md                |
-| 3      | Courses Backend        | 🔲 not-started | Course, Author                           | Auth                  | specs/sprint-03-courses-backend/SPEC.md     |
+| 3      | Courses Backend        | ✅ done        | Course, Author                           | Auth                  | specs/sprint-03-courses-backend/SPEC.md     |
 | 4      | Courses Frontend       | 🔲 not-started | —                                        | Courses Backend       | specs/sprint-04-courses-frontend/SPEC.md    |
 | 5      | Lessons Backend        | 🔲 not-started | Lesson, Resource                         | Courses Backend       | specs/sprint-05-lessons-backend/SPEC.md     |
 | 6      | Learning Page Frontend | 🔲 not-started | —                                        | Lessons Backend       | specs/sprint-06-learning-page/SPEC.md       |

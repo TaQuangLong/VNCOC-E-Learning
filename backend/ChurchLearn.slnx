@@ -2,4 +2,8 @@
   <Folder Name="/src/">
     <Project Path="src/ChurchLearn.Api/ChurchLearn.Api.csproj" />
   </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/ChurchLearn.Tests/ChurchLearn.Tests.csproj" />
+  </Folder>
+  <Project Path="../tests/ChurchLearn.Tests/ChurchLearn.Tests.csproj" />
 </Solution>

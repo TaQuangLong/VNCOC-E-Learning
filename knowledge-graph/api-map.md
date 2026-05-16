@@ -30,13 +30,17 @@ _Update this file each sprint as new endpoints are implemented._
 
 | Method | Path                                  | Auth | Roles             | Sprint | Status      |
 |--------|---------------------------------------|------|-------------------|--------|-------------|
-| GET    | /api/courses                          | No   | Any               | 3      | not-started |
-| GET    | /api/courses/{slug}                   | No   | Any               | 3      | not-started |
-| POST   | /api/admin/courses                    | Yes  | Admin, SuperAdmin | 3      | not-started |
-| PUT    | /api/admin/courses/{id}               | Yes  | Admin, SuperAdmin | 3      | not-started |
-| DELETE | /api/admin/courses/{id}               | Yes  | Admin, SuperAdmin | 3      | not-started |
-| POST   | /api/admin/courses/{id}/publish       | Yes  | Admin, SuperAdmin | 3      | not-started |
-| POST   | /api/admin/courses/{id}/unpublish     | Yes  | Admin, SuperAdmin | 3      | not-started |
+| GET    | /api/courses                          | No   | Any               | 3      | ✅ done     |
+| GET    | /api/courses/{slug}                   | No   | Any               | 3      | ✅ done     |
+| POST   | /api/admin/courses                    | Yes  | Admin, SuperAdmin | 3      | ✅ done     |
+| PUT    | /api/admin/courses/{id}               | Yes  | Admin, SuperAdmin | 3      | ✅ done     |
+| DELETE | /api/admin/courses/{id}               | Yes  | Admin, SuperAdmin | 3      | ✅ done     |
+| POST   | /api/admin/courses/{id}/publish       | Yes  | Admin, SuperAdmin | 3      | ✅ done     |
+| POST   | /api/admin/courses/{id}/unpublish     | Yes  | Admin, SuperAdmin | 3      | ✅ done     |
+| GET    | /api/admin/courses                    | Yes  | Admin, SuperAdmin | 3      | ✅ done     |
+| GET    | /api/admin/courses/{id}               | Yes  | Admin, SuperAdmin | 3      | ✅ done     |
+| GET    | /api/admin/authors                    | Yes  | Admin, SuperAdmin | 3      | ✅ done     |
+| POST   | /api/admin/authors                    | Yes  | Admin, SuperAdmin | 3      | ✅ done     |
 
 ## Lessons
 
