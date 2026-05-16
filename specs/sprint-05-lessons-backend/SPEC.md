@@ -99,14 +99,23 @@ None this sprint. Frontend is Sprint 6.
 
 ## Archive
 
-### Status: 🔲 Not Started
-### Completed: —
+### Status: ✅ Complete
+### Completed: 2026-05-16
 
 ### What Was Built
-_To be filled after sprint completes._
+- `ContentType` enum (Video, Text, Pdf)
+- `Lesson` entity with full content fields and `IsPreview` flag
+- `Resource` entity linked to lessons
+- `Enrollment` stub entity (Id, UserId, CourseId, EnrolledAt) — used for lesson access control; full enrollment feature in Sprint 7
+- EF Core migration `AddLessonsAndResources` with composite index on `(CourseId, OrderIndex)`, index on `Resources(LessonId)`, and unique index on `Enrollments(UserId, CourseId)`
+- 9 vertical slice handlers: GetCourseLessons, GetLesson, CreateLesson, UpdateLesson, DeleteLesson, ReorderLessons, GetLessonResources, AddResource, DeleteResource
+- YouTube URL regex validator and HTTP/HTTPS URL validator via FluentValidation
+- `LessonsEndpoints.cs` mapping all 9 API endpoints
+- `LessonsServiceRegistration.cs` registered in `Program.cs`
+- 7 unit tests covering ordering logic and content-type validators — all passing
 
 ### Known Issues
-_To be filled after sprint completes._
+None.
 
 ### Notes
-_To be filled after sprint completes._
+Enrollment stub (minimal: Id, UserId, CourseId, EnrolledAt) created in this sprint to support GetLesson access gating. Sprint 7 adds enrollment endpoints and extends the entity.
