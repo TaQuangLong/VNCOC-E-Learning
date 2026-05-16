@@ -1,0 +1,5 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/ChurchLearn.Api/ChurchLearn.Api.csproj" />
+  </Folder>
+</Solution>

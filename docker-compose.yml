@@ -1,0 +1,53 @@
+services:
+  postgres:
+    image: postgres:16
+    platform: linux/arm64
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: churchlearn
+      POSTGRES_USER: churchlearn
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U churchlearn"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  api:
+    build:
+      context: ./backend
+      dockerfile: src/ChurchLearn.Api/Dockerfile
+    platform: linux/arm64
+    restart: unless-stopped
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      ConnectionStrings__DefaultConnection: "Host=postgres;Port=5432;Database=churchlearn;Username=churchlearn;Password=${POSTGRES_PASSWORD}"
+      Jwt__Secret: ${JWT_SECRET}
+      Jwt__Issuer: https://${APP_DOMAIN}
+      Jwt__Audience: https://${APP_DOMAIN}
+      Cors__AllowedOrigins__0: https://${APP_DOMAIN}
+    ports:
+      - "5000:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        VITE_API_URL: ${VITE_API_URL}
+    platform: linux/arm64
+    restart: unless-stopped
+    ports:
+      - "5173:80"
+    depends_on:
+      - api
+
+volumes:
+  postgres_data:
