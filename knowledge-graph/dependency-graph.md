@@ -23,22 +23,22 @@ Foundation (no deps)
 
 ## Sprint to Feature Map
 
-| Sprint | Feature                | Status      | Entities Added                              | Depends On            |
-|--------|------------------------|-------------|---------------------------------------------|-----------------------|
-| 0      | Project Setup          | done        | —                                           | None                  |
-| 1      | Foundation             | in-progress | —                                           | None                  |
-| 2      | Auth                   | not-started | User, Role                                  | Foundation            |
-| 3      | Courses Backend        | not-started | Course, Author                              | Auth                  |
-| 4      | Courses Frontend       | not-started | —                                           | Courses Backend       |
-| 5      | Lessons Backend        | not-started | Lesson, Resource                            | Courses Backend       |
-| 6      | Learning Page Frontend | not-started | —                                           | Lessons Backend       |
-| 7      | Enrollment             | not-started | Enrollment                                  | Auth, Courses         |
-| 8      | Progress               | not-started | LessonProgress                              | Enrollment, Lessons   |
-| 9      | Quiz Backend           | not-started | Quiz, Question, AnswerOption, QuizAttempt   | Lessons, Progress     |
-| 10     | Quiz Frontend          | not-started | —                                           | Quiz Backend          |
-| 11     | Discussion Backend     | not-started | Discussion                                  | Lessons, Auth         |
-| 12     | Discussion Frontend    | not-started | —                                           | Discussion Backend    |
-| 13     | Reports                | not-started | —                                           | All core features     |
-| 14     | CI/CD                  | not-started | —                                           | All features          |
-| 15     | Production             | not-started | —                                           | CI/CD                 |
-| 16     | Pilot Launch           | not-started | —                                           | Production            |
+| Sprint | Feature                | Status      | Entities Added                              | Depends On            | Spec                                        |
+|--------|------------------------|-------------|---------------------------------------------|-----------------------|---------------------------------------------|
+| 0      | Project Setup          | ✅ done     | —                                           | None                  | specs/sprint-00-preparation/SPEC.md         |
+| 1      | Foundation             | ✅ done     | —                                           | None                  | specs/sprint-01-setup/SPEC.md               |
+| 2      | Auth                   | 🔲 not-started | User, Role                               | Foundation            | specs/sprint-02-auth/SPEC.md                |
+| 3      | Courses Backend        | 🔲 not-started | Course, Author                           | Auth                  | specs/sprint-03-courses-backend/SPEC.md     |
+| 4      | Courses Frontend       | 🔲 not-started | —                                        | Courses Backend       | specs/sprint-04-courses-frontend/SPEC.md    |
+| 5      | Lessons Backend        | 🔲 not-started | Lesson, Resource                         | Courses Backend       | specs/sprint-05-lessons-backend/SPEC.md     |
+| 6      | Learning Page Frontend | 🔲 not-started | —                                        | Lessons Backend       | specs/sprint-06-learning-page/SPEC.md       |
+| 7      | Enrollment             | 🔲 not-started | Enrollment                               | Auth, Courses         | specs/sprint-07-enrollment/SPEC.md          |
+| 8      | Progress               | 🔲 not-started | LessonProgress                           | Enrollment, Lessons   | specs/sprint-08-progress/SPEC.md            |
+| 9      | Quiz Backend           | 🔲 not-started | Quiz, Question, AnswerOption, QuizAttempt | Lessons, Progress    | specs/sprint-09-quiz-backend/SPEC.md        |
+| 10     | Quiz Frontend          | 🔲 not-started | —                                        | Quiz Backend          | specs/sprint-10-quiz-frontend/SPEC.md       |
+| 11     | Discussion Backend     | 🔲 not-started | Discussion                               | Lessons, Auth         | specs/sprint-11-discussion-backend/SPEC.md  |
+| 12     | Discussion Frontend    | 🔲 not-started | —                                        | Discussion Backend    | specs/sprint-12-discussion-frontend/SPEC.md |
+| 13     | Reports                | 🔲 not-started | —                                        | All core features     | specs/sprint-13-reports/SPEC.md             |
+| 14     | CI/CD                  | 🔲 not-started | —                                        | All features          | specs/sprint-14-cicd/SPEC.md                |
+| 15     | Production             | 🔲 not-started | —                                        | CI/CD                 | specs/sprint-15-production/SPEC.md          |
+| 16     | Pilot Launch           | 🔲 not-started | —                                        | Production            | specs/sprint-16-pilot/SPEC.md               |
