@@ -1,3 +1,4 @@
+using ChurchLearn.Api.Common;
 using ChurchLearn.Api.Domain.Entities;
 using ChurchLearn.Api.Domain.Enums;
 using ChurchLearn.Api.Infrastructure.Identity;
@@ -13,14 +14,16 @@ public class RegisterHandler(
     JwtTokenService jwtTokenService,
     IValidator<RegisterRequest> validator)
 {
-    public async Task<AuthResponse> HandleAsync(RegisterRequest request, CancellationToken cancellationToken)
+    public async Task<Result<AuthResponse>> HandleAsync(RegisterRequest request, CancellationToken cancellationToken)
     {
         var validation = await validator.ValidateAsync(request, cancellationToken);
         if (!validation.IsValid)
-            throw new ArgumentException(string.Join("; ", validation.Errors.Select(e => e.ErrorMessage)));
+            return Result<AuthResponse>.Failure(
+                string.Join("; ", validation.Errors.Select(e => e.ErrorMessage)),
+                ErrorCodes.Validation);
 
         if (await userManager.FindByEmailAsync(request.Email) is not null)
-            throw new InvalidOperationException("User with this email already exists");
+            return Result<AuthResponse>.Failure("User with this email already exists.", ErrorCodes.Conflict);
 
         var user = new AppUser
         {
@@ -30,14 +33,16 @@ public class RegisterHandler(
             EmailConfirmed = false,
         };
 
-        var result = await userManager.CreateAsync(user, request.Password);
-        if (!result.Succeeded)
-            throw new ArgumentException(string.Join("; ", result.Errors.Select(e => e.Description)));
+        var identityResult = await userManager.CreateAsync(user, request.Password);
+        if (!identityResult.Succeeded)
+            return Result<AuthResponse>.Failure(
+                string.Join("; ", identityResult.Errors.Select(e => e.Description)),
+                ErrorCodes.Validation);
 
         await userManager.AddToRoleAsync(user, AppRoles.Student);
 
         var roles = new[] { AppRoles.Student };
         var accessToken = jwtTokenService.GenerateAccessToken(user, roles);
-        return new AuthResponse(accessToken, user.Email!, user.DisplayName, roles);
+        return Result<AuthResponse>.Success(new AuthResponse(accessToken, user.Email!, user.DisplayName, roles));
     }
 }

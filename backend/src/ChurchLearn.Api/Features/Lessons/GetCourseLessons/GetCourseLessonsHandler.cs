@@ -1,3 +1,4 @@
+using ChurchLearn.Api.Common;
 using ChurchLearn.Api.Domain.Enums;
 using ChurchLearn.Api.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
@@ -15,13 +16,13 @@ public record LessonSummary(
 
 public class GetCourseLessonsHandler(AppDbContext db)
 {
-    public async Task<List<LessonSummary>> HandleAsync(int courseId, CancellationToken cancellationToken)
+    public async Task<Result<List<LessonSummary>>> HandleAsync(int courseId, CancellationToken cancellationToken)
     {
         var courseExists = await db.Courses.AnyAsync(c => c.Id == courseId, cancellationToken);
         if (!courseExists)
-            throw new KeyNotFoundException($"Course {courseId} not found.");
+            return Result<List<LessonSummary>>.Failure($"Course {courseId} not found.", ErrorCodes.NotFound);
 
-        return await db.Lessons
+        var lessons = await db.Lessons
             .Where(l => l.CourseId == courseId)
             .OrderBy(l => l.OrderIndex)
             .Select(l => new LessonSummary(
@@ -33,5 +34,7 @@ public class GetCourseLessonsHandler(AppDbContext db)
                 l.DurationSeconds,
                 l.IsPreview))
             .ToListAsync(cancellationToken);
+
+        return Result<List<LessonSummary>>.Success(lessons);
     }
 }

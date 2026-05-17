@@ -14,26 +14,20 @@ public class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> logger) : IM
         catch (Exception ex)
         {
             logger.LogError(ex, "Unhandled exception: {Message}", ex.Message);
-            await WriteErrorResponse(context, ex);
+            await WriteErrorResponse(context);
         }
     }
 
-    private static Task WriteErrorResponse(HttpContext context, Exception ex)
+    private static Task WriteErrorResponse(HttpContext context)
     {
-        var (status, title) = ex switch
-        {
-            UnauthorizedAccessException => (HttpStatusCode.Unauthorized, ex.Message),
-            KeyNotFoundException => (HttpStatusCode.NotFound, ex.Message),
-            InvalidOperationException when ex.Message.Contains("already exists")
-                => (HttpStatusCode.Conflict, ex.Message),
-            ArgumentException => (HttpStatusCode.BadRequest, ex.Message),
-            _ => (HttpStatusCode.InternalServerError, "An unexpected error occurred."),
-        };
-
-        context.Response.StatusCode = (int)status;
+        context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
         context.Response.ContentType = "application/json";
 
-        var body = JsonSerializer.Serialize(new { title, status = (int)status });
+        var body = JsonSerializer.Serialize(new
+        {
+            title = "An unexpected error occurred.",
+            status = (int)HttpStatusCode.InternalServerError,
+        });
         return context.Response.WriteAsync(body);
     }
 }

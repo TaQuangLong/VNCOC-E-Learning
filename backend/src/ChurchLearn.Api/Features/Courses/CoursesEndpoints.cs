@@ -1,3 +1,4 @@
+using ChurchLearn.Api.Common.Extensions;
 using ChurchLearn.Api.Domain.Enums;
 using ChurchLearn.Api.Features.Courses.CreateAuthor;
 using ChurchLearn.Api.Features.Courses.CreateCourse;
@@ -47,7 +48,7 @@ public static class CoursesEndpoints
             CancellationToken ct) =>
         {
             var result = await handler.HandleAsync(slug, ct);
-            return Results.Ok(result);
+            return result.ToHttpResult(Results.Ok);
         });
     }
 
@@ -75,7 +76,7 @@ public static class CoursesEndpoints
             CancellationToken ct) =>
         {
             var result = await handler.HandleAsync(id, ct);
-            return Results.Ok(result);
+            return result.ToHttpResult(Results.Ok);
         });
 
         group.MapPost("/", async (
@@ -84,7 +85,7 @@ public static class CoursesEndpoints
             CancellationToken ct) =>
         {
             var result = await handler.HandleAsync(request, ct);
-            return Results.Created($"/api/admin/courses/{result.Id}", result);
+            return result.ToHttpResult(r => Results.Created($"/api/admin/courses/{r.Id}", r));
         });
 
         group.MapPut("/{id:int}", async (
@@ -93,8 +94,8 @@ public static class CoursesEndpoints
             UpdateCourseHandler handler,
             CancellationToken ct) =>
         {
-            await handler.HandleAsync(id, request, ct);
-            return Results.NoContent();
+            var result = await handler.HandleAsync(id, request, ct);
+            return result.ToHttpResult(() => Results.NoContent());
         });
 
         group.MapDelete("/{id:int}", async (
@@ -102,8 +103,8 @@ public static class CoursesEndpoints
             DeleteCourseHandler handler,
             CancellationToken ct) =>
         {
-            await handler.HandleAsync(id, ct);
-            return Results.NoContent();
+            var result = await handler.HandleAsync(id, ct);
+            return result.ToHttpResult(() => Results.NoContent());
         });
 
         group.MapPost("/{id:int}/publish", async (
@@ -111,8 +112,8 @@ public static class CoursesEndpoints
             PublishCourseHandler handler,
             CancellationToken ct) =>
         {
-            await handler.HandleAsync(id, ct);
-            return Results.NoContent();
+            var result = await handler.HandleAsync(id, ct);
+            return result.ToHttpResult(() => Results.NoContent());
         });
 
         group.MapPost("/{id:int}/unpublish", async (
@@ -120,8 +121,8 @@ public static class CoursesEndpoints
             UnpublishCourseHandler handler,
             CancellationToken ct) =>
         {
-            await handler.HandleAsync(id, ct);
-            return Results.NoContent();
+            var result = await handler.HandleAsync(id, ct);
+            return result.ToHttpResult(() => Results.NoContent());
         });
     }
 
@@ -145,7 +146,7 @@ public static class CoursesEndpoints
             CancellationToken ct) =>
         {
             var result = await handler.HandleAsync(request, ct);
-            return Results.Created($"/api/admin/authors/{result.Id}", result);
+            return result.ToHttpResult(r => Results.Created($"/api/admin/authors/{r.Id}", r));
         });
     }
 }

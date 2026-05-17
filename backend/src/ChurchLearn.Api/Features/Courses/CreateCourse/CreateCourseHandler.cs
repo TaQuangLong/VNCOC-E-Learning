@@ -1,3 +1,4 @@
+using ChurchLearn.Api.Common;
 using ChurchLearn.Api.Domain.Entities;
 using ChurchLearn.Api.Infrastructure.Persistence;
 using FluentValidation;
@@ -34,19 +35,23 @@ public class CreateCourseValidator : AbstractValidator<CreateCourseRequest>
 
 public class CreateCourseHandler(AppDbContext db, IValidator<CreateCourseRequest> validator)
 {
-    public async Task<CreateCourseResponse> HandleAsync(CreateCourseRequest request, CancellationToken cancellationToken)
+    public async Task<Result<CreateCourseResponse>> HandleAsync(CreateCourseRequest request, CancellationToken cancellationToken)
     {
         var validation = await validator.ValidateAsync(request, cancellationToken);
         if (!validation.IsValid)
-            throw new ArgumentException(string.Join("; ", validation.Errors.Select(e => e.ErrorMessage)));
+            return Result<CreateCourseResponse>.Failure(
+                string.Join("; ", validation.Errors.Select(e => e.ErrorMessage)),
+                ErrorCodes.Validation);
 
         var authorExists = await db.Authors.AnyAsync(a => a.Id == request.AuthorId, cancellationToken);
         if (!authorExists)
-            throw new KeyNotFoundException($"Author {request.AuthorId} not found.");
+            return Result<CreateCourseResponse>.Failure(
+                $"Author {request.AuthorId} not found.", ErrorCodes.NotFound);
 
         var slugTaken = await db.Courses.AnyAsync(c => c.Slug == request.Slug, cancellationToken);
         if (slugTaken)
-            throw new InvalidOperationException($"A course with slug '{request.Slug}' already exists.");
+            return Result<CreateCourseResponse>.Failure(
+                $"A course with slug '{request.Slug}' already exists.", ErrorCodes.Conflict);
 
         var course = new Course
         {
@@ -64,6 +69,7 @@ public class CreateCourseHandler(AppDbContext db, IValidator<CreateCourseRequest
         db.Courses.Add(course);
         await db.SaveChangesAsync(cancellationToken);
 
-        return new CreateCourseResponse(course.Id, course.Title, course.Slug, course.Status.ToString());
+        return Result<CreateCourseResponse>.Success(
+            new CreateCourseResponse(course.Id, course.Title, course.Slug, course.Status.ToString()));
     }
 }

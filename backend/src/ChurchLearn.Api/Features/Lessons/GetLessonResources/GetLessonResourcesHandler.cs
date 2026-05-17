@@ -1,3 +1,4 @@
+using ChurchLearn.Api.Common;
 using ChurchLearn.Api.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,16 +8,18 @@ public record ResourceSummary(int Id, string Title, string Url, DateTime Created
 
 public class GetLessonResourcesHandler(AppDbContext db)
 {
-    public async Task<List<ResourceSummary>> HandleAsync(int lessonId, CancellationToken cancellationToken)
+    public async Task<Result<List<ResourceSummary>>> HandleAsync(int lessonId, CancellationToken cancellationToken)
     {
         var lessonExists = await db.Lessons.AnyAsync(l => l.Id == lessonId, cancellationToken);
         if (!lessonExists)
-            throw new KeyNotFoundException($"Lesson {lessonId} not found.");
+            return Result<List<ResourceSummary>>.Failure($"Lesson {lessonId} not found.", ErrorCodes.NotFound);
 
-        return await db.Resources
+        var resources = await db.Resources
             .Where(r => r.LessonId == lessonId)
             .OrderBy(r => r.CreatedAt)
             .Select(r => new ResourceSummary(r.Id, r.Title, r.Url, r.CreatedAt))
             .ToListAsync(cancellationToken);
+
+        return Result<List<ResourceSummary>>.Success(resources);
     }
 }

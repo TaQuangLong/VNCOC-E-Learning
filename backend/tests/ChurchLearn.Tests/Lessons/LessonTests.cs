@@ -1,3 +1,4 @@
+using ChurchLearn.Api.Common;
 using ChurchLearn.Api.Domain.Entities;
 using ChurchLearn.Api.Domain.Enums;
 using ChurchLearn.Api.Features.Lessons.CreateLesson;
@@ -52,12 +53,13 @@ public class LessonTests
 
         var result = await handler.HandleAsync(course.Id, request, CancellationToken.None);
 
-        Assert.True(result.Id > 0);
-        Assert.Equal("Intro Video", result.Title);
+        Assert.True(result.IsSuccess);
+        Assert.True(result.Value!.Id > 0);
+        Assert.Equal("Intro Video", result.Value.Title);
     }
 
     [Fact]
-    public async Task CreateLesson_VideoWithInvalidYouTubeUrl_ThrowsArgumentException()
+    public async Task CreateLesson_VideoWithInvalidYouTubeUrl_ReturnsValidationFailure()
     {
         await using var db = CreateDb();
         var course = await SeedCourseAsync(db);
@@ -69,12 +71,14 @@ public class LessonTests
             "https://vimeo.com/123456",
             null, null, 100, 0, false);
 
-        await Assert.ThrowsAsync<ArgumentException>(
-            () => handler.HandleAsync(course.Id, request, CancellationToken.None));
+        var result = await handler.HandleAsync(course.Id, request, CancellationToken.None);
+
+        Assert.False(result.IsSuccess);
+        Assert.Equal(ErrorCodes.Validation, result.ErrorCode);
     }
 
     [Fact]
-    public async Task CreateLesson_TextWithoutContent_ThrowsArgumentException()
+    public async Task CreateLesson_TextWithoutContent_ReturnsValidationFailure()
     {
         await using var db = CreateDb();
         var course = await SeedCourseAsync(db);
@@ -85,12 +89,14 @@ public class LessonTests
             "Text Lesson", null, ContentType.Text,
             null, null, null, 0, 0, false);
 
-        await Assert.ThrowsAsync<ArgumentException>(
-            () => handler.HandleAsync(course.Id, request, CancellationToken.None));
+        var result = await handler.HandleAsync(course.Id, request, CancellationToken.None);
+
+        Assert.False(result.IsSuccess);
+        Assert.Equal(ErrorCodes.Validation, result.ErrorCode);
     }
 
     [Fact]
-    public async Task CreateLesson_PdfWithInvalidUrl_ThrowsArgumentException()
+    public async Task CreateLesson_PdfWithInvalidUrl_ReturnsValidationFailure()
     {
         await using var db = CreateDb();
         var course = await SeedCourseAsync(db);
@@ -101,8 +107,10 @@ public class LessonTests
             "PDF Lesson", null, ContentType.Pdf,
             null, null, "not-a-url", 0, 0, false);
 
-        await Assert.ThrowsAsync<ArgumentException>(
-            () => handler.HandleAsync(course.Id, request, CancellationToken.None));
+        var result = await handler.HandleAsync(course.Id, request, CancellationToken.None);
+
+        Assert.False(result.IsSuccess);
+        Assert.Equal(ErrorCodes.Validation, result.ErrorCode);
     }
 
     // ── ReorderLessons ───────────────────────────────────────────────────────
@@ -125,8 +133,9 @@ public class LessonTests
         var handler = new ReorderLessonsHandler(db);
         // Reverse order: L3, L1, L2
         var request = new ReorderLessonsRequest([lessons[2].Id, lessons[0].Id, lessons[1].Id]);
-        await handler.HandleAsync(course.Id, request, CancellationToken.None);
+        var result = await handler.HandleAsync(course.Id, request, CancellationToken.None);
 
+        Assert.True(result.IsSuccess);
         var updated = await db.Lessons.Where(l => l.CourseId == course.Id).ToListAsync();
         Assert.Equal(0, updated.Single(l => l.Title == "L3").OrderIndex);
         Assert.Equal(1, updated.Single(l => l.Title == "L1").OrderIndex);
@@ -134,7 +143,7 @@ public class LessonTests
     }
 
     [Fact]
-    public async Task ReorderLessons_WithLessonFromDifferentCourse_ThrowsKeyNotFoundException()
+    public async Task ReorderLessons_WithLessonFromDifferentCourse_ReturnsNotFound()
     {
         await using var db = CreateDb();
         var course = await SeedCourseAsync(db);
@@ -148,18 +157,22 @@ public class LessonTests
         var handler = new ReorderLessonsHandler(db);
         var request = new ReorderLessonsRequest([lesson1.Id, foreign.Id]);
 
-        await Assert.ThrowsAsync<KeyNotFoundException>(
-            () => handler.HandleAsync(course.Id, request, CancellationToken.None));
+        var result = await handler.HandleAsync(course.Id, request, CancellationToken.None);
+
+        Assert.False(result.IsSuccess);
+        Assert.Equal(ErrorCodes.NotFound, result.ErrorCode);
     }
 
     [Fact]
-    public async Task ReorderLessons_WithNonExistentCourse_ThrowsKeyNotFoundException()
+    public async Task ReorderLessons_WithNonExistentCourse_ReturnsNotFound()
     {
         await using var db = CreateDb();
         var handler = new ReorderLessonsHandler(db);
         var request = new ReorderLessonsRequest([1, 2]);
 
-        await Assert.ThrowsAsync<KeyNotFoundException>(
-            () => handler.HandleAsync(999, request, CancellationToken.None));
+        var result = await handler.HandleAsync(999, request, CancellationToken.None);
+
+        Assert.False(result.IsSuccess);
+        Assert.Equal(ErrorCodes.NotFound, result.ErrorCode);
     }
 }

@@ -1,3 +1,4 @@
+using ChurchLearn.Api.Common;
 using ChurchLearn.Api.Domain.Entities;
 using ChurchLearn.Api.Infrastructure.Persistence;
 using FluentValidation;
@@ -25,15 +26,17 @@ public class AddResourceValidator : AbstractValidator<AddResourceRequest>
 
 public class AddResourceHandler(AppDbContext db, IValidator<AddResourceRequest> validator)
 {
-    public async Task<AddResourceResponse> HandleAsync(int lessonId, AddResourceRequest request, CancellationToken cancellationToken)
+    public async Task<Result<AddResourceResponse>> HandleAsync(int lessonId, AddResourceRequest request, CancellationToken cancellationToken)
     {
         var validation = await validator.ValidateAsync(request, cancellationToken);
         if (!validation.IsValid)
-            throw new ArgumentException(string.Join("; ", validation.Errors.Select(e => e.ErrorMessage)));
+            return Result<AddResourceResponse>.Failure(
+                string.Join("; ", validation.Errors.Select(e => e.ErrorMessage)),
+                ErrorCodes.Validation);
 
         var lessonExists = await db.Lessons.AnyAsync(l => l.Id == lessonId, cancellationToken);
         if (!lessonExists)
-            throw new KeyNotFoundException($"Lesson {lessonId} not found.");
+            return Result<AddResourceResponse>.Failure($"Lesson {lessonId} not found.", ErrorCodes.NotFound);
 
         var resource = new Resource
         {
@@ -45,6 +48,7 @@ public class AddResourceHandler(AppDbContext db, IValidator<AddResourceRequest> 
         db.Resources.Add(resource);
         await db.SaveChangesAsync(cancellationToken);
 
-        return new AddResourceResponse(resource.Id, resource.Title, resource.Url);
+        return Result<AddResourceResponse>.Success(
+            new AddResourceResponse(resource.Id, resource.Title, resource.Url));
     }
 }

@@ -1,8 +1,8 @@
+using ChurchLearn.Api.Common.Extensions;
 using ChurchLearn.Api.Domain.Enums;
 using ChurchLearn.Api.Features.Users.GetUser;
 using ChurchLearn.Api.Features.Users.GetUsers;
 using ChurchLearn.Api.Features.Users.UpdateUserRoles;
-using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ChurchLearn.Api.Features.Users;
@@ -31,7 +31,7 @@ public static class UsersEndpoints
             CancellationToken ct) =>
         {
             var result = await handler.HandleAsync(id, ct);
-            return Results.Ok(result);
+            return result.ToHttpResult(Results.Ok);
         });
 
         group.MapPut("/{id}/roles", async (
@@ -40,8 +40,8 @@ public static class UsersEndpoints
             UpdateUserRolesHandler handler,
             CancellationToken ct) =>
         {
-            await handler.HandleAsync(id, request, ct);
-            return Results.NoContent();
+            var result = await handler.HandleAsync(id, request, ct);
+            return result.ToHttpResult(() => Results.NoContent());
         })
         .RequireAuthorization(policy => policy.RequireRole(AppRoles.SuperAdmin));
 

@@ -1,3 +1,4 @@
+using ChurchLearn.Api.Common;
 using ChurchLearn.Api.Common.Interfaces;
 using ChurchLearn.Api.Domain.Enums;
 using ChurchLearn.Api.Infrastructure.Persistence;
@@ -25,17 +26,20 @@ public record LessonDetailResponse(
 
 public class GetLessonHandler(AppDbContext db, ICurrentUser currentUser)
 {
-    public async Task<LessonDetailResponse> HandleAsync(int id, CancellationToken cancellationToken)
+    public async Task<Result<LessonDetailResponse>> HandleAsync(int id, CancellationToken cancellationToken)
     {
         var lesson = await db.Lessons
             .Include(l => l.Resources)
-            .FirstOrDefaultAsync(l => l.Id == id, cancellationToken)
-            ?? throw new KeyNotFoundException($"Lesson {id} not found.");
+            .FirstOrDefaultAsync(l => l.Id == id, cancellationToken);
+
+        if (lesson is null)
+            return Result<LessonDetailResponse>.Failure($"Lesson {id} not found.", ErrorCodes.NotFound);
 
         if (!lesson.IsPreview)
         {
             if (!currentUser.IsAuthenticated)
-                throw new UnauthorizedAccessException("Authentication required.");
+                return Result<LessonDetailResponse>.Failure(
+                    "Authentication required.", ErrorCodes.Unauthorized);
 
             var isAdmin = currentUser.IsInRole(AppRoles.Admin) || currentUser.IsInRole(AppRoles.SuperAdmin);
             if (!isAdmin)
@@ -43,11 +47,12 @@ public class GetLessonHandler(AppDbContext db, ICurrentUser currentUser)
                 var isEnrolled = await db.Enrollments
                     .AnyAsync(e => e.UserId == currentUser.UserId && e.CourseId == lesson.CourseId, cancellationToken);
                 if (!isEnrolled)
-                    throw new UnauthorizedAccessException("Enrollment required to access this lesson.");
+                    return Result<LessonDetailResponse>.Failure(
+                        "Enrollment required to access this lesson.", ErrorCodes.Forbidden);
             }
         }
 
-        return new LessonDetailResponse(
+        return Result<LessonDetailResponse>.Success(new LessonDetailResponse(
             lesson.Id,
             lesson.CourseId,
             lesson.Title,
@@ -61,6 +66,6 @@ public class GetLessonHandler(AppDbContext db, ICurrentUser currentUser)
             lesson.IsPreview,
             lesson.CreatedAt,
             lesson.UpdatedAt,
-            lesson.Resources.Select(r => new ResourceDto(r.Id, r.Title, r.Url)).ToList());
+            lesson.Resources.Select(r => new ResourceDto(r.Id, r.Title, r.Url)).ToList()));
     }
 }

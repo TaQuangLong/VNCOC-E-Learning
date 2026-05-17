@@ -1,3 +1,4 @@
+using ChurchLearn.Api.Common.Extensions;
 using ChurchLearn.Api.Domain.Enums;
 using ChurchLearn.Api.Features.Lessons.AddResource;
 using ChurchLearn.Api.Features.Lessons.CreateLesson;
@@ -32,7 +33,7 @@ public static class LessonsEndpoints
             CancellationToken ct) =>
         {
             var result = await handler.HandleAsync(courseId, ct);
-            return Results.Ok(result);
+            return result.ToHttpResult(Results.Ok);
         });
     }
 
@@ -48,7 +49,7 @@ public static class LessonsEndpoints
             CancellationToken ct) =>
         {
             var result = await handler.HandleAsync(id, ct);
-            return Results.Ok(result);
+            return result.ToHttpResult(Results.Ok);
         });
     }
 
@@ -65,7 +66,7 @@ public static class LessonsEndpoints
             CancellationToken ct) =>
         {
             var result = await handler.HandleAsync(courseId, request, ct);
-            return Results.Created($"/api/lessons/{result.Id}", result);
+            return result.ToHttpResult(r => Results.Created($"/api/lessons/{r.Id}", r));
         });
 
         courseGroup.MapPut("/{courseId:int}/lessons/order", async (
@@ -74,8 +75,8 @@ public static class LessonsEndpoints
             ReorderLessonsHandler handler,
             CancellationToken ct) =>
         {
-            await handler.HandleAsync(courseId, request, ct);
-            return Results.NoContent();
+            var result = await handler.HandleAsync(courseId, request, ct);
+            return result.ToHttpResult(() => Results.NoContent());
         });
 
         var lessonGroup = app.MapGroup("/api/admin/lessons")
@@ -88,8 +89,8 @@ public static class LessonsEndpoints
             UpdateLessonHandler handler,
             CancellationToken ct) =>
         {
-            await handler.HandleAsync(id, request, ct);
-            return Results.NoContent();
+            var result = await handler.HandleAsync(id, request, ct);
+            return result.ToHttpResult(() => Results.NoContent());
         });
 
         lessonGroup.MapDelete("/{id:int}", async (
@@ -97,8 +98,8 @@ public static class LessonsEndpoints
             DeleteLessonHandler handler,
             CancellationToken ct) =>
         {
-            await handler.HandleAsync(id, ct);
-            return Results.NoContent();
+            var result = await handler.HandleAsync(id, ct);
+            return result.ToHttpResult(() => Results.NoContent());
         });
 
         lessonGroup.MapGet("/{id:int}/resources", async (
@@ -107,7 +108,7 @@ public static class LessonsEndpoints
             CancellationToken ct) =>
         {
             var result = await handler.HandleAsync(id, ct);
-            return Results.Ok(result);
+            return result.ToHttpResult(Results.Ok);
         });
 
         lessonGroup.MapPost("/{id:int}/resources", async (
@@ -117,7 +118,7 @@ public static class LessonsEndpoints
             CancellationToken ct) =>
         {
             var result = await handler.HandleAsync(id, request, ct);
-            return Results.Created($"/api/admin/resources/{result.Id}", result);
+            return result.ToHttpResult(r => Results.Created($"/api/admin/resources/{r.Id}", r));
         });
 
         var resourceGroup = app.MapGroup("/api/admin/resources")
@@ -129,8 +130,8 @@ public static class LessonsEndpoints
             DeleteResourceHandler handler,
             CancellationToken ct) =>
         {
-            await handler.HandleAsync(id, ct);
-            return Results.NoContent();
+            var result = await handler.HandleAsync(id, ct);
+            return result.ToHttpResult(() => Results.NoContent());
         });
     }
 }

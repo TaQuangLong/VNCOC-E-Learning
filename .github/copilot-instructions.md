@@ -38,6 +38,9 @@ Deployed on EC2 with Docker Compose.
 - Use constants or enums — never magic strings or magic numbers
 - Keep methods short and focused (prefer under 30 lines)
 - Prefer explicit names: MarkLessonAsCompleted not DoStuff
+- Use the Result Pattern for error handling — handlers return `Result<T>`, never throw domain exceptions
+- Endpoints map `Result<T>` to HTTP status codes (200/201 on success, 4xx on failure)
+- Never throw exceptions for expected domain errors (not found, conflict, forbidden) — encode them in Result
 
 ## Frontend Coding Rules
 - TypeScript strictly — no implicit any
@@ -72,3 +75,5 @@ Deployed on EC2 with Docker Compose.
 - No hardcoded connection strings or secrets
 - No unvalidated external URLs stored as-is
 - No localStorage for JWT tokens
+- No throwing exceptions for domain-level errors — use Result Pattern instead
+- No bare `throw` or `try/catch` in handler business logic for expected error paths

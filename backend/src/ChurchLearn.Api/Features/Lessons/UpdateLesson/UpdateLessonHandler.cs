@@ -1,3 +1,4 @@
+using ChurchLearn.Api.Common;
 using ChurchLearn.Api.Domain.Enums;
 using ChurchLearn.Api.Infrastructure.Persistence;
 using FluentValidation;
@@ -25,14 +26,17 @@ public class UpdateLessonValidator : AbstractValidator<UpdateLessonRequest>
 
 public class UpdateLessonHandler(AppDbContext db, IValidator<UpdateLessonRequest> validator)
 {
-    public async Task HandleAsync(int id, UpdateLessonRequest request, CancellationToken cancellationToken)
+    public async Task<Result> HandleAsync(int id, UpdateLessonRequest request, CancellationToken cancellationToken)
     {
         var validation = await validator.ValidateAsync(request, cancellationToken);
         if (!validation.IsValid)
-            throw new ArgumentException(string.Join("; ", validation.Errors.Select(e => e.ErrorMessage)));
+            return Result.Failure(
+                string.Join("; ", validation.Errors.Select(e => e.ErrorMessage)),
+                ErrorCodes.Validation);
 
-        var lesson = await db.Lessons.FindAsync([id], cancellationToken)
-            ?? throw new KeyNotFoundException($"Lesson {id} not found.");
+        var lesson = await db.Lessons.FindAsync([id], cancellationToken);
+        if (lesson is null)
+            return Result.Failure($"Lesson {id} not found.", ErrorCodes.NotFound);
 
         lesson.Title = request.Title;
         lesson.Description = request.Description;
@@ -46,5 +50,6 @@ public class UpdateLessonHandler(AppDbContext db, IValidator<UpdateLessonRequest
         lesson.UpdatedAt = DateTime.UtcNow;
 
         await db.SaveChangesAsync(cancellationToken);
+        return Result.Success();
     }
 }

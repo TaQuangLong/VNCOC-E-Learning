@@ -19,6 +19,8 @@ Rules (from .github/copilot-instructions.md):
 - Return DTO — never return EF Core entity
 - Use record types for Request and Response
 - No magic strings — use constants or enums
+- Handler must return `Result<T>` — never throw exceptions for domain errors
+- Endpoint maps `Result<T>` to HTTP status codes via switch on ErrorCode (not found → 404, conflict → 409, forbidden → 403, success → 200/201)
 
 Also reference:
 - `knowledge-graph/entities.md` for existing entity relationships

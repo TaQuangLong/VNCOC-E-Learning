@@ -1,3 +1,4 @@
+using ChurchLearn.Api.Common;
 using ChurchLearn.Api.Domain.Entities;
 using ChurchLearn.Api.Infrastructure.Persistence;
 using FluentValidation;
@@ -20,11 +21,13 @@ public class CreateAuthorValidator : AbstractValidator<CreateAuthorRequest>
 
 public class CreateAuthorHandler(AppDbContext db, IValidator<CreateAuthorRequest> validator)
 {
-    public async Task<CreateAuthorResponse> HandleAsync(CreateAuthorRequest request, CancellationToken cancellationToken)
+    public async Task<Result<CreateAuthorResponse>> HandleAsync(CreateAuthorRequest request, CancellationToken cancellationToken)
     {
         var validation = await validator.ValidateAsync(request, cancellationToken);
         if (!validation.IsValid)
-            throw new ArgumentException(string.Join("; ", validation.Errors.Select(e => e.ErrorMessage)));
+            return Result<CreateAuthorResponse>.Failure(
+                string.Join("; ", validation.Errors.Select(e => e.ErrorMessage)),
+                ErrorCodes.Validation);
 
         var author = new Author
         {
@@ -37,6 +40,6 @@ public class CreateAuthorHandler(AppDbContext db, IValidator<CreateAuthorRequest
         db.Authors.Add(author);
         await db.SaveChangesAsync(cancellationToken);
 
-        return new CreateAuthorResponse(author.Id, author.Name);
+        return Result<CreateAuthorResponse>.Success(new CreateAuthorResponse(author.Id, author.Name));
     }
 }

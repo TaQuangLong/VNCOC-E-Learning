@@ -18,6 +18,9 @@ For every FAIL, provide a specific fix with a code example.
 - [ ] No magic strings or magic numbers (constants or enums used)
 - [ ] No duplicated business logic
 - [ ] Naming is explicit and readable (`MarkLessonAsCompleted` not `DoStuff`)
+- [ ] Handler returns `Result<T>` — no exceptions thrown for expected domain errors
+- [ ] Endpoint maps `Result<T>` errors to correct HTTP status codes (404 / 409 / 403 / 400)
+- [ ] No bare `throw` or `try/catch` in handler business logic for expected error paths
 
 ## Security
 - [ ] Authorization is checked server-side

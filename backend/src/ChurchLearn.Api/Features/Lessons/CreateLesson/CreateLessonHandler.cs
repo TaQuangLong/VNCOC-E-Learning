@@ -1,3 +1,4 @@
+using ChurchLearn.Api.Common;
 using ChurchLearn.Api.Domain.Entities;
 using ChurchLearn.Api.Domain.Enums;
 using ChurchLearn.Api.Infrastructure.Persistence;
@@ -29,15 +30,17 @@ public class CreateLessonValidator : AbstractValidator<CreateLessonRequest>
 
 public class CreateLessonHandler(AppDbContext db, IValidator<CreateLessonRequest> validator)
 {
-    public async Task<CreateLessonResponse> HandleAsync(int courseId, CreateLessonRequest request, CancellationToken cancellationToken)
+    public async Task<Result<CreateLessonResponse>> HandleAsync(int courseId, CreateLessonRequest request, CancellationToken cancellationToken)
     {
         var validation = await validator.ValidateAsync(request, cancellationToken);
         if (!validation.IsValid)
-            throw new ArgumentException(string.Join("; ", validation.Errors.Select(e => e.ErrorMessage)));
+            return Result<CreateLessonResponse>.Failure(
+                string.Join("; ", validation.Errors.Select(e => e.ErrorMessage)),
+                ErrorCodes.Validation);
 
         var courseExists = await db.Courses.AnyAsync(c => c.Id == courseId, cancellationToken);
         if (!courseExists)
-            throw new KeyNotFoundException($"Course {courseId} not found.");
+            return Result<CreateLessonResponse>.Failure($"Course {courseId} not found.", ErrorCodes.NotFound);
 
         var lesson = new Lesson
         {
@@ -56,6 +59,7 @@ public class CreateLessonHandler(AppDbContext db, IValidator<CreateLessonRequest
         db.Lessons.Add(lesson);
         await db.SaveChangesAsync(cancellationToken);
 
-        return new CreateLessonResponse(lesson.Id, lesson.Title, lesson.OrderIndex);
+        return Result<CreateLessonResponse>.Success(
+            new CreateLessonResponse(lesson.Id, lesson.Title, lesson.OrderIndex));
     }
 }

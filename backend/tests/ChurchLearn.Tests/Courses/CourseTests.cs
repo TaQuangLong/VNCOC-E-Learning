@@ -1,3 +1,4 @@
+using ChurchLearn.Api.Common;
 using ChurchLearn.Api.Domain.Entities;
 using ChurchLearn.Api.Features.Courses.CreateCourse;
 using ChurchLearn.Api.Features.Courses.PublishCourse;
@@ -41,11 +42,12 @@ public class CourseTests
 
         var result = await handler.HandleAsync(request, CancellationToken.None);
 
-        Assert.Equal("intro-to-faith", result.Slug);
+        Assert.True(result.IsSuccess);
+        Assert.Equal("intro-to-faith", result.Value!.Slug);
     }
 
     [Fact]
-    public async Task CreateCourse_WhenSlugIsDuplicate_ThrowsInvalidOperationException()
+    public async Task CreateCourse_WhenSlugIsDuplicate_ReturnsConflict()
     {
         await using var db = CreateDb();
         var author = await SeedAuthorAsync(db);
@@ -57,12 +59,13 @@ public class CourseTests
 
         await handler.HandleAsync(request, CancellationToken.None);
 
-        await Assert.ThrowsAsync<InvalidOperationException>(() =>
-            handler.HandleAsync(request, CancellationToken.None));
+        var result = await handler.HandleAsync(request, CancellationToken.None);
+        Assert.False(result.IsSuccess);
+        Assert.Equal(ErrorCodes.Conflict, result.ErrorCode);
     }
 
     [Fact]
-    public async Task CreateCourse_WhenSlugIsNotKebabCase_ThrowsArgumentException()
+    public async Task CreateCourse_WhenSlugIsNotKebabCase_ReturnsValidationFailure()
     {
         await using var db = CreateDb();
         var author = await SeedAuthorAsync(db);
@@ -72,8 +75,9 @@ public class CourseTests
         var request = new CreateCourseRequest(
             "Intro to Faith", "Intro To Faith", null, null, null, null, null, null, author.Id);
 
-        await Assert.ThrowsAsync<ArgumentException>(() =>
-            handler.HandleAsync(request, CancellationToken.None));
+        var result = await handler.HandleAsync(request, CancellationToken.None);
+        Assert.False(result.IsSuccess);
+        Assert.Equal(ErrorCodes.Validation, result.ErrorCode);
     }
 
     // ── Publish / Unpublish state transitions ────────────────────────────────
@@ -88,8 +92,9 @@ public class CourseTests
         await db.SaveChangesAsync();
 
         var handler = new PublishCourseHandler(db);
-        await handler.HandleAsync(course.Id, CancellationToken.None);
+        var result = await handler.HandleAsync(course.Id, CancellationToken.None);
 
+        Assert.True(result.IsSuccess);
         var updated = await db.Courses.FindAsync(course.Id);
         Assert.Equal(Api.Domain.Enums.CourseStatus.Published, updated!.Status);
     }
@@ -110,14 +115,15 @@ public class CourseTests
         await db.SaveChangesAsync();
 
         var handler = new UnpublishCourseHandler(db);
-        await handler.HandleAsync(course.Id, CancellationToken.None);
+        var result = await handler.HandleAsync(course.Id, CancellationToken.None);
 
+        Assert.True(result.IsSuccess);
         var updated = await db.Courses.FindAsync(course.Id);
         Assert.Equal(Api.Domain.Enums.CourseStatus.Draft, updated!.Status);
     }
 
     [Fact]
-    public async Task PublishCourse_WhenArchived_ThrowsInvalidOperationException()
+    public async Task PublishCourse_WhenArchived_ReturnsConflict()
     {
         await using var db = CreateDb();
         var author = await SeedAuthorAsync(db);
@@ -132,12 +138,14 @@ public class CourseTests
         await db.SaveChangesAsync();
 
         var handler = new PublishCourseHandler(db);
-        await Assert.ThrowsAsync<InvalidOperationException>(() =>
-            handler.HandleAsync(course.Id, CancellationToken.None));
+        var result = await handler.HandleAsync(course.Id, CancellationToken.None);
+
+        Assert.False(result.IsSuccess);
+        Assert.Equal(ErrorCodes.Conflict, result.ErrorCode);
     }
 
     [Fact]
-    public async Task UnpublishCourse_WhenArchived_ThrowsInvalidOperationException()
+    public async Task UnpublishCourse_WhenArchived_ReturnsConflict()
     {
         await using var db = CreateDb();
         var author = await SeedAuthorAsync(db);
@@ -152,7 +160,9 @@ public class CourseTests
         await db.SaveChangesAsync();
 
         var handler = new UnpublishCourseHandler(db);
-        await Assert.ThrowsAsync<InvalidOperationException>(() =>
-            handler.HandleAsync(course.Id, CancellationToken.None));
+        var result = await handler.HandleAsync(course.Id, CancellationToken.None);
+
+        Assert.False(result.IsSuccess);
+        Assert.Equal(ErrorCodes.Conflict, result.ErrorCode);
     }
 }

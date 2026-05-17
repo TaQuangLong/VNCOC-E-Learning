@@ -1,3 +1,4 @@
+using ChurchLearn.Api.Common;
 using ChurchLearn.Api.Domain.Enums;
 using ChurchLearn.Api.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
@@ -24,7 +25,7 @@ public record CourseDetail(
 
 public class GetCourseBySlugHandler(AppDbContext db)
 {
-    public async Task<CourseDetail> HandleAsync(string slug, CancellationToken cancellationToken)
+    public async Task<Result<CourseDetail>> HandleAsync(string slug, CancellationToken cancellationToken)
     {
         var course = await db.Courses
             .Include(c => c.Author)
@@ -34,9 +35,11 @@ public class GetCourseBySlugHandler(AppDbContext db)
                 c.ThumbnailUrl, c.Category, c.Level, c.Language,
                 c.AuthorId, c.Author.Name, c.Author.Bio, c.Author.AvatarUrl,
                 c.Status.ToString(), c.CreatedAt, c.UpdatedAt))
-            .FirstOrDefaultAsync(cancellationToken)
-            ?? throw new KeyNotFoundException($"Course '{slug}' not found.");
+            .FirstOrDefaultAsync(cancellationToken);
 
-        return course;
+        if (course is null)
+            return Result<CourseDetail>.Failure($"Course '{slug}' not found.", ErrorCodes.NotFound);
+
+        return Result<CourseDetail>.Success(course);
     }
 }
