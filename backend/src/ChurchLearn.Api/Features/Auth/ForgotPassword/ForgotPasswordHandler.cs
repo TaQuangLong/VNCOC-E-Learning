@@ -31,9 +31,10 @@ public class ForgotPasswordHandler(
         var token = await userManager.GeneratePasswordResetTokenAsync(user);
         var encodedToken = Uri.EscapeDataString(token);
 
+        var encodedEmail = Uri.EscapeDataString(request.Email);
         var body = $"""
             <p>Click the link below to reset your ChurchLearn password:</p>
-            <p><a href="{frontendUrl}/reset-password?email={request.Email}&token={encodedToken}">Reset Password</a></p>
+            <p><a href="{frontendUrl}/reset-password?email={encodedEmail}&token={encodedToken}">Reset Password</a></p>
             <p>This link expires in 24 hours.</p>
             """;
 

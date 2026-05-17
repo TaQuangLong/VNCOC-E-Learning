@@ -107,14 +107,28 @@ None — all APIs from Sprint 5.
 
 ## Archive
 
-### Status: 🔲 Not Started
-### Completed: —
+### Status: ✅ Complete
+### Completed: 2026-05-17
 
 ### What Was Built
-_To be filled after sprint completes._
+- `src/features/lessons/types.ts` — `Lesson`, `Resource` TypeScript types
+- `src/features/lessons/api.ts` — TanStack Query hooks: `useCourseLessons`, `useLessonDetail`, lesson CRUD mutations
+- `src/features/lessons/players/YouTubePlayer.tsx` — extracts video ID, renders responsive `aspect-video` iframe
+- `src/features/lessons/players/TextRenderer.tsx` — renders plain text content in a `<pre>` block
+- `src/features/lessons/players/PdfLink.tsx` — "View PDF" button opening URL in new tab
+- `src/features/lessons/LessonSidebar.tsx` — lesson list with active highlight and mobile drawer toggle
+- `src/features/lessons/ResourcesSection.tsx` — per-lesson resource links
+- `src/features/lessons/LessonForm.tsx` — content-type selector with conditional fields
+- `src/pages/student/LearnPage.tsx` — two-column desktop / single-column mobile layout with next/prev navigation
+- `src/pages/student/LearnRedirectPage.tsx` — redirects `/learn/:courseId` to first lesson
+- `src/pages/student/MyLearningPage.tsx` — enrolled courses list (Sprint 7 prerequisite)
+- `src/pages/admin/AdminLessonsPage.tsx` — lesson list with up/down reorder arrows
+- `src/pages/admin/CreateLessonPage.tsx` and `EditLessonPage.tsx` — lesson CRUD with resource management
+- Route updates in `router.tsx` for all new pages
+- Build passes with 0 TypeScript errors
 
 ### Known Issues
-_To be filled after sprint completes._
+- `react-markdown` was not installed; `TextRenderer` renders plain text via `<pre>` instead of parsed markdown. Markdown rendering can be added in a later sprint if needed.
 
 ### Notes
-_To be filled after sprint completes._
+- `LearnPage` checks enrollment status before rendering content, consuming `useEnrollmentStatus` from the enrollment feature — this creates a soft dependency on Sprint 7 enrollment API being present.

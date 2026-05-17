@@ -8,6 +8,12 @@ import CourseDetailPage from '@/pages/public/CourseDetailPage'
 import AdminCoursesPage from '@/pages/admin/AdminCoursesPage'
 import CreateCoursePage from '@/pages/admin/CreateCoursePage'
 import EditCoursePage from '@/pages/admin/EditCoursePage'
+import AdminLessonsPage from '@/pages/admin/AdminLessonsPage'
+import CreateLessonPage from '@/pages/admin/CreateLessonPage'
+import EditLessonPage from '@/pages/admin/EditLessonPage'
+import LearnPage from '@/pages/student/LearnPage'
+import LearnRedirectPage from '@/pages/student/LearnRedirectPage'
+import MyLearningPage from '@/pages/student/MyLearningPage'
 import ProtectedRoute from '@/components/layout/ProtectedRoute'
 import AdminRoute from '@/components/layout/AdminRoute'
 
@@ -37,6 +43,34 @@ export default function AppRouter() {
           }
         />
 
+        {/* Student — my learning */}
+        <Route
+          path="/my-learning"
+          element={
+            <ProtectedRoute>
+              <MyLearningPage />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Student — learning pages */}
+        <Route
+          path="/learn/:courseId"
+          element={
+            <ProtectedRoute>
+              <LearnRedirectPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/learn/:courseId/lessons/:lessonId"
+          element={
+            <ProtectedRoute>
+              <LearnPage />
+            </ProtectedRoute>
+          }
+        />
+
         {/* Admin — courses */}
         <Route
           path="/admin/courses"
@@ -59,6 +93,32 @@ export default function AppRouter() {
           element={
             <AdminRoute>
               <EditCoursePage />
+            </AdminRoute>
+          }
+        />
+
+        {/* Admin — lessons */}
+        <Route
+          path="/admin/courses/:courseId/lessons"
+          element={
+            <AdminRoute>
+              <AdminLessonsPage />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/courses/:courseId/lessons/new"
+          element={
+            <AdminRoute>
+              <CreateLessonPage />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/lessons/:id/edit"
+          element={
+            <AdminRoute>
+              <EditLessonPage />
             </AdminRoute>
           }
         />

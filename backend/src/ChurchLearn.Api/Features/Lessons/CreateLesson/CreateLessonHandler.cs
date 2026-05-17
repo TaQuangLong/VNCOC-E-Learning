@@ -59,6 +59,15 @@ public class CreateLessonHandler(AppDbContext db, IValidator<CreateLessonRequest
         db.Lessons.Add(lesson);
         await db.SaveChangesAsync(cancellationToken);
 
+        // Keep denormalized TotalLessonsCount in sync for existing enrollments
+        var enrollments = await db.Enrollments
+            .Where(e => e.CourseId == courseId)
+            .ToListAsync(cancellationToken);
+        foreach (var enrollment in enrollments)
+            enrollment.TotalLessonsCount++;
+        if (enrollments.Count > 0)
+            await db.SaveChangesAsync(cancellationToken);
+
         return Result<CreateLessonResponse>.Success(
             new CreateLessonResponse(lesson.Id, lesson.Title, lesson.OrderIndex));
     }

@@ -1,9 +1,15 @@
-import { Link, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useCourseBySlug } from '@/features/courses/api'
+import { useEnrollmentStatus, useEnrollCourse } from '@/features/enrollment/api'
+import { useAuth } from '@/hooks/useAuth'
 
 export default function CourseDetailPage() {
   const { slug } = useParams<{ slug: string }>()
+  const navigate = useNavigate()
+  const { user } = useAuth()
   const { data: course, isLoading, isError } = useCourseBySlug(slug ?? '')
+  const { data: enrollmentStatus } = useEnrollmentStatus(course?.id, !!user)
+  const { mutate: enroll, isPending: enrolling } = useEnrollCourse()
 
   if (isLoading) {
     return (
@@ -58,13 +64,39 @@ export default function CourseDetailPage() {
                   </span>
                 )}
               </div>
-              {/* Enroll button — Sprint 7 */}
-              <button
-                disabled
-                className="mt-2 inline-flex h-9 cursor-not-allowed items-center rounded-lg bg-primary px-4 text-sm font-medium text-primary-foreground opacity-50"
-              >
-                Enroll — Coming Soon
-              </button>
+              {/* Enroll / Continue Learning */}
+              {!user && (
+                <Link
+                  to="/login"
+                  className="mt-2 inline-flex h-9 items-center rounded-lg bg-primary px-4 text-sm font-medium text-primary-foreground hover:bg-primary/90"
+                >
+                  Login to Enroll
+                </Link>
+              )}
+              {user && enrollmentStatus?.isEnrolled === false && (
+                <button
+                  onClick={() => enroll(course.id)}
+                  disabled={enrolling}
+                  className="mt-2 inline-flex h-9 items-center rounded-lg bg-primary px-4 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-60"
+                >
+                  {enrolling ? 'Enrolling…' : 'Enroll'}
+                </button>
+              )}
+              {user && enrollmentStatus?.isEnrolled === true && (
+                <button
+                  onClick={() => {
+                    const lessonId = enrollmentStatus.lastAccessedLessonId
+                    if (lessonId) {
+                      navigate(`/learn/${course.id}/lessons/${lessonId}`)
+                    } else {
+                      navigate(`/learn/${course.id}`)
+                    }
+                  }}
+                  className="mt-2 inline-flex h-9 items-center rounded-lg bg-primary px-4 text-sm font-medium text-primary-foreground hover:bg-primary/90"
+                >
+                  Continue Learning
+                </button>
+              )}
             </div>
 
             {course.thumbnailUrl ? (

@@ -29,7 +29,16 @@ public class CreateCourseValidator : AbstractValidator<CreateCourseRequest>
             .WithMessage("Slug must be lowercase kebab-case (e.g. my-course-title).");
         RuleFor(x => x.AuthorId).GreaterThan(0);
         RuleFor(x => x.ShortDescription).MaximumLength(500).When(x => x.ShortDescription != null);
-        RuleFor(x => x.ThumbnailUrl).MaximumLength(2048).When(x => x.ThumbnailUrl != null);
+        RuleFor(x => x.ThumbnailUrl)
+            .MaximumLength(2048)
+            .Must(url => Uri.TryCreate(url, UriKind.Absolute, out var uri)
+                         && (uri.Scheme == Uri.UriSchemeHttps || uri.Scheme == Uri.UriSchemeHttp))
+            .WithMessage("ThumbnailUrl must be a valid absolute URL.")
+            .When(x => x.ThumbnailUrl != null);
+        RuleFor(x => x.Level)
+            .Must(level => new[] { "Beginner", "Intermediate", "Advanced" }.Contains(level))
+            .WithMessage("Level must be Beginner, Intermediate, or Advanced.")
+            .When(x => x.Level != null);
     }
 }
 

@@ -21,11 +21,17 @@ public static class AuthEndpoints
         group.MapPost("/register", async (
             [FromBody] RegisterRequest request,
             RegisterHandler handler,
+            JwtTokenService jwtTokenService,
             HttpContext httpContext,
             CancellationToken ct) =>
         {
             var result = await handler.HandleAsync(request, ct);
-            return result.ToHttpResult(response => Results.Ok(response));
+            return result.ToHttpResult(response =>
+            {
+                var refreshToken = jwtTokenService.GenerateRefreshToken(response.Email);
+                SetRefreshTokenCookie(httpContext, refreshToken);
+                return Results.Ok(response);
+            });
         })
         .RequireRateLimiting("auth");
 
@@ -67,13 +73,8 @@ public static class AuthEndpoints
 
         group.MapGet("/me", async (
             GetCurrentUserHandler handler,
-            HttpContext httpContext,
             CancellationToken ct) =>
         {
-            var authHeader = httpContext.Request.Headers.Authorization.FirstOrDefault();
-            if (string.IsNullOrEmpty(authHeader))
-                return Results.Unauthorized();
-
             var result = await handler.HandleAsync(ct);
             return result.ToHttpResult(Results.Ok);
         }).RequireAuthorization();

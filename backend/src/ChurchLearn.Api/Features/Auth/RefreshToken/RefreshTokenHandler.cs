@@ -15,11 +15,11 @@ public class RefreshTokenHandler(
         if (principal is null)
             return Result<string>.Failure("Invalid or expired refresh token.", ErrorCodes.Unauthorized);
 
-        var userId = principal.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
-        if (userId is null)
+        var email = principal.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+        if (email is null)
             return Result<string>.Failure("Invalid token claims.", ErrorCodes.Unauthorized);
 
-        var user = await userManager.FindByIdAsync(userId);
+        var user = await userManager.FindByEmailAsync(email);
         if (user is null)
             return Result<string>.Failure("User not found.", ErrorCodes.Unauthorized);
 

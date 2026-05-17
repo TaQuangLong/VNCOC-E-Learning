@@ -182,6 +182,16 @@ export default function AdminCoursesPage() {
                         Edit
                       </Button>
 
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() =>
+                          navigate(`/admin/courses/${course.id}/lessons`)
+                        }
+                      >
+                        Lessons
+                      </Button>
+
                       {course.status === 'Draft' && (
                         <Button
                           variant="outline"

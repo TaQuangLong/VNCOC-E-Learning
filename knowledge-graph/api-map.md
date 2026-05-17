@@ -57,8 +57,10 @@ _Update this file each sprint as new endpoints are implemented._
 
 | Method | Path                                        | Auth | Roles   | Sprint | Status      |
 |--------|---------------------------------------------|------|---------|--------|-------------|
-| POST   | /api/courses/{courseId}/enroll              | Yes  | Student | 7      | not-started |
-| GET    | /api/me/courses                             | Yes  | Student | 7      | not-started |
+| POST   | /api/courses/{courseId}/enroll              | Yes  | Student | 7      | ✅ done     |
+| GET    | /api/me/courses                             | Yes  | Student | 7      | ✅ done     |
+| GET    | /api/me/courses/{courseId}                  | Yes  | Student | 7      | ✅ done     |
+| GET    | /api/courses/{courseId}/enrollment-status   | Yes  | Student | 7      | ✅ done     |
 | GET    | /api/me/courses/{courseId}/progress         | Yes  | Student | 8      | not-started |
 | POST   | /api/lessons/{lessonId}/complete            | Yes  | Student | 8      | not-started |
 | POST   | /api/lessons/{lessonId}/video-progress      | Yes  | Student | 8      | not-started |
