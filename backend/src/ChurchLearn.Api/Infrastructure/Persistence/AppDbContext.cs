@@ -19,6 +19,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options)
     public DbSet<AnswerOption> AnswerOptions => Set<AnswerOption>();
     public DbSet<QuizAttempt> QuizAttempts => Set<QuizAttempt>();
     public DbSet<QuizAttemptAnswer> QuizAttemptAnswers => Set<QuizAttemptAnswer>();
+    public DbSet<Discussion> Discussions => Set<Discussion>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -168,6 +169,29 @@ public class AppDbContext(DbContextOptions<AppDbContext> options)
                .WithMany()
                .HasForeignKey(x => x.SelectedAnswerOptionId)
                .OnDelete(DeleteBehavior.Restrict);
+        });
+
+        builder.Entity<Discussion>(d =>
+        {
+            d.HasIndex(x => x.LessonId);
+            d.HasIndex(x => x.UserId);
+            d.HasIndex(x => x.ParentDiscussionId);
+
+            d.HasOne(x => x.Lesson)
+             .WithMany()
+             .HasForeignKey(x => x.LessonId)
+             .OnDelete(DeleteBehavior.Cascade);
+
+            d.HasOne(x => x.User)
+             .WithMany()
+             .HasForeignKey(x => x.UserId)
+             .OnDelete(DeleteBehavior.Cascade);
+
+            d.HasOne(x => x.ParentDiscussion)
+             .WithMany(x => x.Replies)
+             .HasForeignKey(x => x.ParentDiscussionId)
+             .IsRequired(false)
+             .OnDelete(DeleteBehavior.Restrict);
         });
     }
 }

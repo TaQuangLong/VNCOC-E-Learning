@@ -98,14 +98,18 @@ None this sprint. Frontend is Sprint 12.
 
 ## Archive
 
-### Status: 🔲 Not Started
-### Completed: —
+### Status: ✅ Complete
+### Completed: 2026-05-18
 
 ### What Was Built
-_To be filled after sprint completes._
+- `Discussion` entity with self-referencing parent (1-level nesting max)
+- EF Core migration: `AddDiscussions` — indexes on `LessonId`, `UserId`, `ParentDiscussionId`
+- 7 vertical slices: `GetLessonDiscussions`, `GetDiscussionReplies`, `CreateDiscussion`, `CreateReply`, `UpdateDiscussion`, `DeleteDiscussion`, `AdminDeleteDiscussion`
+- Soft delete on all delete paths (content replaced with `[This post has been removed]` at read time)
+- 9 unit tests covering soft delete, nesting enforcement, forbidden/not-found paths
 
 ### Known Issues
-_To be filled after sprint completes._
+_None._
 
 ### Notes
-_To be filled after sprint completes._
+- Replies-to-replies are blocked in `CreateReplyHandler` — returns 400 if target has a non-null `ParentDiscussionId`

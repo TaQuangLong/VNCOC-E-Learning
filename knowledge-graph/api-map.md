@@ -85,11 +85,13 @@ _Update this file each sprint as new endpoints are implemented._
 
 | Method | Path                                        | Auth | Roles             | Sprint | Status      |
 |--------|---------------------------------------------|------|-------------------|--------|-------------|
-| GET    | /api/lessons/{lessonId}/discussions         | Yes  | Student+          | 11     | not-started |
-| POST   | /api/lessons/{lessonId}/discussions         | Yes  | Student           | 11     | not-started |
-| POST   | /api/discussions/{discussionId}/reply       | Yes  | Student           | 11     | not-started |
-| PUT    | /api/discussions/{discussionId}             | Yes  | Student (own)     | 11     | not-started |
-| DELETE | /api/admin/discussions/{discussionId}       | Yes  | Admin, SuperAdmin | 11     | not-started |
+| GET    | /api/lessons/{lessonId}/discussions         | Yes  | Student+          | 11     | ✅ done     |
+| POST   | /api/lessons/{lessonId}/discussions         | Yes  | Student           | 11     | ✅ done     |
+| GET    | /api/discussions/{discussionId}/replies     | Yes  | Student+          | 11     | ✅ done     |
+| POST   | /api/discussions/{discussionId}/reply       | Yes  | Student           | 11     | ✅ done     |
+| PUT    | /api/discussions/{discussionId}             | Yes  | Student (own)     | 11     | ✅ done     |
+| DELETE | /api/discussions/{discussionId}             | Yes  | Student (own)     | 11     | ✅ done     |
+| DELETE | /api/admin/discussions/{discussionId}       | Yes  | Admin, SuperAdmin | 11     | ✅ done     |
 
 ## Reports
 
