@@ -20,4 +20,5 @@ public class Lesson
     public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
     public ICollection<Resource> Resources { get; set; } = new List<Resource>();
+    public Quiz? Quiz { get; set; }
 }

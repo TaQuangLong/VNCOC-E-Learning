@@ -17,7 +17,7 @@
 | 6      | Learning Page Frontend         | ✅ Complete   | 2026-05-17   | ✓     |
 | 7      | Enrollment & My Learning       | ✅ Complete   | 2026-05-17   | ✓     |
 | 8      | Progress Tracking              | ✅ Complete   | 2026-05-18   | ✓     |
-| 9      | Quiz Backend                   | 🔲 Not Started | —            | —     |
+| 9      | Quiz Backend                   | ✅ Complete   | 2026-05-18   | ✓     |
 | 10     | Quiz Frontend                  | 🔲 Not Started | —            | —     |x
 | 11     | Discussion Backend             | 🔲 Not Started | —            | —     |
 | 12     | Discussion Frontend            | 🔲 Not Started | —            | —     |
@@ -43,7 +43,7 @@
 
 | File                              | Last Updated | Sprint |
 |-----------------------------------|--------------|--------|
-| knowledge-graph/entities.md       | 2026-05-18   | 8      |
-| knowledge-graph/api-map.md        | 2026-05-16   | 4      |
-| knowledge-graph/dependency-graph.md | 2026-05-18 | 8      |
-| specs/PROGRESS.md                 | 2026-05-18   | 8      |
+| knowledge-graph/entities.md       | 2026-05-18   | 9      |
+| knowledge-graph/api-map.md        | 2026-05-18   | 9      |
+| knowledge-graph/dependency-graph.md | 2026-05-18 | 9      |
+| specs/PROGRESS.md                 | 2026-05-18   | 9      |

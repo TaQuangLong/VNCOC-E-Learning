@@ -14,6 +14,11 @@ public class AppDbContext(DbContextOptions<AppDbContext> options)
     public DbSet<Resource> Resources => Set<Resource>();
     public DbSet<Enrollment> Enrollments => Set<Enrollment>();
     public DbSet<LessonProgress> LessonProgresses => Set<LessonProgress>();
+    public DbSet<Quiz> Quizzes => Set<Quiz>();
+    public DbSet<Question> Questions => Set<Question>();
+    public DbSet<AnswerOption> AnswerOptions => Set<AnswerOption>();
+    public DbSet<QuizAttempt> QuizAttempts => Set<QuizAttempt>();
+    public DbSet<QuizAttemptAnswer> QuizAttemptAnswers => Set<QuizAttemptAnswer>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -98,6 +103,71 @@ public class AppDbContext(DbContextOptions<AppDbContext> options)
               .WithMany()
               .HasForeignKey(x => x.LessonId)
               .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        builder.Entity<Quiz>(q =>
+        {
+            q.HasIndex(x => x.LessonId).IsUnique();
+
+            q.HasOne(x => x.Lesson)
+             .WithOne(l => l.Quiz)
+             .HasForeignKey<Quiz>(x => x.LessonId)
+             .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        builder.Entity<Question>(q =>
+        {
+            q.Property(x => x.Type)
+             .HasConversion<string>()
+             .HasMaxLength(20);
+
+            q.HasOne(x => x.Quiz)
+             .WithMany(qz => qz.Questions)
+             .HasForeignKey(x => x.QuizId)
+             .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        builder.Entity<AnswerOption>(a =>
+        {
+            a.HasOne(x => x.Question)
+             .WithMany(q => q.Options)
+             .HasForeignKey(x => x.QuestionId)
+             .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        builder.Entity<QuizAttempt>(qa =>
+        {
+            qa.HasIndex(x => new { x.UserId, x.QuizId });
+
+            qa.HasOne(x => x.Quiz)
+              .WithMany(q => q.Attempts)
+              .HasForeignKey(x => x.QuizId)
+              .OnDelete(DeleteBehavior.Cascade);
+
+            qa.HasOne(x => x.User)
+              .WithMany()
+              .HasForeignKey(x => x.UserId)
+              .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        builder.Entity<QuizAttemptAnswer>(qaa =>
+        {
+            qaa.HasIndex(x => x.QuizAttemptId);
+
+            qaa.HasOne(x => x.QuizAttempt)
+               .WithMany(a => a.Answers)
+               .HasForeignKey(x => x.QuizAttemptId)
+               .OnDelete(DeleteBehavior.Cascade);
+
+            qaa.HasOne(x => x.Question)
+               .WithMany()
+               .HasForeignKey(x => x.QuestionId)
+               .OnDelete(DeleteBehavior.Restrict);
+
+            qaa.HasOne(x => x.SelectedAnswerOption)
+               .WithMany()
+               .HasForeignKey(x => x.SelectedAnswerOptionId)
+               .OnDelete(DeleteBehavior.Restrict);
         });
     }
 }

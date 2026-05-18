@@ -13,4 +13,5 @@ public class LessonProgress
     public int VideoProgressPercent { get; set; }
     public int VideoWatchedSeconds { get; set; }
     public DateTime? LastWatchedAt { get; set; }
+    public bool QuizPassed { get; set; }
 }

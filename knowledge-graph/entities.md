@@ -62,33 +62,31 @@ _Updated: Sprint 8 (progress tracking). Update this file each sprint as new enti
 - Unique index on: (UserId, LessonId)
 - Composite index on: (UserId, CourseId)
 - Tracks: IsCompleted, VideoProgressPercent, VideoWatchedSeconds
-- Fields: Id, UserId, CourseId, LessonId, IsCompleted, CompletedAt?, VideoProgressPercent, VideoWatchedSeconds, LastWatchedAt?
-- QuizPassed stored in QuizAttempt (not LessonProgress) — out of scope for Sprint 8
+- Fields: Id, UserId, CourseId, LessonId, IsCompleted, CompletedAt?, VideoProgressPercent, VideoWatchedSeconds, LastWatchedAt?, QuizPassed
+- QuizPassed updated by SubmitQuiz handler when quiz is passed
 
-## Quiz
+## Quiz — ✅ Sprint 9
 - Belongs to one Lesson (one-to-one)
 - Has many Questions
 - Has many QuizAttempts
 - Fields: Id, LessonId, Title, Description, PassingScore, IsRequired, CreatedAt, UpdatedAt
 
-## Question
+## Question — ✅ Sprint 9
 - Belongs to one Quiz
 - Has many AnswerOptions
 - Type: SingleChoice | MultipleChoice | TrueFalse
 - Fields: Id, QuizId, Text, Type, OrderIndex
 
-## AnswerOption
+## AnswerOption — ✅ Sprint 9
 - Belongs to one Question
 - Fields: Id, QuestionId, Text, IsCorrect, OrderIndex
 
-## QuizAttempt
+## QuizAttempt — ✅ Sprint 9
 - Belongs to one Quiz
-- Belongs to one User
-- Has many QuizAttemptAnswers
 - Index on: (UserId, QuizId)
 - Fields: Id, QuizId, UserId, Score, Passed, StartedAt, SubmittedAt
 
-## QuizAttemptAnswer
+## QuizAttemptAnswer — ✅ Sprint 9
 - Belongs to one QuizAttempt
 - Fields: Id, QuizAttemptId, QuestionId, SelectedAnswerOptionId, IsCorrect
 

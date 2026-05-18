@@ -72,11 +72,14 @@ _Update this file each sprint as new endpoints are implemented._
 
 | Method | Path                                        | Auth | Roles             | Sprint | Status      |
 |--------|---------------------------------------------|------|-------------------|--------|-------------|
-| GET    | /api/lessons/{lessonId}/quiz                | Yes  | Student+          | 9      | not-started |
-| POST   | /api/admin/lessons/{lessonId}/quiz          | Yes  | Admin, SuperAdmin | 9      | not-started |
-| PUT    | /api/admin/quizzes/{quizId}                 | Yes  | Admin, SuperAdmin | 9      | not-started |
-| POST   | /api/quizzes/{quizId}/submit                | Yes  | Student           | 9      | not-started |
-| GET    | /api/quizzes/{quizId}/attempts/me           | Yes  | Student           | 9      | not-started |
+| GET    | /api/lessons/{lessonId}/quiz                | Yes  | Student+          | 9      | ✅ done     |
+| POST   | /api/admin/lessons/{lessonId}/quiz          | Yes  | Admin, SuperAdmin | 9      | ✅ done     |
+| PUT    | /api/admin/quizzes/{quizId}                 | Yes  | Admin, SuperAdmin | 9      | ✅ done     |
+| POST   | /api/admin/quizzes/{quizId}/questions       | Yes  | Admin, SuperAdmin | 9      | ✅ done     |
+| PUT    | /api/admin/questions/{questionId}           | Yes  | Admin, SuperAdmin | 9      | ✅ done     |
+| DELETE | /api/admin/questions/{questionId}           | Yes  | Admin, SuperAdmin | 9      | ✅ done     |
+| POST   | /api/quizzes/{quizId}/submit                | Yes  | Student           | 9      | ✅ done     |
+| GET    | /api/quizzes/{quizId}/attempts/me           | Yes  | Student           | 9      | ✅ done     |
 
 ## Discussions
 

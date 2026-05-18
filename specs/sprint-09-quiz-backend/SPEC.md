@@ -85,39 +85,45 @@ None this sprint. Frontend is Sprint 10.
 ## Tasks
 
 ### Backend
-- [ ] Create `QuestionType.cs` enum in `Domain/Enums/`
-- [ ] Create `Quiz.cs` entity
-- [ ] Create `Question.cs` entity
-- [ ] Create `AnswerOption.cs` entity
-- [ ] Create `QuizAttempt.cs` entity
-- [ ] Create `QuizAttemptAnswer.cs` entity
-- [ ] Add all DbSets to `AppDbContext`
-- [ ] Configure EF Core relationships and indexes
-- [ ] Add migration: `AddQuizEntities`
-- [ ] Implement `GetLessonQuiz` vertical slice (questions without IsCorrect for student)
-- [ ] Implement `CreateQuiz` vertical slice
-- [ ] Implement `UpdateQuiz` vertical slice
-- [ ] Implement `AddQuestion` vertical slice
-- [ ] Implement `UpdateQuestion` vertical slice
-- [ ] Implement `DeleteQuestion` vertical slice
-- [ ] Implement `SubmitQuiz` vertical slice (score calculation + LessonProgress update)
-- [ ] Implement `GetMyQuizAttempts` vertical slice
-- [ ] Write unit tests for `CalculateQuizScore` (single choice, multi-select, all wrong, all right)
-- [ ] Write unit tests for `IsRequired` + lesson completion integration
-- [ ] Verify `dotnet build` — 0 errors
+- [x] Create `QuestionType.cs` enum in `Domain/Enums/`
+- [x] Create `Quiz.cs` entity
+- [x] Create `Question.cs` entity
+- [x] Create `AnswerOption.cs` entity
+- [x] Create `QuizAttempt.cs` entity
+- [x] Create `QuizAttemptAnswer.cs` entity
+- [x] Add all DbSets to `AppDbContext`
+- [x] Configure EF Core relationships and indexes
+- [x] Add migration: `AddQuizEntities`
+- [x] Implement `GetLessonQuiz` vertical slice (questions without IsCorrect for student)
+- [x] Implement `CreateQuiz` vertical slice
+- [x] Implement `UpdateQuiz` vertical slice
+- [x] Implement `AddQuestion` vertical slice
+- [x] Implement `UpdateQuestion` vertical slice
+- [x] Implement `DeleteQuestion` vertical slice
+- [x] Implement `SubmitQuiz` vertical slice (score calculation + LessonProgress update)
+- [x] Implement `GetMyQuizAttempts` vertical slice
+- [x] Write unit tests for `CalculateQuizScore` (single choice, multi-select, all wrong, all right)
+- [x] Write unit tests for `IsRequired` + lesson completion integration
+- [x] Verify `dotnet build` — 0 errors
 
 ---
 
 ## Archive
 
-### Status: 🔲 Not Started
-### Completed: —
+### Status: ✅ Complete
+### Completed: 2026-05-18
 
 ### What Was Built
-_To be filled after sprint completes._
+- `QuestionType` enum (SingleChoice, MultipleChoice, TrueFalse)
+- Entities: `Quiz`, `Question`, `AnswerOption`, `QuizAttempt`, `QuizAttemptAnswer`
+- `LessonProgress.QuizPassed` field added
+- EF Core configuration + indexes for all new entities
+- 8 vertical slices: GetLessonQuiz, CreateQuiz, UpdateQuiz, AddQuestion, UpdateQuestion, DeleteQuestion, SubmitQuiz, GetMyQuizAttempts
+- `MarkLessonComplete` updated to block if required quiz not passed
+- 9 unit tests covering scoring, multi-select edge cases, and required-quiz integration
 
 ### Known Issues
-_To be filled after sprint completes._
+None.
 
 ### Notes
-_To be filled after sprint completes._
+- Migration needed: `dotnet ef migrations add AddQuizEntities --project src/ChurchLearn.Api`

@@ -37,6 +37,24 @@ public class MarkLessonCompleteHandler(AppDbContext db, ICurrentUser currentUser
             return Result<MarkLessonCompleteResponse>.Failure(
                 "You are not enrolled in this course.", ErrorCodes.Forbidden);
 
+        // Block completion if the lesson has a required quiz that hasn't been passed
+        var requiredQuiz = await db.Quizzes
+            .AsNoTracking()
+            .FirstOrDefaultAsync(q => q.LessonId == lessonId && q.IsRequired, cancellationToken);
+
+        if (requiredQuiz is not null)
+        {
+            var quizPassed = await db.LessonProgresses
+                .AsNoTracking()
+                .AnyAsync(p => p.UserId == currentUser.UserId && p.LessonId == lessonId && p.QuizPassed,
+                    cancellationToken);
+
+            if (!quizPassed)
+                return Result<MarkLessonCompleteResponse>.Failure(
+                    "You must pass the required quiz before completing this lesson.",
+                    ErrorCodes.Forbidden);
+        }
+
         var progress = await db.LessonProgresses
             .FirstOrDefaultAsync(
                 p => p.UserId == currentUser.UserId && p.LessonId == lessonId,
