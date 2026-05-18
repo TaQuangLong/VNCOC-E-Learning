@@ -2,6 +2,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useEffect } from 'react'
 import { useCourseLessons, useLessonDetail } from '@/features/lessons/api'
 import { useEnrollmentStatus } from '@/features/enrollment/api'
+import { useCourseProgress, useMarkLessonComplete } from '@/features/progress/api'
 import LessonSidebar from '@/features/lessons/LessonSidebar'
 import ResourcesSection from '@/features/lessons/ResourcesSection'
 import YouTubePlayer from '@/features/lessons/players/YouTubePlayer'
@@ -27,6 +28,8 @@ export default function LearnPage() {
   } = useLessonDetail(lessonId)
   const { data: enrollmentStatus, isLoading: enrollmentLoading } =
     useEnrollmentStatus(courseId)
+  const { data: courseProgress } = useCourseProgress(courseId)
+  const markComplete = useMarkLessonComplete(courseId)
 
   // Redirect unenrolled students back to courses
   useEffect(() => {
@@ -41,6 +44,10 @@ export default function LearnPage() {
     lessons && currentIndex < lessons.length - 1
       ? lessons[currentIndex + 1]
       : null
+
+  const completedLessonIds =
+    courseProgress?.lessons.filter((l) => l.isCompleted).map((l) => l.lessonId) ?? []
+  const isCurrentLessonCompleted = completedLessonIds.includes(lessonId)
 
   return (
     <div className="flex min-h-screen flex-col bg-background">
@@ -81,6 +88,7 @@ export default function LearnPage() {
             courseId={courseId}
             lessons={lessons}
             activeLessonId={lessonId}
+            completedLessonIds={completedLessonIds}
           />
         )}
 
@@ -141,6 +149,39 @@ export default function LearnPage() {
 
               {/* Resources */}
               <ResourcesSection resources={lesson.resources} />
+
+              {/* Mark as Completed */}
+              <div className="mt-6">
+                {isCurrentLessonCompleted ? (
+                  <div className="flex items-center gap-2 rounded-md bg-green-50 px-4 py-2.5 text-sm font-medium text-green-700 dark:bg-green-950/30 dark:text-green-400">
+                    <svg
+                      className="h-4 w-4 shrink-0"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth={2.5}
+                      aria-hidden="true"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                    Lesson completed
+                  </div>
+                ) : (
+                  <div className="flex flex-col gap-2">
+                    <Button
+                      onClick={() => markComplete.mutate(lessonId)}
+                      disabled={markComplete.isPending}
+                    >
+                      {markComplete.isPending ? 'Saving…' : 'Mark as Completed'}
+                    </Button>
+                    {markComplete.isError && (
+                      <p className="text-xs text-destructive">
+                        Failed to save progress. Please try again.
+                      </p>
+                    )}
+                  </div>
+                )}
+              </div>
 
               {/* Navigation */}
               <div className="mt-8 flex items-center justify-between border-t border-border pt-6">

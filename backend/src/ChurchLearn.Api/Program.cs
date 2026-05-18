@@ -7,6 +7,7 @@ using ChurchLearn.Api.Features.Auth;
 using ChurchLearn.Api.Features.Courses;
 using ChurchLearn.Api.Features.Enrollments;
 using ChurchLearn.Api.Features.Lessons;
+using ChurchLearn.Api.Features.Progress;
 using ChurchLearn.Api.Features.Users;
 using ChurchLearn.Api.Infrastructure.Email;
 using ChurchLearn.Api.Infrastructure.Identity;
@@ -120,6 +121,7 @@ try
     builder.Services.AddCoursesFeature();
     builder.Services.AddLessonsFeature();
     builder.Services.AddEnrollmentsFeature();
+    builder.Services.AddProgressFeature();
 
     var app = builder.Build();
 
@@ -153,6 +155,7 @@ try
     app.MapCoursesEndpoints();
     app.MapLessonsEndpoints();
     app.MapEnrollmentsEndpoints();
+    app.MapProgressEndpoints();
 
     await app.RunAsync();
 }

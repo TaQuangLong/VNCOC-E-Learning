@@ -99,14 +99,28 @@ Enrollment is the gate between browsing and learning. Without it, there is no wa
 
 ## Archive
 
-### Status: 🔲 Not Started
-### Completed: —
+### Status: ✅ Done
+### Completed: Sprint 7
 
 ### What Was Built
-_To be filled after sprint completes._
+- `Enrollment` entity with `LastAccessedLessonId` field (extends spec)
+- Unique `(UserId, CourseId)` index + indexes on `UserId`, `CourseId`
+- EF Core migration: `AddEnrollmentFields`
+- `EnrollCourse` vertical slice — checks published status, prevents duplicate, sets `TotalLessonsCount`
+- `GetMyEnrolledCourses` vertical slice — returns all enrolled courses with progress summary
+- `GetMyEnrollmentStatus` vertical slice — returns enrollment state including `LastAccessedLessonId`
+- `EnrollmentsEndpoints` — routes: POST enroll, GET /me/courses, GET /me/courses/{courseId}, GET enrollment-status
+- `CreateLesson` / `DeleteLesson` handlers updated to keep `TotalLessonsCount` in sync
+- `GetLesson` handler — enrollment gate (non-preview lessons require enrollment; admins bypass)
+- `MyLearningPage.tsx` — enrolled courses grid with progress bars, loading/empty/error states
+- `CourseDetailPage.tsx` — Enroll / Continue Learning / Login to Enroll states
+- `LearnPage.tsx` — enrollment gate redirects unenrolled student to /courses
+- `/my-learning` route registered in router.tsx
+- 5 unit tests covering: happy path, duplicate, draft course, not found, TotalLessonsCount
 
 ### Known Issues
-_To be filled after sprint completes._
+_None._
 
 ### Notes
-_To be filled after sprint completes._
+- `TotalLessonsCount` is denormalized on `Enrollment` — updated on lesson create/delete
+- No unenroll in MVP (Could Have)

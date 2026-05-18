@@ -46,12 +46,15 @@ _Updated: Sprint 3 (courses backend). Update this file each sprint as new entiti
 - Belongs to one Lesson
 - Fields: Id, LessonId, Title, Url, CreatedAt
 
-## Enrollment
+## Enrollment — ✅ Sprint 7
 - Belongs to one User
 - Belongs to one Course
 - Unique index on: (UserId, CourseId)
-- Tracks: ProgressPercent, CompletedLessonsCount, TotalLessonsCount
-- Fields: Id, UserId, CourseId, EnrolledAt, ProgressPercent, CompletedLessonsCount, TotalLessonsCount, CompletedAt
+- Additional indexes on: UserId, CourseId
+- Tracks: ProgressPercent, CompletedLessonsCount, TotalLessonsCount, LastAccessedLessonId
+- Fields: Id, UserId, CourseId, EnrolledAt, ProgressPercent, CompletedLessonsCount, TotalLessonsCount, LastAccessedLessonId?, CompletedAt?
+- TotalLessonsCount is denormalized — updated when lessons are added/removed
+- No unenroll in MVP
 
 ## LessonProgress
 - Belongs to one User

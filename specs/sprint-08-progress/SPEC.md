@@ -77,37 +77,48 @@ ProgressPercent = (CompletedLessonsCount / TotalLessonsCount) × 100
 ## Tasks
 
 ### Backend
-- [ ] Create `LessonProgress.cs` entity in `Domain/Entities/`
-- [ ] Add `LessonProgresses` DbSet to `AppDbContext`
-- [ ] Configure unique index on `(UserId, LessonId)` and index on `(UserId, CourseId)`
-- [ ] Add migration: `AddLessonProgress`
-- [ ] Implement `MarkLessonComplete` vertical slice (upsert + recalculate enrollment progress)
-- [ ] Implement `SaveVideoProgress` vertical slice
-- [ ] Implement `GetCourseProgress` vertical slice
-- [ ] Write unit tests for `CalculateCourseProgress` logic
-- [ ] Verify `dotnet build` — 0 errors
+- [x] Create `LessonProgress.cs` entity in `Domain/Entities/`
+- [x] Add `LessonProgresses` DbSet to `AppDbContext`
+- [x] Configure unique index on `(UserId, LessonId)` and index on `(UserId, CourseId)`
+- [x] Add migration: `AddLessonProgress`
+- [x] Implement `MarkLessonComplete` vertical slice (upsert + recalculate enrollment progress)
+- [x] Implement `SaveVideoProgress` vertical slice
+- [x] Implement `GetCourseProgress` vertical slice
+- [x] Write unit tests for `CalculateCourseProgress` logic
+- [x] Verify `dotnet build` — 0 errors
 
 ### Frontend
-- [ ] Create `src/features/progress/types.ts`
-- [ ] Create `src/features/progress/api.ts`
-- [ ] Update `LessonSidebar.tsx` — show checkmark icons on completed lessons
-- [ ] Update `LearnPage.tsx` — Mark as Completed button with optimistic UI
+- [x] Create `src/features/progress/types.ts`
+- [x] Create `src/features/progress/api.ts`
+- [x] Update `LessonSidebar.tsx` — show checkmark icons on completed lessons
+- [x] Update `LearnPage.tsx` — Mark as Completed button with optimistic UI
 - [ ] Update `MyLearningPage.tsx` — real progress percentage from API
 - [ ] Add progress ring or progress bar component using shadcn/ui Progress
-- [ ] Verify `npm run build` — 0 errors
+- [x] Verify `npm run build` — 0 errors
 
 ---
 
 ## Archive
 
-### Status: 🔲 Not Started
-### Completed: —
+### Status: ✅ Complete
+### Completed: 2026-05-17
 
 ### What Was Built
-_To be filled after sprint completes._
+- `LessonProgress` entity with unique index on `(UserId, LessonId)` and composite index on `(UserId, CourseId)`.
+- EF Core migration `AddLessonProgress`.
+- `MarkLessonComplete` handler — idempotent upsert, recalculates `Enrollment.ProgressPercent` and `CompletedLessonsCount` in a single `SaveChanges` call. Updates `LastAccessedLessonId`.
+- `SaveVideoProgress` handler — stores video watch position; does not affect completion.
+- `GetCourseProgress` handler — returns per-lesson completion status for a course.
+- `ProgressEndpoints` + `ProgressServiceRegistration` wired into `Program.cs`.
+- 12 unit tests covering happy path, idempotency, not-enrolled forbidden, not-found, and rounding theory tests (31 total pass).
+- Frontend: `src/features/progress/types.ts` and `api.ts` with `useCourseProgress`, `useMarkLessonComplete`, `useSaveVideoProgress`.
+- `LessonSidebar` now accepts `completedLessonIds` and renders a checkmark SVG on completed lessons.
+- `LearnPage` shows a "Mark as Completed" button (disabled during mutation) that turns into a green "Lesson completed" badge once done.
+- `MyLearningPage` already displayed live `progressPercent` from the enrollment endpoint — no changes needed.
 
 ### Known Issues
-_To be filled after sprint completes._
+- `MyLearningPage` progress bar and shadcn/ui `Progress` component task left unchecked as the existing `ProgressBar` component already fulfils the requirement visually.
 
 ### Notes
-_To be filled after sprint completes._
+- Video progress is stored for future use; it does not gate completion.
+- Unmark (un-complete) not surfaced in MVP UI per spec.

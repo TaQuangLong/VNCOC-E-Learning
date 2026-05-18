@@ -29,7 +29,10 @@ Implement a complete feature end-to-end following the ChurchLearn specification.
    - Page component if this is a new route
 8. Register new route in `src/app/router.tsx` if a new page was created
 9. Update `knowledge-graph/api-map.md` with new endpoints added
-10. Report: files created, files modified, migration command needed, items for manual testing
+10. Update `knowledge-graph/entities.md` with any new or changed entity definitions
+11. Update `knowledge-graph/dependency-graph.md` — mark this sprint's feature as ✅ done
+12. Update `specs/PROGRESS.md` — mark the sprint row as ✅ Complete with today's date and ✓ build, and update the Knowledge Graph Last Updated table
+13. Report: files created, files modified, migration command needed, items for manual testing
 
 ## Non-Negotiable Rules
 - Follow all rules in `.github/copilot-instructions.md`

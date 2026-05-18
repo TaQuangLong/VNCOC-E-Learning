@@ -6,6 +6,7 @@ interface LessonSidebarProps {
   courseId: number
   lessons: LessonSummary[]
   activeLessonId: number
+  completedLessonIds?: number[]
 }
 
 function formatDuration(seconds: number): string {
@@ -19,6 +20,7 @@ export default function LessonSidebar({
   courseId,
   lessons,
   activeLessonId,
+  completedLessonIds = [],
 }: LessonSidebarProps) {
   const [drawerOpen, setDrawerOpen] = useState(false)
 
@@ -27,6 +29,7 @@ export default function LessonSidebar({
       <ul className="space-y-1 p-2">
         {lessons.map((lesson) => {
           const isActive = lesson.id === activeLessonId
+          const isCompleted = completedLessonIds.includes(lesson.id)
           return (
             <li key={lesson.id}>
               <Link
@@ -38,16 +41,33 @@ export default function LessonSidebar({
                     : 'text-foreground hover:bg-muted'
                 }`}
               >
-                {/* Placeholder completion circle */}
+                {/* Completion indicator */}
                 <span
-                  className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2 text-xs ${
-                    isActive
-                      ? 'border-primary-foreground/60 text-primary-foreground/60'
-                      : 'border-muted-foreground/40 text-muted-foreground/40'
+                  className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-xs ${
+                    isCompleted
+                      ? isActive
+                        ? 'bg-primary-foreground/20 text-primary-foreground'
+                        : 'bg-primary/10 text-primary'
+                      : isActive
+                        ? 'border-2 border-primary-foreground/60 text-primary-foreground/60'
+                        : 'border-2 border-muted-foreground/40 text-muted-foreground/40'
                   }`}
-                  aria-hidden="true"
+                  aria-label={isCompleted ? 'Completed' : `Lesson ${lesson.orderIndex + 1}`}
                 >
-                  {lesson.orderIndex + 1}
+                  {isCompleted ? (
+                    <svg
+                      className="h-3 w-3"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth={3}
+                      aria-hidden="true"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                  ) : (
+                    lesson.orderIndex + 1
+                  )}
                 </span>
                 <span className="flex-1 leading-snug">
                   <span className="block font-medium">{lesson.title}</span>

@@ -15,7 +15,7 @@
 | 4      | Course Management Frontend     | ✅ Complete   | 2026-05-16   | ✓     |
 | 5      | Lesson Management Backend      | ✅ Complete   | 2026-05-16   | ✓     |
 | 6      | Learning Page Frontend         | ✅ Complete   | 2026-05-17   | ✓     |
-| 7      | Enrollment & My Learning       | 🔲 Not Started | —            | —     |
+| 7      | Enrollment & My Learning       | ✅ Complete   | 2026-05-17   | ✓     |
 | 8      | Progress Tracking              | 🔲 Not Started | —            | —     |
 | 9      | Quiz Backend                   | 🔲 Not Started | —            | —     |
 | 10     | Quiz Frontend                  | 🔲 Not Started | —            | —     |
@@ -43,7 +43,7 @@
 
 | File                              | Last Updated | Sprint |
 |-----------------------------------|--------------|--------|
-| knowledge-graph/entities.md       | 2026-05-16   | 3      |
+| knowledge-graph/entities.md       | 2026-05-17   | 7      |
 | knowledge-graph/api-map.md        | 2026-05-16   | 4      |
-| knowledge-graph/dependency-graph.md | 2026-05-16 | 4      |
-| specs/PROGRESS.md                 | 2026-05-17   | 6      |
+| knowledge-graph/dependency-graph.md | 2026-05-17 | 7      |
+| specs/PROGRESS.md                 | 2026-05-17   | 7      |
