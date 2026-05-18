@@ -1,6 +1,6 @@
 # ChurchLearn — Entity Relationships
 
-_Updated: Sprint 3 (courses backend). Update this file each sprint as new entities are added._
+_Updated: Sprint 8 (progress tracking). Update this file each sprint as new entities are added._
 
 ---
 
@@ -31,7 +31,7 @@ _Updated: Sprint 3 (courses backend). Update this file each sprint as new entiti
 - Unique index on: Slug
 - Fields: Id, Title, Slug, ShortDescription, Description, ThumbnailUrl, Category, Level, Language, AuthorId, Status, CreatedAt, UpdatedAt
 
-## Lesson
+## Lesson — ✅ Sprint 5
 - Belongs to one Course
 - Has one optional Quiz
 - Has many Resources
@@ -42,7 +42,7 @@ _Updated: Sprint 3 (courses backend). Update this file each sprint as new entiti
 - Fields: Id, CourseId, Title, Description, ContentType, YouTubeUrl, TextContent, PdfUrl, DurationSeconds, OrderIndex, IsPreview, CreatedAt, UpdatedAt
 - Index on: (CourseId, OrderIndex)
 
-## Resource
+## Resource — ✅ Sprint 5
 - Belongs to one Lesson
 - Fields: Id, LessonId, Title, Url, CreatedAt
 
@@ -56,12 +56,14 @@ _Updated: Sprint 3 (courses backend). Update this file each sprint as new entiti
 - TotalLessonsCount is denormalized — updated when lessons are added/removed
 - No unenroll in MVP
 
-## LessonProgress
+## LessonProgress — ✅ Sprint 8
 - Belongs to one User
 - Belongs to one Lesson
 - Unique index on: (UserId, LessonId)
-- Tracks: IsCompleted, QuizPassed, VideoProgressPercent
-- Fields: Id, UserId, CourseId, LessonId, IsCompleted, CompletedAt, ManualCompletedAt, VideoProgressPercent, VideoWatchedSeconds, QuizPassed, LastWatchedAt
+- Composite index on: (UserId, CourseId)
+- Tracks: IsCompleted, VideoProgressPercent, VideoWatchedSeconds
+- Fields: Id, UserId, CourseId, LessonId, IsCompleted, CompletedAt?, VideoProgressPercent, VideoWatchedSeconds, LastWatchedAt?
+- QuizPassed stored in QuizAttempt (not LessonProgress) — out of scope for Sprint 8
 
 ## Quiz
 - Belongs to one Lesson (one-to-one)

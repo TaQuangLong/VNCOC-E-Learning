@@ -44,14 +44,17 @@ _Update this file each sprint as new endpoints are implemented._
 
 ## Lessons
 
-| Method | Path                                        | Auth | Roles             | Sprint | Status      |
-|--------|---------------------------------------------|------|-------------------|--------|-------------|
-| GET    | /api/courses/{courseId}/lessons             | No   | Any               | 5      | not-started |
-| GET    | /api/lessons/{id}                           | Yes  | Student+          | 5      | not-started |
-| POST   | /api/admin/courses/{courseId}/lessons       | Yes  | Admin, SuperAdmin | 5      | not-started |
-| PUT    | /api/admin/lessons/{id}                     | Yes  | Admin, SuperAdmin | 5      | not-started |
-| DELETE | /api/admin/lessons/{id}                     | Yes  | Admin, SuperAdmin | 5      | not-started |
-| PUT    | /api/admin/courses/{courseId}/lessons/order | Yes  | Admin, SuperAdmin | 5      | not-started |
+| Method | Path                                        | Auth | Roles             | Sprint | Status  |
+|--------|---------------------------------------------|------|-------------------|--------|---------|
+| GET    | /api/courses/{courseId}/lessons             | No   | Any               | 5      | ✅ done  |
+| GET    | /api/lessons/{id}                           | No*  | Any (enrollment enforced in handler) | 5 | ✅ done |
+| POST   | /api/admin/courses/{courseId}/lessons       | Yes  | Admin, SuperAdmin | 5      | ✅ done  |
+| PUT    | /api/admin/lessons/{id}                     | Yes  | Admin, SuperAdmin | 5      | ✅ done  |
+| DELETE | /api/admin/lessons/{id}                     | Yes  | Admin, SuperAdmin | 5      | ✅ done  |
+| PUT    | /api/admin/courses/{courseId}/lessons/order | Yes  | Admin, SuperAdmin | 5      | ✅ done  |
+| GET    | /api/admin/lessons/{id}/resources           | Yes  | Admin, SuperAdmin | 5      | ✅ done  |
+| POST   | /api/admin/lessons/{id}/resources           | Yes  | Admin, SuperAdmin | 5      | ✅ done  |
+| DELETE | /api/admin/resources/{id}                   | Yes  | Admin, SuperAdmin | 5      | ✅ done  |
 
 ## Enrollment & Progress
 
@@ -61,9 +64,9 @@ _Update this file each sprint as new endpoints are implemented._
 | GET    | /api/me/courses                             | Yes  | Student | 7      | ✅ done     |
 | GET    | /api/me/courses/{courseId}                  | Yes  | Student | 7      | ✅ done     |
 | GET    | /api/courses/{courseId}/enrollment-status   | Yes  | Student | 7      | ✅ done     |
-| GET    | /api/me/courses/{courseId}/progress         | Yes  | Student | 8      | not-started |
-| POST   | /api/lessons/{lessonId}/complete            | Yes  | Student | 8      | not-started |
-| POST   | /api/lessons/{lessonId}/video-progress      | Yes  | Student | 8      | not-started |
+| GET    | /api/me/courses/{courseId}/progress         | Yes  | Student | 8      | ✅ done     |
+| POST   | /api/lessons/{lessonId}/complete            | Yes  | Student | 8      | ✅ done     |
+| POST   | /api/lessons/{lessonId}/video-progress      | Yes  | Student | 8      | ✅ done     |
 
 ## Quizzes
 
@@ -97,5 +100,5 @@ _Update this file each sprint as new endpoints are implemented._
 
 | Method | Path            | Auth | Sprint | Status      |
 |--------|-----------------|------|--------|-------------|
-| GET    | /api/health     | No   | 1      | not-started |
+| GET    | /api/health     | No   | 1      | ✅ done  |
 | GET    | /api/health/db  | No   | 1      | not-started |
