@@ -85,14 +85,23 @@ None — all APIs from Sprint 9.
 
 ## Archive
 
-### Status: 🔲 Not Started
-### Completed: —
+### Status: ✅ Complete
+### Completed: 2026-05-18
 
 ### What Was Built
-_To be filled after sprint completes._
+- `src/features/quiz/types.ts` — all TypeScript types + Zod schemas for admin forms
+- `src/features/quiz/api.ts` — TanStack Query hooks for all 8 quiz endpoints
+- `src/features/quiz/QuestionEditor.tsx` — reusable question form (SingleChoice/MultipleChoice/TrueFalse)
+- `src/features/quiz/QuizBuilder.tsx` — admin quiz builder embedded in EditLessonPage (create quiz + manage questions)
+- `src/features/quiz/QuizPlayer.tsx` — student quiz with radio/checkbox/two-button toggle per question type
+- `src/features/quiz/QuizResult.tsx` — score card, pass/fail message, per-question breakdown, retry button
+- `src/features/quiz/AttemptList.tsx` — previous attempts list with best score
+- Updated `EditLessonPage.tsx` — Quiz section with QuizBuilder
+- Updated `LearnPage.tsx` — Content / Quiz tab bar, QuizTab component
 
 ### Known Issues
-_To be filled after sprint completes._
+None at time of sprint close.
 
 ### Notes
-_To be filled after sprint completes._
+- GET quiz API does not expose `isCorrect` on options. When admin edits an existing question, options are pre-filled with `isCorrect: false` — admin must re-mark correct answers.
+- Quiz result does not reveal correct answers (per spec decision).

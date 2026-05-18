@@ -35,7 +35,7 @@ Foundation (no deps)
 | 7      | Enrollment             | ✅ done        | Enrollment                               | Auth, Courses         | specs/sprint-07-enrollment/SPEC.md          |
 | 8      | Progress               | ✅ done        | LessonProgress                           | Enrollment, Lessons   | specs/sprint-08-progress/SPEC.md            |
 | 9      | Quiz Backend           | ✅ done        | Quiz, Question, AnswerOption, QuizAttempt, QuizAttemptAnswer | Lessons, Progress    | specs/sprint-09-quiz-backend/SPEC.md        |
-| 10     | Quiz Frontend          | 🔲 not-started | —                                        | Quiz Backend          | specs/sprint-10-quiz-frontend/SPEC.md       |
+| 10     | Quiz Frontend          | ✅ done        | —                                        | Quiz Backend          | specs/sprint-10-quiz-frontend/SPEC.md       |
 | 11     | Discussion Backend     | 🔲 not-started | Discussion                               | Lessons, Auth         | specs/sprint-11-discussion-backend/SPEC.md  |
 | 12     | Discussion Frontend    | 🔲 not-started | —                                        | Discussion Backend    | specs/sprint-12-discussion-frontend/SPEC.md |
 | 13     | Reports                | 🔲 not-started | —                                        | All core features     | specs/sprint-13-reports/SPEC.md             |

@@ -13,8 +13,18 @@ Implement a complete feature end-to-end following the ChurchLearn specification.
 
 1. Read `SPEC.md` for the target feature
 2. Read `.github/copilot-instructions.md` for project rules
-3. Read `knowledge-graph/entities.md` for existing entity relationships
-4. Read `knowledge-graph/api-map.md` for existing endpoint paths (avoid duplicates)
+3. Query the graph for existing entities, endpoints, validators, and hooks — avoids loading full
+   knowledge-graph files:
+   ```bash
+   python graphifyy/gq.py --context {featureName}
+   ```
+   Only read `knowledge-graph/entities.md` if you need index definitions or relationship details
+   not present in the graph output.
+4. Check all existing endpoint paths to avoid duplicate route registration:
+   ```bash
+   python graphifyy/gq.py --endpoints
+   ```
+   Only read `knowledge-graph/api-map.md` if you need auth requirements or role-level details.
 5. Scaffold backend vertical slice:
    - `{ActionName}Request.cs` — input record
    - `{ActionName}Response.cs` — output DTO record
@@ -32,7 +42,13 @@ Implement a complete feature end-to-end following the ChurchLearn specification.
 10. Update `knowledge-graph/entities.md` with any new or changed entity definitions
 11. Update `knowledge-graph/dependency-graph.md` — mark this sprint's feature as ✅ done
 12. Update `specs/PROGRESS.md` — mark the sprint row as ✅ Complete with today's date and ✓ build, and update the Knowledge Graph Last Updated table
-13. Report: files created, files modified, migration command needed, items for manual testing
+13. Refresh the auto-generated knowledge graph so the next agent session has accurate context:
+    ```bash
+    graphify .
+    ```
+    Check `graphify-out/GRAPH_REPORT.md` — the new feature's endpoints should appear under
+    **Core Nodes** and the **missing-calls** count should decrease if frontend was also implemented.
+14. Report: files created, files modified, migration command needed, items for manual testing
 
 ## Non-Negotiable Rules
 - Follow all rules in `.github/copilot-instructions.md`
