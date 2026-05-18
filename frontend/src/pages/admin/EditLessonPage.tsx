@@ -12,6 +12,7 @@ import {
 import LessonForm from '@/features/lessons/LessonForm'
 import { resourceFormSchema, type LessonFormInput, type ResourceFormInput } from '@/features/lessons/types'
 import { Button } from '@/components/ui/button'
+import QuizBuilder from '@/features/quiz/QuizBuilder'
 
 export default function EditLessonPage() {
   const { id: idParam } = useParams<{ id: string }>()
@@ -84,6 +85,11 @@ export default function EditLessonPage() {
 
       <div className="mt-10">
         <ResourcesPanel lessonId={lessonId} />
+      </div>
+
+      <div className="mt-10">
+        <h2 className="mb-4 text-base font-semibold">Quiz</h2>
+        <QuizBuilder lessonId={lessonId} />
       </div>
     </div>
   )

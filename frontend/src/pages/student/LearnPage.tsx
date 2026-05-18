@@ -1,5 +1,5 @@
 import { Link, useNavigate, useParams } from 'react-router-dom'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useCourseLessons, useLessonDetail } from '@/features/lessons/api'
 import { useEnrollmentStatus } from '@/features/enrollment/api'
 import { useCourseProgress, useMarkLessonComplete } from '@/features/progress/api'
@@ -9,6 +9,8 @@ import YouTubePlayer from '@/features/lessons/players/YouTubePlayer'
 import TextRenderer from '@/features/lessons/players/TextRenderer'
 import PdfLink from '@/features/lessons/players/PdfLink'
 import { Button } from '@/components/ui/button'
+import { useLessonQuiz } from '@/features/quiz/api'
+import QuizPlayer from '@/features/quiz/QuizPlayer'
 
 export default function LearnPage() {
   const { courseId: courseIdParam, lessonId: lessonIdParam } = useParams<{
@@ -48,6 +50,8 @@ export default function LearnPage() {
   const completedLessonIds =
     courseProgress?.lessons.filter((l) => l.isCompleted).map((l) => l.lessonId) ?? []
   const isCurrentLessonCompleted = completedLessonIds.includes(lessonId)
+
+  const [activeTab, setActiveTab] = useState<'content' | 'quiz'>('content')
 
   return (
     <div className="flex min-h-screen flex-col bg-background">
@@ -118,72 +122,96 @@ export default function LearnPage() {
                 {lesson.title}
               </h1>
 
-              {/* Content player */}
-              {lesson.contentType === 'Video' &&
-                (lesson.youTubeUrl ? (
-                  <YouTubePlayer url={lesson.youTubeUrl} />
-                ) : (
-                  <div className="flex aspect-video items-center justify-center rounded-md bg-muted text-sm text-muted-foreground">
-                    Video content not available.
-                  </div>
-                ))}
-              {lesson.contentType === 'Text' &&
-                (lesson.textContent ? (
-                  <TextRenderer content={lesson.textContent} />
-                ) : (
-                  <p className="text-sm text-muted-foreground">Text content not available.</p>
-                ))}
-              {lesson.contentType === 'Pdf' &&
-                (lesson.pdfUrl ? (
-                  <PdfLink url={lesson.pdfUrl} title={lesson.title} />
-                ) : (
-                  <p className="text-sm text-muted-foreground">PDF content not available.</p>
-                ))}
-
-              {/* Description */}
-              {lesson.description && (
-                <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-                  {lesson.description}
-                </p>
-              )}
-
-              {/* Resources */}
-              <ResourcesSection resources={lesson.resources} />
-
-              {/* Mark as Completed */}
-              <div className="mt-6">
-                {isCurrentLessonCompleted ? (
-                  <div className="flex items-center gap-2 rounded-md bg-green-50 px-4 py-2.5 text-sm font-medium text-green-700 dark:bg-green-950/30 dark:text-green-400">
-                    <svg
-                      className="h-4 w-4 shrink-0"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      strokeWidth={2.5}
-                      aria-hidden="true"
-                    >
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                    </svg>
-                    Lesson completed
-                  </div>
-                ) : (
-                  <div className="flex flex-col gap-2">
-                    <Button
-                      onClick={() => markComplete.mutate(lessonId)}
-                      disabled={markComplete.isPending}
-                    >
-                      {markComplete.isPending ? 'Saving…' : 'Mark as Completed'}
-                    </Button>
-                    {markComplete.isError && (
-                      <p className="text-xs text-destructive">
-                        Failed to save progress. Please try again.
-                      </p>
-                    )}
-                  </div>
-                )}
+              {/* Tab bar */}
+              <div className="mb-6 flex gap-1 border-b border-border">
+                <TabButton
+                  label="Content"
+                  isActive={activeTab === 'content'}
+                  onClick={() => setActiveTab('content')}
+                />
+                <TabButton
+                  label="Quiz"
+                  isActive={activeTab === 'quiz'}
+                  onClick={() => setActiveTab('quiz')}
+                />
               </div>
 
-              {/* Navigation */}
+              {/* Content tab */}
+              {activeTab === 'content' && (
+                <>
+                  {/* Content player */}
+                  {lesson.contentType === 'Video' &&
+                    (lesson.youTubeUrl ? (
+                      <YouTubePlayer url={lesson.youTubeUrl} />
+                    ) : (
+                      <div className="flex aspect-video items-center justify-center rounded-md bg-muted text-sm text-muted-foreground">
+                        Video content not available.
+                      </div>
+                    ))}
+                  {lesson.contentType === 'Text' &&
+                    (lesson.textContent ? (
+                      <TextRenderer content={lesson.textContent} />
+                    ) : (
+                      <p className="text-sm text-muted-foreground">Text content not available.</p>
+                    ))}
+                  {lesson.contentType === 'Pdf' &&
+                    (lesson.pdfUrl ? (
+                      <PdfLink url={lesson.pdfUrl} title={lesson.title} />
+                    ) : (
+                      <p className="text-sm text-muted-foreground">PDF content not available.</p>
+                    ))}
+
+                  {/* Description */}
+                  {lesson.description && (
+                    <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
+                      {lesson.description}
+                    </p>
+                  )}
+
+                  {/* Resources */}
+                  <ResourcesSection resources={lesson.resources} />
+
+                  {/* Mark as Completed */}
+                  <div className="mt-6">
+                    {isCurrentLessonCompleted ? (
+                      <div className="flex items-center gap-2 rounded-md bg-green-50 px-4 py-2.5 text-sm font-medium text-green-700 dark:bg-green-950/30 dark:text-green-400">
+                        <svg
+                          className="h-4 w-4 shrink-0"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                          strokeWidth={2.5}
+                          aria-hidden="true"
+                        >
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                        </svg>
+                        Lesson completed
+                      </div>
+                    ) : (
+                      <div className="flex flex-col gap-2">
+                        <Button
+                          onClick={() => markComplete.mutate(lessonId)}
+                          disabled={markComplete.isPending}
+                        >
+                          {markComplete.isPending ? 'Saving…' : 'Mark as Completed'}
+                        </Button>
+                        {markComplete.isError && (
+                          <p className="text-xs text-destructive">
+                            Failed to save progress. Please try again.
+                          </p>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                </>
+              )}
+
+              {/* Quiz tab */}
+              {activeTab === 'quiz' && (
+                <QuizTab lessonId={lessonId} courseId={courseId} />
+              )}
+
+              {/* Navigation (always visible) */}
               <div className="mt-8 flex items-center justify-between border-t border-border pt-6">
                 <div>
                   {prevLesson && (
@@ -226,4 +254,60 @@ export default function LearnPage() {
       </div>
     </div>
   )
+}
+
+// ─── Tab helpers ─────────────────────────────────────────────────────────────────
+
+function TabButton({
+  label,
+  isActive,
+  onClick,
+}: {
+  label: string
+  isActive: boolean
+  onClick: () => void
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={`px-4 py-2 text-sm font-medium transition-colors ${
+        isActive
+          ? 'border-b-2 border-primary text-foreground'
+          : 'text-muted-foreground hover:text-foreground'
+      }`}
+    >
+      {label}
+    </button>
+  )
+}
+
+function QuizTab({
+  lessonId,
+  courseId,
+}: {
+  lessonId: number
+  courseId: number
+}) {
+  const { data: quiz, isLoading, isError } = useLessonQuiz(lessonId)
+
+  if (isLoading) {
+    return (
+      <div className="space-y-3">
+        <div className="h-6 w-1/2 animate-pulse rounded bg-muted" />
+        <div className="h-4 w-3/4 animate-pulse rounded bg-muted" />
+        <div className="h-4 w-2/3 animate-pulse rounded bg-muted" />
+      </div>
+    )
+  }
+
+  if (isError || !quiz) {
+    return (
+      <div className="rounded-md border border-dashed border-border py-12 text-center text-sm text-muted-foreground">
+        No quiz available for this lesson.
+      </div>
+    )
+  }
+
+  return <QuizPlayer quiz={quiz} courseId={courseId} />
 }
