@@ -39,6 +39,6 @@ Foundation (no deps)
 | 11     | Discussion Backend     | ✅ done        | Discussion                               | Lessons, Auth         | specs/sprint-11-discussion-backend/SPEC.md  |
 | 12     | Discussion Frontend    | ✅ done        | —                                        | Discussion Backend    | specs/sprint-12-discussion-frontend/SPEC.md |
 | 13     | Reports                | ✅ done      | —                                        | All core features     | specs/sprint-13-reports/SPEC.md             |
-| 14     | CI/CD                  | 🔲 not-started | —                                        | All features          | specs/sprint-14-cicd/SPEC.md                |
+| 14     | CI/CD                  | ✅ done        | —                                        | All features          | specs/sprint-14-cicd/SPEC.md                |
 | 15     | Production             | 🔲 not-started | —                                        | CI/CD                 | specs/sprint-15-production/SPEC.md          |
 | 16     | Pilot Launch           | 🔲 not-started | —                                        | Production            | specs/sprint-16-pilot/SPEC.md               |

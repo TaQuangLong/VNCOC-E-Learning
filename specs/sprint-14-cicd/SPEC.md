@@ -104,14 +104,19 @@ None.
 
 ## Archive
 
-### Status: 🔲 Not Started
-### Completed: —
+### Status: ✅ Complete
+### Completed: 2026-05-19
 
 ### What Was Built
-_To be filled after sprint completes._
+- `.github/workflows/ci.yml` — updated with backend test step (`dotnet test`)
+- `.github/workflows/cd.yml` — builds and pushes API and frontend Docker images to GHCR (tagged with git SHA and `latest`), deploys to EC2 via SSH, health-checks `/api/health` with 3 retries (10s apart), and auto-rolls back to the previous image tag on failure
+- `docker-compose.prod.yml` — production compose file using pre-built GHCR images (`GHCR_ORG` + `IMAGE_TAG` env vars); no `build:` context
+- `deploy/rollback.sh` — manual rollback script for EC2; reads `.previous-image-tag` and re-deploys
 
 ### Known Issues
-_To be filled after sprint completes._
+_None._
 
 ### Notes
-_To be filled after sprint completes._
+- Migrations run automatically on app startup via `db.Database.MigrateAsync()` — no separate migration step needed in CD
+- GitHub Secrets required before first CD run: `EC2_HOST`, `EC2_USER`, `EC2_SSH_KEY`, `GHCR_USERNAME`, `GHCR_TOKEN`, `POSTGRES_PASSWORD`, `JWT_SECRET`, `APP_DOMAIN`
+- Copy `docker-compose.prod.yml` and `deploy/rollback.sh` to `/deploy/` on EC2; create a `.env` file there with production secrets
