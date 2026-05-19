@@ -96,8 +96,10 @@ _Update this file each sprint as new endpoints are implemented._
 ## Reports
 
 | Method | Path                                            | Auth | Roles             | Sprint | Status      |
-|--------|--------------------------------------------------|------|-------------------|--------|-------------|
-| GET    | /api/admin/reports/overview                     | Yes  | Admin, SuperAdmin | 13     | not-started |
+|--------|--------------------------------------------------|------|-------------------|--------|--------------|
+| GET    | /api/admin/reports/overview                     | Yes  | Admin, SuperAdmin | 13     | ✅ done     |
+| GET    | /api/admin/reports/courses/{courseId}/learners  | Yes  | Admin, SuperAdmin | 13     | ✅ done     |
+| GET    | /api/admin/reports/users/{userId}/progress      | Yes  | Admin, SuperAdmin | 13     | ✅ done     |
 | GET    | /api/admin/reports/courses/{courseId}/learners  | Yes  | Admin, SuperAdmin | 13     | not-started |
 | GET    | /api/admin/reports/users/{userId}/progress      | Yes  | Admin, SuperAdmin | 13     | not-started |
 

@@ -16,38 +16,22 @@ produces a layered review with a checklist at each layer.
 
 ---
 
-## Context — Graph-First (token-efficient)
-
-Before reviewing, run this once in the terminal to get the exact file list:
-```bash
-python graphifyy/gq.py --context {featureName}
-```
-Then attach only those files to this chat with `#file:`. This replaces loading
-`api-map.md`, `entities.md`, and `dependency-graph.md` separately.
+## Context
 
 Always load:
 - `.github/copilot-instructions.md` — coding rules and architecture constraints
-
-If `graphify-out/graph.json` is stale (code changed since last run):
-```bash
-graphify .      # re-scan the project
-```
+- `knowledge-graph/api-map.md` — route table, auth, and roles
+- `knowledge-graph/entities.md` — entity definitions and relationships
 
 ---
 
 ## Step 1 — Resolve Feature Files
 
-If the user already attached files from `gq.py --context`, use those directly —
-skip all file searching.
+Search the workspace for files related to the feature name:
+- `backend/src/ChurchLearn.Api/Features/{FeatureName}/`
+- `frontend/src/features/{featureName}/`
 
-Otherwise query the graph:
-```bash
-python graphifyy/gq.py --context {featureName}
-# or just list files:
-python graphifyy/gq.py {featureName}
-```
-
-Expected nodes to find for any complete feature:
+Expected files to find for any complete feature:
 
 | Node type | Meaning | Expected location |
 |-----------|---------|-------------------|
@@ -310,15 +294,6 @@ After reviewing, verify both the hand-written and auto-generated graphs:
 - `knowledge-graph/api-map.md` — does the route table reflect current routes, auth, and roles?
 - `knowledge-graph/entities.md` — are new entities or fields documented?
 - `knowledge-graph/dependency-graph.md` — is sprint status accurate?
-
-**Auto-generated (re-run to refresh):**
-```bash
-graphify .     # rebuild graph.json + graph.html + GRAPH_REPORT.md
-```
-Check `graphify-out/GRAPH_REPORT.md` for:
-- New isolated nodes (potential dead code from this feature)
-- Endpoint/API-call mismatch count — should not increase
-- Hub nodes — new files with unusually high edge counts
 
 ---
 

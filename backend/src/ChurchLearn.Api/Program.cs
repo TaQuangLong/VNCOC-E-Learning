@@ -10,6 +10,7 @@ using ChurchLearn.Api.Features.Lessons;
 using ChurchLearn.Api.Features.Progress;
 using ChurchLearn.Api.Features.Discussions;
 using ChurchLearn.Api.Features.Quizzes;
+using ChurchLearn.Api.Features.Reports;
 using ChurchLearn.Api.Features.Users;
 using ChurchLearn.Api.Infrastructure.Email;
 using ChurchLearn.Api.Infrastructure.Identity;
@@ -126,6 +127,7 @@ try
     builder.Services.AddProgressFeature();
     builder.Services.AddQuizzesFeature();
     builder.Services.AddDiscussionsFeature();
+    builder.Services.AddReportsFeature();
 
     var app = builder.Build();
 
@@ -162,6 +164,7 @@ try
     app.MapProgressEndpoints();
     app.MapQuizzesEndpoints();
     app.MapDiscussionsEndpoints();
+    app.MapReportsEndpoints();
 
     await app.RunAsync();
 }

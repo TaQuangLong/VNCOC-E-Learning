@@ -4,6 +4,7 @@
     "/^dotnet build src/ChurchLearn\\.Api/ChurchLearn\\.Api\\.csproj 2>&1 \\| grep -E \"Error\\\\\\(s\\\\\\)\"$/": {
       "approve": true,
       "matchCommandLine": true
+
     }
   }
 }

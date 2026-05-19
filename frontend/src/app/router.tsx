@@ -11,6 +11,9 @@ import EditCoursePage from '@/pages/admin/EditCoursePage'
 import AdminLessonsPage from '@/pages/admin/AdminLessonsPage'
 import CreateLessonPage from '@/pages/admin/CreateLessonPage'
 import EditLessonPage from '@/pages/admin/EditLessonPage'
+import AdminDashboardPage from '@/pages/admin/AdminDashboardPage'
+import CourseLearnersPage from '@/pages/admin/CourseLearnersPage'
+import UserProgressPage from '@/pages/admin/UserProgressPage'
 import LearnPage from '@/pages/student/LearnPage'
 import LearnRedirectPage from '@/pages/student/LearnRedirectPage'
 import MyLearningPage from '@/pages/student/MyLearningPage'
@@ -119,6 +122,32 @@ export default function AppRouter() {
           element={
             <AdminRoute>
               <EditLessonPage />
+            </AdminRoute>
+          }
+        />
+
+        {/* Admin — dashboard & reports */}
+        <Route
+          path="/admin/dashboard"
+          element={
+            <AdminRoute>
+              <AdminDashboardPage />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/reports/courses/:courseId/learners"
+          element={
+            <AdminRoute>
+              <CourseLearnersPage />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/reports/users/:userId/progress"
+          element={
+            <AdminRoute>
+              <UserProgressPage />
             </AdminRoute>
           }
         />

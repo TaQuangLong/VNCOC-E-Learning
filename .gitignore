@@ -29,6 +29,4 @@ Thumbs.db
 logs/
 *.log
 
-# Graphify — dev tooling and generated output
-graphifyy/
-graphify-out/
+
