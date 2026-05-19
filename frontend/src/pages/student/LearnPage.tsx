@@ -11,6 +11,7 @@ import PdfLink from '@/features/lessons/players/PdfLink'
 import { Button } from '@/components/ui/button'
 import { useLessonQuiz } from '@/features/quiz/api'
 import QuizPlayer from '@/features/quiz/QuizPlayer'
+import DiscussionList from '@/features/discussion/DiscussionList'
 
 export default function LearnPage() {
   const { courseId: courseIdParam, lessonId: lessonIdParam } = useParams<{
@@ -51,7 +52,7 @@ export default function LearnPage() {
     courseProgress?.lessons.filter((l) => l.isCompleted).map((l) => l.lessonId) ?? []
   const isCurrentLessonCompleted = completedLessonIds.includes(lessonId)
 
-  const [activeTab, setActiveTab] = useState<'content' | 'quiz'>('content')
+  const [activeTab, setActiveTab] = useState<'content' | 'quiz' | 'discussion'>('content')
 
   return (
     <div className="flex min-h-screen flex-col bg-background">
@@ -134,6 +135,11 @@ export default function LearnPage() {
                   isActive={activeTab === 'quiz'}
                   onClick={() => setActiveTab('quiz')}
                 />
+                <TabButton
+                  label="Discussion"
+                  isActive={activeTab === 'discussion'}
+                  onClick={() => setActiveTab('discussion')}
+                />
               </div>
 
               {/* Content tab */}
@@ -209,6 +215,11 @@ export default function LearnPage() {
               {/* Quiz tab */}
               {activeTab === 'quiz' && (
                 <QuizTab lessonId={lessonId} courseId={courseId} />
+              )}
+
+              {/* Discussion tab */}
+              {activeTab === 'discussion' && (
+                <DiscussionList lessonId={lessonId} />
               )}
 
               {/* Navigation (always visible) */}
