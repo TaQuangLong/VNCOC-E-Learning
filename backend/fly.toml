@@ -1,0 +1,49 @@
+# Fly.io config for ChurchLearn API
+# App name must be unique across all of Fly.io — change "churchlearn-api" to something unique.
+#
+# One-time setup (run from /backend):
+#   fly apps create churchlearn-api
+#   fly postgres create --name churchlearn-db --region sin
+#   fly postgres attach churchlearn-db --app churchlearn-api   # sets DATABASE_URL secret
+#   fly secrets set --app churchlearn-api \
+#     Jwt__Secret="<long-random-string>" \
+#     Jwt__Issuer="https://churchlearn-api.fly.dev" \
+#     Jwt__Audience="https://churchlearn-api.fly.dev" \
+#     Cors__AllowedOrigins__0="https://churchlearn-frontend.fly.dev"
+#   fly secrets set --app churchlearn-api \
+#     ConnectionStrings__DefaultConnection="<postgres-connection-string>"
+#
+# First deploy: fly deploy --remote-only (from /backend)
+
+app = "churchlearn-api"
+primary_region = "sin"
+
+[build]
+  dockerfile = "src/ChurchLearn.Api/Dockerfile"
+
+[env]
+  ASPNETCORE_ENVIRONMENT = "Production"
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = "stop"
+  auto_start_machines = true
+  min_machines_running = 0
+
+  [http_service.concurrency]
+    type = "connections"
+    hard_limit = 25
+    soft_limit = 20
+
+[[http_service.checks]]
+  grace_period = "15s"
+  interval = "30s"
+  method = "GET"
+  path = "/api/health"
+  timeout = "5s"
+
+[[vm]]
+  memory = "256mb"
+  cpu_kind = "shared"
+  cpus = 1

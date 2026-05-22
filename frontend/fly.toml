@@ -1,0 +1,31 @@
+# Fly.io config for ChurchLearn Frontend
+# App name must be unique across all of Fly.io — change "churchlearn-frontend" to something unique.
+#
+# One-time setup (run from /frontend):
+#   fly apps create churchlearn-frontend
+#
+# Update VITE_API_URL below to match your actual API app URL before first deploy.
+#
+# First deploy: fly deploy --remote-only (from /frontend)
+
+app = "churchlearn-frontend"
+primary_region = "sin"
+
+[build]
+  dockerfile = "Dockerfile"
+
+  [build.args]
+    # Must match your API app's public URL
+    VITE_API_URL = "https://churchlearn-api.fly.dev/api"
+
+[http_service]
+  internal_port = 80
+  force_https = true
+  auto_stop_machines = "stop"
+  auto_start_machines = true
+  min_machines_running = 0
+
+[[vm]]
+  memory = "256mb"
+  cpu_kind = "shared"
+  cpus = 1

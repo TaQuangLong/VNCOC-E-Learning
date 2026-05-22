@@ -23,7 +23,7 @@ services:
       Jwt__Secret: ${JWT_SECRET}
       Jwt__Issuer: https://${APP_DOMAIN}
       Jwt__Audience: https://${APP_DOMAIN}
-      Cors__AllowedOrigins__0: https://${APP_DOMAIN}
+      Cors__AllowedOrigins__0: ${APP_FRONTEND_ORIGIN}
     ports:
       - "5000:8080"
     depends_on:
