@@ -15,8 +15,8 @@ primary_region = "sin"
   dockerfile = "Dockerfile"
 
   [build.args]
-    # Must match your API app's public URL
-    VITE_API_URL = "https://churchlearn-api.fly.dev/api"
+    # Must match your API app's public URL (no trailing /api — api-client.ts appends it)
+    VITE_API_URL = "https://churchlearn-api.fly.dev"
 
 [http_service]
   internal_port = 80
