@@ -21,20 +21,38 @@ apiClient.interceptors.request.use((config) => {
   return config
 })
 
+// Singleton refresh promise — prevents multiple concurrent refresh calls
+let refreshPromise: Promise<string> | null = null
+
+function doRefresh(): Promise<string> {
+  if (!refreshPromise) {
+    refreshPromise = axios
+      .post<{ accessToken: string }>(
+        `${import.meta.env.VITE_API_URL}/api/auth/refresh`,
+        {},
+        { withCredentials: true }
+      )
+      .then((r) => r.data.accessToken)
+      .finally(() => {
+        refreshPromise = null
+      })
+  }
+  return refreshPromise
+}
+
 apiClient.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config
+    // Skip refresh if this request IS the refresh call (avoid infinite loop)
+    if (originalRequest.url?.includes('/auth/refresh')) {
+      return Promise.reject(error)
+    }
     if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true
       try {
-        const { data } = await axios.post<{ accessToken: string }>(
-          `${import.meta.env.VITE_API_URL}/api/auth/refresh`,
-          {},
-          { withCredentials: true }
-        )
-        // Update token and retry original request
-        originalRequest.headers.Authorization = `Bearer ${data.accessToken}`
+        const newToken = await doRefresh()
+        originalRequest.headers.Authorization = `Bearer ${newToken}`
         return apiClient(originalRequest)
       } catch {
         window.location.href = '/login'

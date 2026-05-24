@@ -1,3 +1,4 @@
+import axios from 'axios'
 import { createContext, useCallback, useEffect, useRef, useState, type ReactNode } from 'react'
 import { authApi } from '@/features/auth/api'
 import { setAccessTokenGetter } from '@/lib/api-client'
@@ -30,13 +31,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setAccessTokenGetter(() => tokenRef.current)
   }, [])
 
-  // On mount, try to silently restore session via refresh cookie
+  // On mount, try to silently restore session via refresh cookie.
+  // Use bare axios (not apiClient) to avoid triggering the 401 interceptor.
   useEffect(() => {
     const restore = async () => {
       try {
-        const { accessToken: newToken } = await authApi.refresh()
-        setAccessToken(newToken)
-        // Fetch user info with the new token — api-client interceptor will set it
+        const { data } = await axios.post<{ accessToken: string }>(
+          `${import.meta.env.VITE_API_URL}/api/auth/refresh`,
+          {},
+          { withCredentials: true }
+        )
+        setAccessToken(data.accessToken)
         const me = await authApi.me()
         setUser(me)
       } catch {

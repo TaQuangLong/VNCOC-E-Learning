@@ -14,7 +14,7 @@ public record CreateLessonRequest(
     string? YouTubeUrl,
     string? TextContent,
     string? PdfUrl,
-    int DurationSeconds,
+    int? DurationMinutes,
     int OrderIndex,
     bool IsPreview) : ILessonRequest;
 
@@ -51,7 +51,7 @@ public class CreateLessonHandler(AppDbContext db, IValidator<CreateLessonRequest
             YouTubeUrl = request.YouTubeUrl,
             TextContent = request.TextContent,
             PdfUrl = request.PdfUrl,
-            DurationSeconds = request.DurationSeconds,
+            DurationMinutes = request.DurationMinutes,
             OrderIndex = request.OrderIndex,
             IsPreview = request.IsPreview,
         };

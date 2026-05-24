@@ -13,7 +13,7 @@ public class Lesson
     public string? YouTubeUrl { get; set; }
     public string? TextContent { get; set; }
     public string? PdfUrl { get; set; }
-    public int DurationSeconds { get; set; }
+    public int? DurationMinutes { get; set; }
     public int OrderIndex { get; set; }
     public bool IsPreview { get; set; }
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;

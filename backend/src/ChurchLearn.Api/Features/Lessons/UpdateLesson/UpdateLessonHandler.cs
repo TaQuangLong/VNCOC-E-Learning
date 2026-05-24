@@ -12,7 +12,7 @@ public record UpdateLessonRequest(
     string? YouTubeUrl,
     string? TextContent,
     string? PdfUrl,
-    int DurationSeconds,
+    int? DurationMinutes,
     int OrderIndex,
     bool IsPreview) : ILessonRequest;
 
@@ -44,7 +44,7 @@ public class UpdateLessonHandler(AppDbContext db, IValidator<UpdateLessonRequest
         lesson.YouTubeUrl = request.YouTubeUrl;
         lesson.TextContent = request.TextContent;
         lesson.PdfUrl = request.PdfUrl;
-        lesson.DurationSeconds = request.DurationSeconds;
+        lesson.DurationMinutes = request.DurationMinutes;
         lesson.OrderIndex = request.OrderIndex;
         lesson.IsPreview = request.IsPreview;
         lesson.UpdatedAt = DateTime.UtcNow;

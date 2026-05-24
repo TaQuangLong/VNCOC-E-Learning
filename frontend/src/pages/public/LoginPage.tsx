@@ -14,7 +14,12 @@ export default function LoginPage() {
     handleSubmit,
     formState: { errors, isSubmitting },
     setError,
-  } = useForm<LoginInput>({ resolver: zodResolver(loginSchema) })
+  } = useForm<LoginInput>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: import.meta.env.DEV
+      ? { email: import.meta.env.VITE_DEV_EMAIL ?? '', password: import.meta.env.VITE_DEV_PASSWORD ?? '' }
+      : undefined,
+  })
 
   const onSubmit = async (data: LoginInput) => {
     try {

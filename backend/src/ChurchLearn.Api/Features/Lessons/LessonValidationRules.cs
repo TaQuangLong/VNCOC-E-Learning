@@ -14,7 +14,7 @@ internal static class LessonValidationRules
     {
         validator.RuleFor(x => x.Title).NotEmpty().MaximumLength(300);
         validator.RuleFor(x => x.Description).MaximumLength(1000).When(x => x.Description != null);
-        validator.RuleFor(x => x.DurationSeconds).GreaterThanOrEqualTo(0);
+        validator.RuleFor(x => x.DurationMinutes).GreaterThanOrEqualTo(0).When(x => x.DurationMinutes.HasValue);
         validator.RuleFor(x => x.OrderIndex).GreaterThanOrEqualTo(0);
 
         validator.When(x => x.ContentType == ContentType.Video, () =>
@@ -50,6 +50,6 @@ internal interface ILessonRequest
     string? YouTubeUrl { get; }
     string? TextContent { get; }
     string? PdfUrl { get; }
-    int DurationSeconds { get; }
+    int? DurationMinutes { get; }
     int OrderIndex { get; }
 }

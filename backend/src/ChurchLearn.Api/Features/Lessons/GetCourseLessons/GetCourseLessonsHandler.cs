@@ -11,7 +11,7 @@ public record LessonSummary(
     string? Description,
     string ContentType,
     int OrderIndex,
-    int DurationSeconds,
+    int? DurationMinutes,
     bool IsPreview);
 
 public class GetCourseLessonsHandler(AppDbContext db)
@@ -31,7 +31,7 @@ public class GetCourseLessonsHandler(AppDbContext db)
                 l.Description,
                 l.ContentType.ToString(),
                 l.OrderIndex,
-                l.DurationSeconds,
+                l.DurationMinutes,
                 l.IsPreview))
             .ToListAsync(cancellationToken);
 
