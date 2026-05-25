@@ -70,6 +70,29 @@ backend/src/ChurchLearn.Api/
 
 ---
 
+## URLs
+
+### Local Development
+
+| Service | URL |
+|---|---|
+| Frontend | http://localhost:5173 |
+| API | http://localhost:5251 |
+| API Docs (Scalar) | http://localhost:5251/scalar/v1 |
+| PostgreSQL | `localhost:5432` |
+
+> When running via Docker Compose the API is proxied to port **5000** instead of 5251.
+
+### Fly.io (Production)
+
+| Service | URL |
+|---|---|
+| Frontend | https://churchlearn-frontend.fly.dev |
+| API | https://churchlearn-api.fly.dev |
+| API Docs (Scalar) | https://churchlearn-api.fly.dev/scalar/v1 |
+
+---
+
 ## Getting Started
 
 ### Prerequisites
@@ -161,32 +184,6 @@ Backend config (`appsettings.json`) also reads:
 | `PUT` | `/api/admin/users/{id}/roles` | ✓ | SuperAdmin |
 
 Full endpoint map: [`knowledge-graph/api-map.md`](knowledge-graph/api-map.md)
-
----
-
-## Sprint Progress
-
-| Sprint | Feature | Status |
-|---|---|---|
-| 0 | Project Preparation | ✅ Complete |
-| 1 | Solution Setup & Docker | ✅ Complete |
-| 2 | Authentication & Roles | ✅ Complete |
-| 3 | Course Management Backend | 🔲 Not Started |
-| 4 | Course Management Frontend | 🔲 Not Started |
-| 5 | Lesson Management Backend | 🔲 Not Started |
-| 6 | Learning Page Frontend | 🔲 Not Started |
-| 7 | Enrollment & My Learning | 🔲 Not Started |
-| 8 | Progress Tracking | 🔲 Not Started |
-| 9 | Quiz Backend | 🔲 Not Started |
-| 10 | Quiz Frontend | 🔲 Not Started |
-| 11 | Discussion Backend | 🔲 Not Started |
-| 12 | Discussion Frontend | 🔲 Not Started |
-| 13 | Admin Reports & Dashboard | 🔲 Not Started |
-| 14 | GitHub Actions CI/CD | 🔲 Not Started |
-| 15 | Production Deployment (EC2) | 🔲 Not Started |
-| 16 | Testing & Pilot Launch | 🔲 Not Started |
-
-Full progress dashboard: [`specs/PROGRESS.md`](specs/PROGRESS.md)
 
 ---
 
