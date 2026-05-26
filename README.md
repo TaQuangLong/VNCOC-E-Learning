@@ -198,6 +198,64 @@ Full endpoint map: [`knowledge-graph/api-map.md`](knowledge-graph/api-map.md)
 
 ---
 
+## Testing in Production
+
+Use the following steps to smoke-test the live deployment at **https://churchlearn-frontend.fly.dev**.
+
+---
+
+### As a Student
+
+| # | Step | Where | Expected |
+|---|------|--------|----------|
+| 1 | Open the site | `/courses` | Course list loads; no login required |
+| 2 | Register a new account | `/register` | Form submits; auto-logged in as Student |
+| 3 | Log in with the new account | `/login` | Redirected to `/courses`; name visible in nav |
+| 4 | Open any published course | `/courses/:slug` | Course details, lesson list, and **Enroll** button visible |
+| 5 | Enroll in the course | `/courses/:slug` | Enrollment confirmed; **Start Learning** button appears |
+| 6 | Open a lesson | `/learn/:courseId/lessons/:lessonId` | Lesson content (video/text/PDF) renders correctly |
+| 7 | Complete the lesson | Navigate to next lesson | Lesson marked complete (✓ in sidebar); progress bar updates |
+| 8 | Take a quiz (if present) | Lesson page → Take Quiz | Questions load; score returned after submit |
+| 9 | Post a discussion comment | Lesson page → Discussion | Comment appears immediately |
+| 10 | Check overall progress | `/my-learning` | Enrolled course shown with correct completion % |
+| 11 | Log out and log back in | `/login` | Session restored; progress still visible |
+| 12 | Test forgot password flow | `/login` → Forgot Password → `/reset-password` | Reset email received; password updated; login works |
+
+---
+
+### As an Admin
+
+Log in with the seeded **SuperAdmin** account (credentials from `SuperAdmin:Email` / `SuperAdmin:Password` env vars), then promote a test user to Admin if needed via `PUT /api/admin/users/{id}/roles`.
+
+| # | Step | Where | Expected |
+|---|------|--------|----------|
+| 1 | Log in as Admin/SuperAdmin | `/login` | Admin nav items visible |
+| 2 | Open admin course list | `/admin/courses` | All courses listed; **New Course** button present |
+| 3 | Create a new course (Draft) | `/admin/courses/new` | Course saved; status = Draft; not visible to students |
+| 4 | Add at least one lesson | `/admin/courses/:courseId/lessons/new` | Lesson saved; appears in the lesson list |
+| 5 | Add a quiz to the lesson | Lesson edit page → Add Quiz | Quiz saved with at least one question and passing score |
+| 6 | Publish the course | Edit course → Status = Published → Save | Course now visible on `/courses` for students |
+| 7 | Verify student can see and enroll | Open incognito, go to `/courses` | New course card appears; student can enroll |
+| 8 | View enrolled learners | `/admin/courses/:courseId/learners` | Enrolled users listed with enrollment date and progress % |
+| 9 | View a specific learner's progress | `/admin/users/:userId/progress` | Lesson-by-lesson completion breakdown shown |
+| 10 | View admin dashboard | `/admin` | Stats visible: user count, course count, enrollments, quiz attempts, top 5 courses |
+| 11 | Assign a role (SuperAdmin only) | `PUT /api/admin/users/{id}/roles` via Scalar or API client | Role updated; user gains new permissions on next login |
+| 12 | Set course back to Draft | Edit course → Status = Draft → Save | Course hidden from `/courses`; enrolled students lose access |
+
+---
+
+### API Smoke Test (Scalar UI)
+
+Open **https://churchlearn-api.fly.dev/scalar/v1** and verify:
+
+1. `POST /api/auth/login` returns `200` with an access token
+2. `GET /api/auth/me` with the token returns the current user's profile
+3. `GET /api/courses` returns the list of published courses
+4. `POST /api/auth/refresh` (cookie present) returns a new access token
+5. `POST /api/auth/logout` clears the refresh token cookie
+
+---
+
 ## License
 
 Private — VNCOC Church Internal Use
