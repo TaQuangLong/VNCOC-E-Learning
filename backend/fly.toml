@@ -23,6 +23,7 @@ primary_region = "sin"
 
 [env]
   ASPNETCORE_ENVIRONMENT = "Production"
+  Seed__DemoData = "true"
 
 [http_service]
   internal_port = 8080

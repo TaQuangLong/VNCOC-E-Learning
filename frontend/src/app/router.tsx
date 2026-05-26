@@ -12,6 +12,7 @@ import AdminLessonsPage from '@/pages/admin/AdminLessonsPage'
 import CreateLessonPage from '@/pages/admin/CreateLessonPage'
 import EditLessonPage from '@/pages/admin/EditLessonPage'
 import AdminDashboardPage from '@/pages/admin/AdminDashboardPage'
+import StudentDashboardPage from '@/pages/student/StudentDashboardPage'
 import CourseLearnersPage from '@/pages/admin/CourseLearnersPage'
 import UserProgressPage from '@/pages/admin/UserProgressPage'
 import LearnPage from '@/pages/student/LearnPage'
@@ -41,7 +42,7 @@ export default function AppRouter() {
           path="/dashboard"
           element={
             <ProtectedRoute>
-              <div>Dashboard (coming soon)</div>
+              <StudentDashboardPage />
             </ProtectedRoute>
           }
         />

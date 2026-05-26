@@ -60,8 +60,9 @@ public static class DatabaseSeeder
                 await userManager.AddToRoleAsync(existingUser, AppRoles.SuperAdmin);
         }
 
-        // Course seeding — Development and Staging only
-        if (env.IsDevelopment() || env.IsStaging())
+        // Course seeding — Development, Staging, or when demo data flag is set (e.g. fly.io demo)
+        var seedDemoData = config.GetValue<bool>("Seed:DemoData");
+        if (env.IsDevelopment() || env.IsStaging() || seedDemoData)
         {
             var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
             await SeedCoursesAsync(db);
