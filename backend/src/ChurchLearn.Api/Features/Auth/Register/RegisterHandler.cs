@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace ChurchLearn.Api.Features.Auth.Register;
 
-public record AuthResponse(string AccessToken, string Email, string DisplayName, string[] Roles);
+public record AuthResponse(string UserId, string AccessToken, string Email, string DisplayName, string[] Roles);
 
 public class RegisterHandler(
     UserManager<AppUser> userManager,
@@ -43,6 +43,6 @@ public class RegisterHandler(
 
         var roles = new[] { AppRoles.Student };
         var accessToken = jwtTokenService.GenerateAccessToken(user, roles);
-        return Result<AuthResponse>.Success(new AuthResponse(accessToken, user.Email!, user.DisplayName, roles));
+        return Result<AuthResponse>.Success(new AuthResponse(user.Id, accessToken, user.Email!, user.DisplayName, roles));
     }
 }

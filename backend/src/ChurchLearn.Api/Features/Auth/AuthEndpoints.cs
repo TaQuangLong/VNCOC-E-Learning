@@ -54,9 +54,14 @@ public static class AuthEndpoints
 
         group.MapPost("/logout", (HttpContext httpContext) =>
         {
-            httpContext.Response.Cookies.Delete(RefreshTokenCookieName);
+            httpContext.Response.Cookies.Delete(RefreshTokenCookieName, new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.Strict,
+            });
             return Results.NoContent();
-        }).RequireAuthorization();
+        });
 
         group.MapPost("/refresh", async (
             HttpContext httpContext,

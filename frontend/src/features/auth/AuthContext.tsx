@@ -6,7 +6,6 @@ import type { AuthUser, LoginInput, RegisterInput } from '@/features/auth/types'
 
 interface AuthContextValue {
   user: AuthUser | null
-  accessToken: string | null
   isLoading: boolean
   login: (data: LoginInput) => Promise<string[]>
   register: (data: RegisterInput) => Promise<void>
@@ -41,6 +40,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           {},
           { withCredentials: true }
         )
+        // Update ref directly so the next API call (me) picks up the token immediately,
+        // without waiting for the React re-render cycle to run the sync effect.
+        tokenRef.current = data.accessToken
         setAccessToken(data.accessToken)
         const me = await authApi.me()
         setUser(me)
@@ -55,9 +57,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const login = useCallback(async (data: LoginInput): Promise<string[]> => {
     const response = await authApi.login(data)
+    tokenRef.current = response.accessToken
     setAccessToken(response.accessToken)
     setUser({
-      userId: '',
+      userId: response.userId,
       email: response.email,
       displayName: response.displayName,
       roles: response.roles,
@@ -67,9 +70,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const register = useCallback(async (data: RegisterInput) => {
     const response = await authApi.register(data)
+    tokenRef.current = response.accessToken
     setAccessToken(response.accessToken)
     setUser({
-      userId: '',
+      userId: response.userId,
       email: response.email,
       displayName: response.displayName,
       roles: response.roles,
@@ -79,6 +83,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const logout = useCallback(async () => {
     try {
       await authApi.logout()
+    } catch {
+      // Server-side logout failure is non-fatal; clean up client state regardless
     } finally {
       setUser(null)
       setAccessToken(null)
@@ -86,7 +92,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [])
 
   return (
-    <AuthContext.Provider value={{ user, accessToken, isLoading, login, register, logout }}>
+    <AuthContext.Provider value={{ user, isLoading, login, register, logout }}>
       {children}
     </AuthContext.Provider>
   )

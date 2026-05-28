@@ -1,3 +1,4 @@
+import { useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '@/hooks/useAuth'
 import {
@@ -33,10 +34,10 @@ export default function UserAvatarMenu() {
 
   const initials = getInitials(user.displayName, user.email)
 
-  const handleLogout = async () => {
+  const handleLogout = useCallback(async () => {
     await logout()
     navigate('/login')
-  }
+  }, [logout, navigate])
 
   return (
     <DropdownMenu>
@@ -52,14 +53,11 @@ export default function UserAvatarMenu() {
           {user.email}
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onSelect={() => navigate('/my-learning')}>
+        <DropdownMenuItem onClick={() => navigate('/my-learning')}>
           My Learning
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem
-          onSelect={handleLogout}
-          className="text-destructive focus:text-destructive"
-        >
+        <DropdownMenuItem variant="destructive" onClick={handleLogout}>
           Logout
         </DropdownMenuItem>
       </DropdownMenuContent>

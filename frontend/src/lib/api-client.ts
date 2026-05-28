@@ -44,8 +44,12 @@ apiClient.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config
-    // Skip refresh if this request IS the refresh call (avoid infinite loop)
-    if (originalRequest.url?.includes('/auth/refresh')) {
+    // Skip refresh for auth endpoints that don't benefit from a retry
+    if (
+      originalRequest.url?.includes('/auth/refresh') ||
+      originalRequest.url?.includes('/auth/login') ||
+      originalRequest.url?.includes('/auth/register')
+    ) {
       return Promise.reject(error)
     }
     if (error.response?.status === 401 && !originalRequest._retry) {
@@ -55,7 +59,8 @@ apiClient.interceptors.response.use(
         originalRequest.headers.Authorization = `Bearer ${newToken}`
         return apiClient(originalRequest)
       } catch {
-        window.location.href = '/login'
+        // Refresh failed — reject so callers (e.g. AuthContext) can handle navigation cleanly
+        return Promise.reject(error)
       }
     }
     return Promise.reject(error)

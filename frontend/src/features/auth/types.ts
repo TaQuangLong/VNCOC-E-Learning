@@ -34,6 +34,7 @@ export interface AuthUser {
 }
 
 export interface LoginResponse {
+  userId: string
   accessToken: string
   email: string
   displayName: string
@@ -41,6 +42,7 @@ export interface LoginResponse {
 }
 
 export interface RegisterResponse {
+  userId: string
   accessToken: string
   email: string
   displayName: string

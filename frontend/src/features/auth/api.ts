@@ -20,9 +20,6 @@ export const authApi = {
 
   me: () => apiClient.get<AuthUser>('/auth/me').then((r) => r.data),
 
-  refresh: () =>
-    apiClient.post<{ accessToken: string }>('/auth/refresh').then((r) => r.data),
-
   forgotPassword: (data: ForgotPasswordInput) =>
     apiClient.post('/auth/forgot-password', data).then((r) => r.data),
 
