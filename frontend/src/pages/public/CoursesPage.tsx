@@ -3,6 +3,7 @@ import { usePublishedCourses } from '@/features/courses/api'
 import CourseCard from '@/features/courses/CourseCard'
 import CourseCardSkeleton from '@/features/courses/CourseCardSkeleton'
 import { Button } from '@/components/ui/button'
+import UserAvatarMenu from '@/components/layout/UserAvatarMenu'
 
 export default function CoursesPage() {
   const [search, setSearch] = useState('')
@@ -33,11 +34,14 @@ export default function CoursesPage() {
     <div className="min-h-screen bg-background">
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="mb-8 space-y-2">
-          <h1 className="text-3xl font-bold">Course Catalog</h1>
-          <p className="text-muted-foreground">
-            Grow in faith through structured learning.
-          </p>
+        <div className="mb-8 flex items-start justify-between gap-4">
+          <div className="space-y-2">
+            <h1 className="text-3xl font-bold">Course Catalog</h1>
+            <p className="text-muted-foreground">
+              Grow in faith through structured learning.
+            </p>
+          </div>
+          <UserAvatarMenu />
         </div>
 
         {/* Filters */}

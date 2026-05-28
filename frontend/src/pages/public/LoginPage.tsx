@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button'
 export default function LoginPage() {
   const { login } = useAuth()
   const navigate = useNavigate()
+  const adminRoles = ['Admin', 'SuperAdmin']
 
   const {
     register,
@@ -23,8 +24,9 @@ export default function LoginPage() {
 
   const onSubmit = async (data: LoginInput) => {
     try {
-      await login(data)
-      navigate('/dashboard')
+      const roles = await login(data)
+      const isAdmin = roles.some((role) => adminRoles.includes(role))
+      navigate(isAdmin ? '/admin/dashboard' : '/dashboard')
     } catch (err: unknown) {
       const message =
         err instanceof Error ? err.message : 'Invalid email or password'

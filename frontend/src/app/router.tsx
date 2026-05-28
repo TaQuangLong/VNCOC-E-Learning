@@ -127,6 +127,16 @@ export default function AppRouter() {
           }
         />
 
+        {/* Admin — root redirect */}
+        <Route
+          path="/admin"
+          element={
+            <AdminRoute>
+              <Navigate to="/admin/dashboard" replace />
+            </AdminRoute>
+          }
+        />
+
         {/* Admin — dashboard & reports */}
         <Route
           path="/admin/dashboard"

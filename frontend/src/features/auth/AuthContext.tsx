@@ -8,7 +8,7 @@ interface AuthContextValue {
   user: AuthUser | null
   accessToken: string | null
   isLoading: boolean
-  login: (data: LoginInput) => Promise<void>
+  login: (data: LoginInput) => Promise<string[]>
   register: (data: RegisterInput) => Promise<void>
   logout: () => Promise<void>
 }
@@ -53,7 +53,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     restore()
   }, [])
 
-  const login = useCallback(async (data: LoginInput) => {
+  const login = useCallback(async (data: LoginInput): Promise<string[]> => {
     const response = await authApi.login(data)
     setAccessToken(response.accessToken)
     setUser({
@@ -62,6 +62,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       displayName: response.displayName,
       roles: response.roles,
     })
+    return response.roles
   }, [])
 
   const register = useCallback(async (data: RegisterInput) => {

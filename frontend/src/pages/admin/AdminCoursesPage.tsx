@@ -9,6 +9,7 @@ import {
 import CourseStatusBadge from '@/features/courses/CourseStatusBadge'
 import { Button } from '@/components/ui/button'
 import type { CourseStatus } from '@/features/courses/types'
+import UserAvatarMenu from '@/components/layout/UserAvatarMenu'
 
 type AlertMessage = { type: 'success' | 'error'; text: string }
 
@@ -62,9 +63,12 @@ export default function AdminCoursesPage() {
       {/* Header */}
       <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <h1 className="text-2xl font-bold">Courses</h1>
-        <Button onClick={() => navigate('/admin/courses/new')}>
-          + New Course
-        </Button>
+        <div className="flex items-center gap-3">
+          <Button onClick={() => navigate('/admin/courses/new')}>
+            + New Course
+          </Button>
+          <UserAvatarMenu />
+        </div>
       </div>
 
       {/* Alert */}

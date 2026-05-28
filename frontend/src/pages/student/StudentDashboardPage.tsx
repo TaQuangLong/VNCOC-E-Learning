@@ -4,6 +4,7 @@ import { useMyEnrolledCourses } from '@/features/enrollment/api'
 import { usePublishedCourses } from '@/features/courses/api'
 import type { MyEnrolledCourse } from '@/features/enrollment/types'
 import type { CourseSummary } from '@/features/courses/types'
+import UserAvatarMenu from '@/components/layout/UserAvatarMenu'
 
 // ─── Progress Bar ─────────────────────────────────────────────────────────────
 
@@ -200,6 +201,12 @@ export default function StudentDashboardPage() {
 
   return (
     <div className="mx-auto max-w-7xl space-y-10 px-4 py-8 sm:px-6 lg:px-8">
+
+      {/* ── Page header ── */}
+      <div className="flex items-center justify-between">
+        <h1 className="text-2xl font-bold">Dashboard</h1>
+        <UserAvatarMenu />
+      </div>
 
       {/* ── Hero: Continue Learning ── */}
       {!enrolledLoading && !enrolledError && (enrolledCourses?.length ?? 0) > 0 && (

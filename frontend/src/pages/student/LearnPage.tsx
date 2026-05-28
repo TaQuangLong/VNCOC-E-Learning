@@ -12,6 +12,7 @@ import { Button } from '@/components/ui/button'
 import { useLessonQuiz } from '@/features/quiz/api'
 import QuizPlayer from '@/features/quiz/QuizPlayer'
 import DiscussionList from '@/features/discussion/DiscussionList'
+import UserAvatarMenu from '@/components/layout/UserAvatarMenu'
 
 export default function LearnPage() {
   const { courseId: courseIdParam, lessonId: lessonIdParam } = useParams<{
@@ -83,6 +84,9 @@ export default function LearnPage() {
             {lesson.title}
           </span>
         )}
+        <div className="ml-auto">
+          <UserAvatarMenu />
+        </div>
       </header>
 
       {/* Body: sidebar + content */}
