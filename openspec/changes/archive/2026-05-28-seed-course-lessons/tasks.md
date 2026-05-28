@@ -1,16 +1,16 @@
 ## 1. SeedLessonsAsync — Method Scaffold
 
-- [ ] 1.1 Add private static `SeedLessonsAsync(AppDbContext db, CancellationToken ct)` method signature to `DatabaseSeeder`
-- [ ] 1.2 Call `await SeedLessonsAsync(db, ct)` in `SeedAsync` immediately after `await SeedCoursesAsync(db, ct)`
+- [x] 1.1 Add private static `SeedLessonsAsync(AppDbContext db, CancellationToken ct)` method signature to `DatabaseSeeder`
+- [x] 1.2 Call `await SeedLessonsAsync(db, ct)` in `SeedAsync` immediately after `await SeedCoursesAsync(db, ct)`
 
 ## 2. Idempotency and Course Lookup
 
-- [ ] 2.1 For each of the 15 course slugs, resolve the course `Id` via `FirstOrDefaultAsync(c => c.Slug == slug)` — skip if null
-- [ ] 2.2 Before inserting, check `AnyAsync(l => l.CourseId == courseId)` — skip the course if lessons already exist
+- [x] 2.1 For each of the 15 course slugs, resolve the course `Id` via `FirstOrDefaultAsync(c => c.Slug == slug)` — skip if null
+- [x] 2.2 Before inserting, check `AnyAsync(l => l.CourseId == courseId)` — skip the course if lessons already exist
 
 ## 3. Lesson Data — Foundations of Spiritual Growth
 
-- [ ] 3.1 Insert 6 lessons for slug `foundations-of-spiritual-growth`:
+- [x] 3.1 Insert 6 lessons for slug `foundations-of-spiritual-growth`:
   - OrderIndex 1 (Preview): "Introduction to Spiritual Disciplines" — `EQ84qkq2Q6s` (399s)
   - OrderIndex 2: "The Role of Prayer in Growth" — `O0MyKgMzWBk` (5173s)
   - OrderIndex 3: "Reading Scripture with Understanding" — `4l85ZMZXaG8` (3656s)
@@ -20,7 +20,7 @@
 
 ## 4. Lesson Data — Deep Roots: Advanced Spiritual Disciplines
 
-- [ ] 4.1 Insert 6 lessons for slug `deep-roots-advanced-spiritual-disciplines`:
+- [x] 4.1 Insert 6 lessons for slug `deep-roots-advanced-spiritual-disciplines`:
   - OrderIndex 1 (Preview): "Fasting and Solitude" — `Saw84fmOBBs` (3196s)
   - OrderIndex 2: "Contemplative Prayer" — `O0MyKgMzWBk` (5173s)
   - OrderIndex 3: "Spiritual Direction and Accountability" — `CtjdTNuzTzc` (3392s)
@@ -30,7 +30,7 @@
 
 ## 5. Lesson Data — Core Christian Doctrines
 
-- [ ] 5.1 Insert 6 lessons for slug `core-christian-doctrines`:
+- [x] 5.1 Insert 6 lessons for slug `core-christian-doctrines`:
   - OrderIndex 1 (Preview): "The Trinity Explained" — `NJHh5SRtF7g` (2969s)
   - OrderIndex 2: "The Nature of Christ" — `LpcXBQw1f_s` (3072s)
   - OrderIndex 3: "The Doctrine of Salvation" — `Saw84fmOBBs` (3196s)
@@ -40,7 +40,7 @@
 
 ## 6. Lesson Data — Systematic Theology Essentials
 
-- [ ] 6.1 Insert 6 lessons for slug `systematic-theology-essentials`:
+- [x] 6.1 Insert 6 lessons for slug `systematic-theology-essentials`:
   - OrderIndex 1 (Preview): "Bibliology — The Word of God" — `4l85ZMZXaG8` (3656s)
   - OrderIndex 2: "Theology Proper — Who Is God?" — `NJHh5SRtF7g` (2969s)
   - OrderIndex 3: "Christology — The Person of Christ" — `LpcXBQw1f_s` (3072s)
@@ -50,7 +50,7 @@
 
 ## 7. Lesson Data — The Early Church 100–500 AD
 
-- [ ] 7.1 Insert 6 lessons for slug `the-early-church-100-500-ad`:
+- [x] 7.1 Insert 6 lessons for slug `the-early-church-100-500-ad`:
   - OrderIndex 1 (Preview): "The Apostolic Fathers" — `FOgkX2wqGuQ` (179s)
   - OrderIndex 2: "The First Persecutions" — `rbxx65C2f_U` (236s)
   - OrderIndex 3: "Defining Orthodoxy — The Councils" — `EQ84qkq2Q6s` (399s)
@@ -60,7 +60,7 @@
 
 ## 8. Lesson Data — Reformation & Modern Christianity
 
-- [ ] 8.1 Insert 6 lessons for slug `reformation-and-modern-christianity`:
+- [x] 8.1 Insert 6 lessons for slug `reformation-and-modern-christianity`:
   - OrderIndex 1 (Preview): "Luther and the 95 Theses" — `EQ84qkq2Q6s` (399s)
   - OrderIndex 2: "Calvin and Reformed Theology" — `DTDdX3F7rao` (2366s)
   - OrderIndex 3: "The Counter-Reformation" — `pQ9CKq4xl9E` (2280s)
@@ -70,7 +70,7 @@
 
 ## 9. Lesson Data — Building a Christ-Centered Marriage
 
-- [ ] 9.1 Insert 6 lessons for slug `building-a-christ-centered-marriage`:
+- [x] 9.1 Insert 6 lessons for slug `building-a-christ-centered-marriage`:
   - OrderIndex 1 (Preview): "God's Design for Marriage" — `LpcXBQw1f_s` (3072s)
   - OrderIndex 2: "Communication and Listening Well" — `yaf4uGpe3gI` (3007s)
   - OrderIndex 3: "Conflict Resolution in Marriage" — `O0MyKgMzWBk` (5173s)
@@ -80,7 +80,7 @@
 
 ## 10. Lesson Data — Healthy Relationships in Community
 
-- [ ] 10.1 Insert 6 lessons for slug `healthy-relationships-in-community`:
+- [x] 10.1 Insert 6 lessons for slug `healthy-relationships-in-community`:
   - OrderIndex 1 (Preview): "What the Bible Says About Community" — `LpcXBQw1f_s` (3072s)
   - OrderIndex 2: "The Art of Listening and Empathy" — `yaf4uGpe3gI` (3007s)
   - OrderIndex 3: "Accountability and Genuine Friendship" — `CtjdTNuzTzc` (3392s)
@@ -90,7 +90,7 @@
 
 ## 11. Lesson Data — Servant Leadership in the Church
 
-- [ ] 11.1 Insert 6 lessons for slug `servant-leadership-in-the-church`:
+- [x] 11.1 Insert 6 lessons for slug `servant-leadership-in-the-church`:
   - OrderIndex 1 (Preview): "Jesus the Servant Leader" — `LpcXBQw1f_s` (3072s)
   - OrderIndex 2: "Discovering Your Spiritual Gifts" — `NJHh5SRtF7g` (2969s)
   - OrderIndex 3: "Leading with Humility" — `4l85ZMZXaG8` (3656s)
@@ -100,7 +100,7 @@
 
 ## 12. Lesson Data — Growing Your Ministry Team
 
-- [ ] 12.1 Insert 6 lessons for slug `growing-your-ministry-team`:
+- [x] 12.1 Insert 6 lessons for slug `growing-your-ministry-team`:
   - OrderIndex 1 (Preview): "Vision Casting for Your Ministry" — `EQ84qkq2Q6s` (399s)
   - OrderIndex 2: "Identifying and Recruiting Leaders" — `rbxx65C2f_U` (236s)
   - OrderIndex 3: "Delegation and Empowerment" — `O0MyKgMzWBk` (5173s)
@@ -110,7 +110,7 @@
 
 ## 13. Lesson Data — Walking Through the Old Testament
 
-- [ ] 13.1 Insert 6 lessons for slug `walking-through-the-old-testament`:
+- [x] 13.1 Insert 6 lessons for slug `walking-through-the-old-testament`:
   - OrderIndex 1 (Preview): "Creation, Fall, and the Promise" — `EQ84qkq2Q6s` (399s)
   - OrderIndex 2: "Abraham and the Covenant" — `rbxx65C2f_U` (236s)
   - OrderIndex 3: "Moses, the Law, and the Exodus" — `O0MyKgMzWBk` (5173s)
@@ -120,7 +120,7 @@
 
 ## 14. Lesson Data — Life of Christ: The Four Gospels
 
-- [ ] 14.1 Insert 6 lessons for slug `life-of-christ-the-four-gospels`:
+- [x] 14.1 Insert 6 lessons for slug `life-of-christ-the-four-gospels`:
   - OrderIndex 1 (Preview): "The Birth and Early Life of Jesus" — `FOgkX2wqGuQ` (179s)
   - OrderIndex 2: "The Baptism and Temptation of Jesus" — `rbxx65C2f_U` (236s)
   - OrderIndex 3: "The Teachings and Parables of Jesus" — `LpcXBQw1f_s` (3072s)
@@ -130,7 +130,7 @@
 
 ## 15. Lesson Data — The Art of Prayer
 
-- [ ] 15.1 Insert 6 lessons for slug `the-art-of-prayer`:
+- [x] 15.1 Insert 6 lessons for slug `the-art-of-prayer`:
   - OrderIndex 1 (Preview): "What Is Prayer and Why It Matters" — `EQ84qkq2Q6s` (399s)
   - OrderIndex 2: "The Lord's Prayer — A Model to Follow" — `O0MyKgMzWBk` (5173s)
   - OrderIndex 3: "Intercession — Praying for Others" — `CtjdTNuzTzc` (3392s)
@@ -140,7 +140,7 @@
 
 ## 16. Lesson Data — Sharing Your Faith
 
-- [ ] 16.1 Insert 6 lessons for slug `sharing-your-faith`:
+- [x] 16.1 Insert 6 lessons for slug `sharing-your-faith`:
   - OrderIndex 1 (Preview): "Why Every Believer Is Called to Share" — `FOgkX2wqGuQ` (179s)
   - OrderIndex 2: "Overcoming Fear in Evangelism" — `rbxx65C2f_U` (236s)
   - OrderIndex 3: "Your Personal Testimony — Telling Your Story" — `EQ84qkq2Q6s` (399s)
@@ -150,7 +150,7 @@
 
 ## 17. Lesson Data — Raising Faith-Filled Families
 
-- [ ] 17.1 Insert 6 lessons for slug `raising-faith-filled-families`:
+- [x] 17.1 Insert 6 lessons for slug `raising-faith-filled-families`:
   - OrderIndex 1 (Preview): "The Parent as Discipler" — `FOgkX2wqGuQ` (179s)
   - OrderIndex 2: "Family Devotions That Actually Work" — `yaf4uGpe3gI` (3007s)
   - OrderIndex 3: "Talking About Faith at Every Stage" — `O0MyKgMzWBk` (5173s)
@@ -160,6 +160,6 @@
 
 ## 18. Verification
 
-- [ ] 18.1 Run app locally with a fresh database and confirm 90 lessons appear across all 15 courses
-- [ ] 18.2 Run app a second time and confirm no duplicate lessons are inserted (idempotency)
-- [ ] 18.3 Verify each course's lesson 1 has `IsPreview = true` in the database
+- [x] 18.1 Run app locally with a fresh database and confirm 90 lessons appear across all 15 courses
+- [x] 18.2 Run app a second time and confirm no duplicate lessons are inserted (idempotency)
+- [x] 18.3 Verify each course's lesson 1 has `IsPreview = true` in the database
