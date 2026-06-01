@@ -15,7 +15,12 @@ public class CreateAuthorValidator : AbstractValidator<CreateAuthorRequest>
     {
         RuleFor(x => x.Name).NotEmpty().MaximumLength(200);
         RuleFor(x => x.Bio).MaximumLength(1000).When(x => x.Bio != null);
-        RuleFor(x => x.AvatarUrl).MaximumLength(2048).When(x => x.AvatarUrl != null);
+        RuleFor(x => x.AvatarUrl)
+            .MaximumLength(2048)
+            .Must(url => Uri.TryCreate(url, UriKind.Absolute, out var uri)
+                && (uri.Scheme == Uri.UriSchemeHttp || uri.Scheme == Uri.UriSchemeHttps))
+            .When(x => !string.IsNullOrEmpty(x.AvatarUrl))
+            .WithMessage("AvatarUrl must be a valid http or https URL.");
     }
 }
 

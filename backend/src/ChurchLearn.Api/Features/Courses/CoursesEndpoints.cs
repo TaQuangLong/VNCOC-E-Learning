@@ -2,14 +2,17 @@ using ChurchLearn.Api.Common.Extensions;
 using ChurchLearn.Api.Domain.Enums;
 using ChurchLearn.Api.Features.Courses.CreateAuthor;
 using ChurchLearn.Api.Features.Courses.CreateCourse;
+using ChurchLearn.Api.Features.Courses.DeleteAuthor;
 using ChurchLearn.Api.Features.Courses.DeleteCourse;
 using ChurchLearn.Api.Features.Courses.GetAdminCourse;
 using ChurchLearn.Api.Features.Courses.GetAdminCourses;
+using ChurchLearn.Api.Features.Courses.GetAuthorById;
 using ChurchLearn.Api.Features.Courses.GetAuthors;
 using ChurchLearn.Api.Features.Courses.GetCourseBySlug;
 using ChurchLearn.Api.Features.Courses.GetPublishedCourses;
 using ChurchLearn.Api.Features.Courses.PublishCourse;
 using ChurchLearn.Api.Features.Courses.UnpublishCourse;
+using ChurchLearn.Api.Features.Courses.UpdateAuthor;
 using ChurchLearn.Api.Features.Courses.UpdateCourse;
 using Microsoft.AspNetCore.Mvc;
 
@@ -147,6 +150,34 @@ public static class CoursesEndpoints
         {
             var result = await handler.HandleAsync(request, ct);
             return result.ToHttpResult(r => Results.Created($"/api/admin/authors/{r.Id}", r));
+        });
+
+        group.MapGet("/{id:int}", async (
+            int id,
+            GetAuthorByIdHandler handler,
+            CancellationToken ct) =>
+        {
+            var result = await handler.HandleAsync(id, ct);
+            return result.ToHttpResult(Results.Ok);
+        });
+
+        group.MapPut("/{id:int}", async (
+            int id,
+            [FromBody] UpdateAuthorRequest request,
+            UpdateAuthorHandler handler,
+            CancellationToken ct) =>
+        {
+            var result = await handler.HandleAsync(id, request, ct);
+            return result.ToHttpResult(Results.Ok);
+        });
+
+        group.MapDelete("/{id:int}", async (
+            int id,
+            DeleteAuthorHandler handler,
+            CancellationToken ct) =>
+        {
+            var result = await handler.HandleAsync(id, ct);
+            return result.ToHttpResult(() => Results.NoContent());
         });
     }
 }

@@ -18,6 +18,12 @@ export default function AdminDashboardPage() {
             >
               Manage Courses
             </Link>
+            <Link
+              to="/admin/authors"
+              className="rounded-md border px-3 py-1.5 hover:bg-muted"
+            >
+              Manage Authors
+            </Link>
           </div>
           <UserAvatarMenu />
         </div>

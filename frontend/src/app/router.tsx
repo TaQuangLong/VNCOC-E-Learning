@@ -12,6 +12,9 @@ import AdminLessonsPage from '@/pages/admin/AdminLessonsPage'
 import CreateLessonPage from '@/pages/admin/CreateLessonPage'
 import EditLessonPage from '@/pages/admin/EditLessonPage'
 import AdminDashboardPage from '@/pages/admin/AdminDashboardPage'
+import AdminAuthorsPage from '@/pages/admin/AdminAuthorsPage'
+import CreateAuthorPage from '@/pages/admin/CreateAuthorPage'
+import EditAuthorPage from '@/pages/admin/EditAuthorPage'
 import StudentDashboardPage from '@/pages/student/StudentDashboardPage'
 import CourseLearnersPage from '@/pages/admin/CourseLearnersPage'
 import UserProgressPage from '@/pages/admin/UserProgressPage'
@@ -97,6 +100,32 @@ export default function AppRouter() {
           element={
             <AdminRoute>
               <EditCoursePage />
+            </AdminRoute>
+          }
+        />
+
+        {/* Admin — authors */}
+        <Route
+          path="/admin/authors"
+          element={
+            <AdminRoute>
+              <AdminAuthorsPage />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/authors/new"
+          element={
+            <AdminRoute>
+              <CreateAuthorPage />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/authors/:id/edit"
+          element={
+            <AdminRoute>
+              <EditAuthorPage />
             </AdminRoute>
           }
         />

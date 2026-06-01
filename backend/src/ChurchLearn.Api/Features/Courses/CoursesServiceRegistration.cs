@@ -1,13 +1,16 @@
 using ChurchLearn.Api.Features.Courses.CreateAuthor;
 using ChurchLearn.Api.Features.Courses.CreateCourse;
+using ChurchLearn.Api.Features.Courses.DeleteAuthor;
 using ChurchLearn.Api.Features.Courses.DeleteCourse;
 using ChurchLearn.Api.Features.Courses.GetAdminCourse;
 using ChurchLearn.Api.Features.Courses.GetAdminCourses;
+using ChurchLearn.Api.Features.Courses.GetAuthorById;
 using ChurchLearn.Api.Features.Courses.GetAuthors;
 using ChurchLearn.Api.Features.Courses.GetCourseBySlug;
 using ChurchLearn.Api.Features.Courses.GetPublishedCourses;
 using ChurchLearn.Api.Features.Courses.PublishCourse;
 using ChurchLearn.Api.Features.Courses.UnpublishCourse;
+using ChurchLearn.Api.Features.Courses.UpdateAuthor;
 using ChurchLearn.Api.Features.Courses.UpdateCourse;
 using FluentValidation;
 
@@ -27,11 +30,15 @@ public static class CoursesServiceRegistration
         services.AddScoped<PublishCourseHandler>();
         services.AddScoped<UnpublishCourseHandler>();
         services.AddScoped<GetAuthorsHandler>();
+        services.AddScoped<GetAuthorByIdHandler>();
         services.AddScoped<CreateAuthorHandler>();
+        services.AddScoped<UpdateAuthorHandler>();
+        services.AddScoped<DeleteAuthorHandler>();
 
         services.AddScoped<IValidator<CreateCourseRequest>, CreateCourseValidator>();
         services.AddScoped<IValidator<UpdateCourseRequest>, UpdateCourseValidator>();
         services.AddScoped<IValidator<CreateAuthorRequest>, CreateAuthorValidator>();
+        services.AddScoped<IValidator<UpdateAuthorRequest>, UpdateAuthorValidator>();
 
         return services;
     }

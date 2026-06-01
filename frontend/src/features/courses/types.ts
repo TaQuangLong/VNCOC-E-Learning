@@ -11,6 +11,15 @@ export interface AuthorSummary {
   avatarUrl: string | null
 }
 
+export interface AuthorDetail {
+  id: number
+  name: string
+  bio: string | null
+  avatarUrl: string | null
+  userId: string | null
+  courseCount: number
+}
+
 // --- Published course (public) ---
 export interface CourseSummary {
   id: number

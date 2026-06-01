@@ -3,6 +3,7 @@ import { apiClient } from '@/lib/api-client'
 import type {
   AdminCourseDetail,
   AdminCourseSummary,
+  AuthorDetail,
   AuthorSummary,
   CourseDetail,
   CourseSummary,
@@ -18,6 +19,7 @@ export const courseKeys = {
   adminAll: (params: object) => ['courses', 'admin', 'list', params] as const,
   adminDetail: (id: number) => ['courses', 'admin', id] as const,
   authors: () => ['authors'] as const,
+  authorDetail: (id: number) => ['authors', id] as const,
 }
 
 // --- Public ---
@@ -83,6 +85,15 @@ export function useAuthors() {
   })
 }
 
+export function useAuthor(id: number) {
+  return useQuery({
+    queryKey: courseKeys.authorDetail(id),
+    queryFn: () =>
+      apiClient.get<AuthorDetail>(`/admin/authors/${id}`).then((r) => r.data),
+    enabled: id > 0,
+  })
+}
+
 // --- Mutations ---
 
 export function useCreateCourse() {
@@ -136,6 +147,42 @@ export function useUnpublishCourse() {
       apiClient.post(`/admin/courses/${id}/unpublish`).then((r) => r.data),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: courseKeys.all })
+    },
+  })
+}
+
+// --- Author mutations ---
+
+export function useCreateAuthor() {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: (data: { name: string; bio?: string; avatarUrl?: string }) =>
+      apiClient.post<{ id: number; name: string }>('/admin/authors', data).then((r) => r.data),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: courseKeys.authors() })
+    },
+  })
+}
+
+export function useUpdateAuthor() {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: ({ id, data }: { id: number; data: { name: string; bio?: string; avatarUrl?: string } }) =>
+      apiClient.put<{ id: number; name: string; bio: string | null; avatarUrl: string | null; userId: string | null }>(`/admin/authors/${id}`, data).then((r) => r.data),
+    onSuccess: (_data, variables) => {
+      qc.invalidateQueries({ queryKey: courseKeys.authors() })
+      qc.invalidateQueries({ queryKey: courseKeys.authorDetail(variables.id) })
+    },
+  })
+}
+
+export function useDeleteAuthor() {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: (id: number) =>
+      apiClient.delete(`/admin/authors/${id}`).then((r) => r.data),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: courseKeys.authors() })
     },
   })
 }
