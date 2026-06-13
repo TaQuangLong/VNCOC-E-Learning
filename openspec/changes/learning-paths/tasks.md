@@ -64,10 +64,10 @@
 
 ## 10. Frontend — Public Pages
 
-- [ ] 10.1 Create `LearningPathsPage.tsx` at `/learning-paths` — card grid of published paths
-- [ ] 10.2 Create `LearningPathDetailPage.tsx` at `/learning-paths/:slug` — hero, estimated duration, section headings, ordered course cards linking to `/courses/:slug`
-- [ ] 10.3 Show derived progress header for authenticated users; per-course enrolled/completed badges
-- [ ] 10.4 Implement loading, error, and empty states on both pages
+- [x] 10.1 Create `LearningPathsPage.tsx` at `/learning-paths` — card grid of published paths
+- [x] 10.2 Create `LearningPathDetailPage.tsx` at `/learning-paths/:slug` — hero, estimated duration, section headings, ordered course cards linking to `/courses/:slug`
+- [x] 10.3 Show derived progress header for authenticated users; per-course enrolled/completed badges
+- [x] 10.4 Implement loading, error, and empty states on both pages
 
 ## 11. Frontend — Routing & Navigation
 
