@@ -34,8 +34,8 @@
 
 ## 6. Backend — Public List & Detail
 
-- [ ] 6.1 Create `GetLearningPaths` handler — paginated paths whose status and referenced course statuses are all Published (no auth), ordered by `CreatedAt DESC, Id DESC`
-- [ ] 6.2 Create `GetLearningPathBySlug` handler — require the path and all referenced courses to be Published; return nested sections + course summaries with optional auth for derived progress from Enrollments
+- [x] 6.1 Create `GetLearningPaths` handler — paginated paths whose status and referenced course statuses are all Published (no auth), ordered by `CreatedAt DESC, Id DESC`
+- [x] 6.2 Create `GetLearningPathBySlug` handler — require the path and all referenced courses to be Published; return nested sections + course summaries with optional auth for derived progress from Enrollments
 - [ ] 6.3 Register public routes `GET /api/learning-paths` and `GET /api/learning-paths/{slug}`
 
 ## 7. Backend — Integration Tests

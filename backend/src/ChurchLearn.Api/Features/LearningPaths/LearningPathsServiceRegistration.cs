@@ -2,6 +2,8 @@ using ChurchLearn.Api.Features.LearningPaths.ArchiveLearningPath;
 using ChurchLearn.Api.Features.LearningPaths.CreateLearningPath;
 using ChurchLearn.Api.Features.LearningPaths.GetAdminLearningPath;
 using ChurchLearn.Api.Features.LearningPaths.GetAdminLearningPaths;
+using ChurchLearn.Api.Features.LearningPaths.GetLearningPathBySlug;
+using ChurchLearn.Api.Features.LearningPaths.GetLearningPaths;
 using ChurchLearn.Api.Features.LearningPaths.PublishLearningPath;
 using ChurchLearn.Api.Features.LearningPaths.UnpublishLearningPath;
 using ChurchLearn.Api.Features.LearningPaths.UpdateLearningPath;
@@ -16,6 +18,8 @@ public static class LearningPathsServiceRegistration
         services.AddScoped<CreateLearningPathHandler>();
         services.AddScoped<GetAdminLearningPathsHandler>();
         services.AddScoped<GetAdminLearningPathHandler>();
+        services.AddScoped<GetLearningPathsHandler>();
+        services.AddScoped<GetLearningPathBySlugHandler>();
         services.AddScoped<UpdateLearningPathHandler>();
         services.AddScoped<PublishLearningPathHandler>();
         services.AddScoped<UnpublishLearningPathHandler>();
