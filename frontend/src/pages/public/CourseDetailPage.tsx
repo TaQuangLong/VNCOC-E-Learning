@@ -2,6 +2,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useCourseBySlug } from '@/features/courses/api'
 import { useEnrollmentStatus, useEnrollCourse } from '@/features/enrollment/api'
 import { useAuth } from '@/hooks/useAuth'
+import CatalogNavigation from '@/components/layout/CatalogNavigation'
 
 export default function CourseDetailPage() {
   const { slug } = useParams<{ slug: string }>()
@@ -38,6 +39,12 @@ export default function CourseDetailPage() {
 
   return (
     <div className="min-h-screen bg-background">
+      <header className="border-b border-border">
+        <div className="mx-auto flex max-w-4xl justify-end px-4 py-3 sm:px-6 lg:px-8">
+          <CatalogNavigation />
+        </div>
+      </header>
+
       {/* Hero */}
       <div className="border-b border-border bg-muted/50">
         <div className="mx-auto max-w-4xl px-4 py-10 sm:px-6 lg:px-8">

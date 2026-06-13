@@ -8,7 +8,7 @@ import {
   Route,
 } from 'lucide-react'
 
-import UserAvatarMenu from '@/components/layout/UserAvatarMenu'
+import CatalogNavigation from '@/components/layout/CatalogNavigation'
 import { useLearningPathBySlug } from '@/features/learning-paths/api'
 import type {
   LearningPathCourseDetail,
@@ -218,7 +218,7 @@ export default function LearningPathDetailPage() {
     <div className="min-h-screen bg-background">
       <div className="border-b bg-muted/40">
         <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
-          <div className="mb-6 flex items-center justify-between gap-4">
+          <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <Link
               to="/learning-paths"
               className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground"
@@ -226,7 +226,7 @@ export default function LearningPathDetailPage() {
               <ArrowLeft className="size-4" aria-hidden="true" />
               Learning paths
             </Link>
-            <UserAvatarMenu />
+            <CatalogNavigation />
           </div>
 
           <div className="grid gap-8 md:grid-cols-2 md:items-center">

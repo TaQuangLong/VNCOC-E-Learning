@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { ArrowRight, BookOpen, Clock, Route } from 'lucide-react'
 
-import UserAvatarMenu from '@/components/layout/UserAvatarMenu'
+import CatalogNavigation from '@/components/layout/CatalogNavigation'
 import { Button } from '@/components/ui/button'
 import { useLearningPaths } from '@/features/learning-paths/api'
 import type { LearningPathSummary } from '@/features/learning-paths/types'
@@ -90,7 +90,7 @@ export default function LearningPathsPage() {
   return (
     <div className="min-h-screen bg-background">
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-        <div className="mb-8 flex items-start justify-between gap-4">
+        <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div className="max-w-2xl space-y-2">
             <h1 className="text-3xl font-bold">Learning Paths</h1>
             <p className="text-muted-foreground">
@@ -98,7 +98,7 @@ export default function LearningPathsPage() {
               step.
             </p>
           </div>
-          <UserAvatarMenu />
+          <CatalogNavigation />
         </div>
 
         {isLoading && (

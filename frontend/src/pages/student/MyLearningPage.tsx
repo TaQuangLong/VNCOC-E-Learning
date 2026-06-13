@@ -2,7 +2,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useMyEnrolledCourses } from '@/features/enrollment/api'
 import type { MyEnrolledCourse } from '@/features/enrollment/types'
 import { BookOpen } from 'lucide-react'
-import UserAvatarMenu from '@/components/layout/UserAvatarMenu'
+import CatalogNavigation from '@/components/layout/CatalogNavigation'
 
 function ProgressBar({ percent }: { percent: number }) {
   return (
@@ -71,9 +71,9 @@ export default function MyLearningPage() {
   if (isLoading) {
     return (
       <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:px-8">
-        <div className="mb-6 flex items-center justify-between">
+        <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <h1 className="text-2xl font-bold">My Learning</h1>
-          <UserAvatarMenu />
+          <CatalogNavigation />
         </div>
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {Array.from({ length: 3 }).map((_, i) => (
@@ -102,9 +102,9 @@ export default function MyLearningPage() {
   if (!courses || courses.length === 0) {
     return (
       <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:px-8">
-        <div className="mb-6 flex items-center justify-between">
+        <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <h1 className="text-2xl font-bold">My Learning</h1>
-          <UserAvatarMenu />
+          <CatalogNavigation />
         </div>
         <div className="flex flex-col items-center gap-4 rounded-xl border border-dashed border-border py-20 text-center">
           <BookOpen className="h-12 w-12 text-muted-foreground" />
@@ -122,9 +122,9 @@ export default function MyLearningPage() {
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:px-8">
-      <div className="mb-6 flex items-center justify-between">
+      <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <h1 className="text-2xl font-bold">My Learning</h1>
-        <UserAvatarMenu />
+        <CatalogNavigation />
       </div>
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {courses.map((course) => (

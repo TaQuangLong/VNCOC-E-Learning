@@ -1,5 +1,6 @@
 import { Navigate } from 'react-router-dom'
 import { useAuth } from '@/hooks/useAuth'
+import AdminSidebar from '@/components/layout/AdminSidebar'
 
 const ADMIN_ROLES = ['Admin', 'SuperAdmin']
 
@@ -26,5 +27,10 @@ export default function AdminRoute({ children }: AdminRouteProps) {
     return <Navigate to="/dashboard" replace />
   }
 
-  return <>{children}</>
+  return (
+    <div className="min-h-screen bg-background lg:grid lg:grid-cols-[240px_minmax(0,1fr)]">
+      <AdminSidebar />
+      <main className="min-w-0">{children}</main>
+    </div>
+  )
 }

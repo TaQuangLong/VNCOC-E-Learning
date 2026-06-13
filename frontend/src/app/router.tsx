@@ -5,9 +5,14 @@ import ForgotPasswordPage from '@/pages/public/ForgotPasswordPage'
 import ResetPasswordPage from '@/pages/public/ResetPasswordPage'
 import CoursesPage from '@/pages/public/CoursesPage'
 import CourseDetailPage from '@/pages/public/CourseDetailPage'
+import LearningPathsPage from '@/pages/public/LearningPathsPage'
+import LearningPathDetailPage from '@/pages/public/LearningPathDetailPage'
 import AdminCoursesPage from '@/pages/admin/AdminCoursesPage'
 import CreateCoursePage from '@/pages/admin/CreateCoursePage'
 import EditCoursePage from '@/pages/admin/EditCoursePage'
+import AdminLearningPathsPage from '@/pages/admin/AdminLearningPathsPage'
+import CreateLearningPathPage from '@/pages/admin/CreateLearningPathPage'
+import EditLearningPathPage from '@/pages/admin/EditLearningPathPage'
 import AdminLessonsPage from '@/pages/admin/AdminLessonsPage'
 import CreateLessonPage from '@/pages/admin/CreateLessonPage'
 import EditLessonPage from '@/pages/admin/EditLessonPage'
@@ -39,6 +44,13 @@ export default function AppRouter() {
         {/* Public course routes */}
         <Route path="/courses" element={<CoursesPage />} />
         <Route path="/courses/:slug" element={<CourseDetailPage />} />
+
+        {/* Public learning path routes */}
+        <Route path="/learning-paths" element={<LearningPathsPage />} />
+        <Route
+          path="/learning-paths/:slug"
+          element={<LearningPathDetailPage />}
+        />
 
         {/* Student routes (protected) */}
         <Route
@@ -100,6 +112,32 @@ export default function AppRouter() {
           element={
             <AdminRoute>
               <EditCoursePage />
+            </AdminRoute>
+          }
+        />
+
+        {/* Admin — learning paths */}
+        <Route
+          path="/admin/learning-paths"
+          element={
+            <AdminRoute>
+              <AdminLearningPathsPage />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/learning-paths/new"
+          element={
+            <AdminRoute>
+              <CreateLearningPathPage />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/learning-paths/:id/edit"
+          element={
+            <AdminRoute>
+              <EditLearningPathPage />
             </AdminRoute>
           }
         />
@@ -198,4 +236,3 @@ export default function AppRouter() {
     </BrowserRouter>
   )
 }
-

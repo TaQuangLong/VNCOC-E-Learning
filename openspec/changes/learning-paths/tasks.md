@@ -71,9 +71,9 @@
 
 ## 11. Frontend — Routing & Navigation
 
-- [ ] 11.1 Register routes in `router.tsx`: public `/learning-paths`, `/learning-paths/:slug`; admin `/admin/learning-paths`, `/new`, `/:id/edit` under `AdminRoute`
-- [ ] 11.2 Add "Learning Paths" to admin sidebar navigation
-- [ ] 11.3 Add "Learning Paths" link to public/student header navigation (alongside Courses)
+- [x] 11.1 Register routes in `router.tsx`: public `/learning-paths`, `/learning-paths/:slug`; admin `/admin/learning-paths`, `/new`, `/:id/edit` under `AdminRoute`
+- [x] 11.2 Add "Learning Paths" to admin sidebar navigation
+- [x] 11.3 Add "Learning Paths" link to public/student header navigation (alongside Courses)
 
 ## 12. Documentation
 
