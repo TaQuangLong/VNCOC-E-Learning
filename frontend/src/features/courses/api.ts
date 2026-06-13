@@ -66,6 +66,19 @@ export function useAdminCourses(params: {
   })
 }
 
+export function usePublishedCoursesForPicker(params: {
+  page?: number
+  pageSize?: number
+  title?: string
+} = {}) {
+  return useAdminCourses({
+    page: params.page ?? 1,
+    pageSize: params.pageSize ?? 50,
+    status: 'Published',
+    title: params.title,
+  })
+}
+
 export function useAdminCourse(id: number) {
   return useQuery({
     queryKey: courseKeys.adminDetail(id),

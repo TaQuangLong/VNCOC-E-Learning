@@ -51,9 +51,9 @@
 
 ## 8. Frontend — Feature Module
 
-- [ ] 8.1 Create `features/learning-paths/types.ts` with Zod schemas and TypeScript interfaces for admin and public DTOs
-- [ ] 8.2 Create `features/learning-paths/api.ts` with TanStack Query hooks: public list/detail, admin list/detail, create, update, publish, unpublish, archive
-- [ ] 8.3 Add helper to fetch published courses for course picker (reuse or extend existing admin courses hook filtered to Published)
+- [x] 8.1 Create `features/learning-paths/types.ts` with Zod schemas and TypeScript interfaces for admin and public DTOs
+- [x] 8.2 Create `features/learning-paths/api.ts` with TanStack Query hooks: public list/detail, admin list/detail, create, update, publish, unpublish, archive
+- [x] 8.3 Add helper to fetch published courses for course picker (reuse or extend existing admin courses hook filtered to Published)
 
 ## 9. Frontend — Admin Pages
 
