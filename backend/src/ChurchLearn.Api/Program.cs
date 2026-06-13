@@ -6,6 +6,7 @@ using ChurchLearn.Api.Domain.Entities;
 using ChurchLearn.Api.Features.Auth;
 using ChurchLearn.Api.Features.Courses;
 using ChurchLearn.Api.Features.Enrollments;
+using ChurchLearn.Api.Features.LearningPaths;
 using ChurchLearn.Api.Features.Lessons;
 using ChurchLearn.Api.Features.Progress;
 using ChurchLearn.Api.Features.Discussions;
@@ -124,6 +125,7 @@ try
     builder.Services.AddCoursesFeature();
     builder.Services.AddLessonsFeature();
     builder.Services.AddEnrollmentsFeature();
+    builder.Services.AddLearningPathsFeature();
     builder.Services.AddProgressFeature();
     builder.Services.AddQuizzesFeature();
     builder.Services.AddDiscussionsFeature();
@@ -161,6 +163,7 @@ try
     app.MapCoursesEndpoints();
     app.MapLessonsEndpoints();
     app.MapEnrollmentsEndpoints();
+    app.MapLearningPathsEndpoints();
     app.MapProgressEndpoints();
     app.MapQuizzesEndpoints();
     app.MapDiscussionsEndpoints();

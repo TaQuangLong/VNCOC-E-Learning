@@ -4,7 +4,7 @@
 - [x] 1.2 Add entities `LearningPath`, `LearningPathSection`, `LearningPathCourse` with navigation properties and indexes per design (unique slug, unique path+course, order indices)
 - [x] 1.3 Register entities in `AppDbContext` with Fluent API configuration
 - [x] 1.4 Create EF migration `AddLearningPaths`; do not apply it automatically, and document the `dotnet ef database update` command
-- [ ] 1.5 Add `LearningPathsServiceRegistration` and `LearningPathsEndpoints`; wire `AddLearningPathsFeature()` and `MapLearningPathsEndpoints()` into `Program.cs`
+- [x] 1.5 Add `LearningPathsServiceRegistration` and `LearningPathsEndpoints`; wire `AddLearningPathsFeature()` and `MapLearningPathsEndpoints()` into `Program.cs`
 
 ## 2. Backend — CreateLearningPath
 
