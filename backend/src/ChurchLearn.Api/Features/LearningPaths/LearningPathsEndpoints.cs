@@ -4,6 +4,8 @@ using ChurchLearn.Api.Features.LearningPaths.ArchiveLearningPath;
 using ChurchLearn.Api.Features.LearningPaths.CreateLearningPath;
 using ChurchLearn.Api.Features.LearningPaths.GetAdminLearningPath;
 using ChurchLearn.Api.Features.LearningPaths.GetAdminLearningPaths;
+using ChurchLearn.Api.Features.LearningPaths.GetLearningPathBySlug;
+using ChurchLearn.Api.Features.LearningPaths.GetLearningPaths;
 using ChurchLearn.Api.Features.LearningPaths.PublishLearningPath;
 using ChurchLearn.Api.Features.LearningPaths.UnpublishLearningPath;
 using ChurchLearn.Api.Features.LearningPaths.UpdateLearningPath;
@@ -14,6 +16,38 @@ namespace ChurchLearn.Api.Features.LearningPaths;
 public static class LearningPathsEndpoints
 {
     public static IEndpointRouteBuilder MapLearningPathsEndpoints(this IEndpointRouteBuilder app)
+    {
+        MapPublicEndpoints(app);
+        MapAdminEndpoints(app);
+        return app;
+    }
+
+    private static void MapPublicEndpoints(IEndpointRouteBuilder app)
+    {
+        var group = app.MapGroup("/api/learning-paths")
+            .WithTags("Learning Paths");
+
+        group.MapGet("/", async (
+            GetLearningPathsHandler handler,
+            [FromQuery] int page = 1,
+            [FromQuery] int pageSize = 20,
+            CancellationToken cancellationToken = default) =>
+        {
+            var result = await handler.HandleAsync(page, pageSize, cancellationToken);
+            return Results.Ok(result);
+        });
+
+        group.MapGet("/{slug}", async (
+            string slug,
+            GetLearningPathBySlugHandler handler,
+            CancellationToken cancellationToken) =>
+        {
+            var result = await handler.HandleAsync(slug, cancellationToken);
+            return result.ToHttpResult(Results.Ok);
+        });
+    }
+
+    private static void MapAdminEndpoints(IEndpointRouteBuilder app)
     {
         var adminGroup = app.MapGroup("/api/admin/learning-paths")
             .WithTags("Admin - Learning Paths")
@@ -85,7 +119,5 @@ public static class LearningPathsEndpoints
             var result = await handler.HandleAsync(id, cancellationToken);
             return result.ToHttpResult(() => Results.NoContent());
         });
-
-        return app;
     }
 }

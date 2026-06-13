@@ -36,18 +36,18 @@
 
 - [x] 6.1 Create `GetLearningPaths` handler — paginated paths whose status and referenced course statuses are all Published (no auth), ordered by `CreatedAt DESC, Id DESC`
 - [x] 6.2 Create `GetLearningPathBySlug` handler — require the path and all referenced courses to be Published; return nested sections + course summaries with optional auth for derived progress from Enrollments
-- [ ] 6.3 Register public routes `GET /api/learning-paths` and `GET /api/learning-paths/{slug}`
+- [x] 6.3 Register public routes `GET /api/learning-paths` and `GET /api/learning-paths/{slug}`
 
 ## 7. Backend — Integration Tests
 
-- [ ] 7.1 Test create path with sections and courses (happy path)
-- [ ] 7.2 Test duplicate slug → 409, unpublished course → 400, duplicate course in path → 400
-- [ ] 7.3 Test publish blocked when course not published; publish success
-- [ ] 7.4 Test public list returns only published; draft slug → 404
-- [ ] 7.5 Test authenticated detail includes derived progress; guest omits progress
-- [ ] 7.6 Test student cannot access admin endpoints → 403
-- [ ] 7.7 Test publishing an empty path is rejected and Archived paths cannot be edited, published, or unpublished
-- [ ] 7.8 Test unpublishing or archiving a course atomically returns affected Published paths to Draft
+- [x] 7.1 Test create path with sections and courses (happy path)
+- [x] 7.2 Test duplicate slug → 409, unpublished course → 400, duplicate course in path → 400
+- [x] 7.3 Test publish blocked when course not published; publish success
+- [x] 7.4 Test public list returns only published; draft slug → 404
+- [x] 7.5 Test authenticated detail includes derived progress; guest omits progress
+- [x] 7.6 Test student cannot access admin endpoints → 403
+- [x] 7.7 Test publishing an empty path is rejected and Archived paths cannot be edited, published, or unpublished
+- [x] 7.8 Test unpublishing or archiving a course atomically returns affected Published paths to Draft
 
 ## 8. Frontend — Feature Module
 
@@ -78,5 +78,5 @@
 ## 12. Documentation
 
 - [ ] 12.1 Update `knowledge-graph/entities.md` with LearningPath, LearningPathSection, LearningPathCourse
-- [ ] 12.2 Update `knowledge-graph/api-map.md` with new endpoints
+- [x] 12.2 Update `knowledge-graph/api-map.md` with new endpoints
 - [ ] 12.3 Update `knowledge-graph/dependency-graph.md` and `specs/PROGRESS.md` when sprint completes

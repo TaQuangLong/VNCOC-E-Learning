@@ -53,6 +53,8 @@ _Update this file each sprint as new endpoints are implemented._
 | POST   | /api/admin/learning-paths/{id}/publish   | Yes | Admin, SuperAdmin | learning-paths | ✅ done |
 | POST   | /api/admin/learning-paths/{id}/unpublish | Yes | Admin, SuperAdmin | learning-paths | ✅ done |
 | DELETE | /api/admin/learning-paths/{id}           | Yes | Admin, SuperAdmin | learning-paths | ✅ done |
+| GET    | /api/learning-paths               | No   | Any               | learning-paths | ✅ done |
+| GET    | /api/learning-paths/{slug}        | No   | Any               | learning-paths | ✅ done |
 
 ## Lessons
 
