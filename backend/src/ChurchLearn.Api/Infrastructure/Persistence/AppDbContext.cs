@@ -20,6 +20,9 @@ public class AppDbContext(DbContextOptions<AppDbContext> options)
     public DbSet<QuizAttempt> QuizAttempts => Set<QuizAttempt>();
     public DbSet<QuizAttemptAnswer> QuizAttemptAnswers => Set<QuizAttemptAnswer>();
     public DbSet<Discussion> Discussions => Set<Discussion>();
+    public DbSet<LearningPath> LearningPaths => Set<LearningPath>();
+    public DbSet<LearningPathSection> LearningPathSections => Set<LearningPathSection>();
+    public DbSet<LearningPathCourse> LearningPathCourses => Set<LearningPathCourse>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -192,6 +195,47 @@ public class AppDbContext(DbContextOptions<AppDbContext> options)
              .HasForeignKey(x => x.ParentDiscussionId)
              .IsRequired(false)
              .OnDelete(DeleteBehavior.Restrict);
+        });
+
+        builder.Entity<LearningPath>(lp =>
+        {
+            lp.Property(x => x.Status)
+              .HasConversion<string>()
+              .HasMaxLength(20);
+
+            lp.HasIndex(x => x.Slug).IsUnique();
+        });
+
+        builder.Entity<LearningPathSection>(lps =>
+        {
+            lps.HasIndex(x => new { x.LearningPathId, x.OrderIndex }).IsUnique();
+
+            lps.HasOne(x => x.LearningPath)
+               .WithMany(lp => lp.Sections)
+               .HasForeignKey(x => x.LearningPathId)
+               .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        builder.Entity<LearningPathCourse>(lpc =>
+        {
+            lpc.HasIndex(x => new { x.LearningPathId, x.CourseId }).IsUnique();
+            lpc.HasIndex(x => new { x.LearningPathSectionId, x.OrderIndex }).IsUnique();
+            lpc.HasIndex(x => x.CourseId);
+
+            lpc.HasOne(x => x.LearningPath)
+               .WithMany(lp => lp.Courses)
+               .HasForeignKey(x => x.LearningPathId)
+               .OnDelete(DeleteBehavior.Cascade);
+
+            lpc.HasOne(x => x.LearningPathSection)
+               .WithMany(lps => lps.Courses)
+               .HasForeignKey(x => x.LearningPathSectionId)
+               .OnDelete(DeleteBehavior.Cascade);
+
+            lpc.HasOne(x => x.Course)
+               .WithMany(c => c.LearningPathCourses)
+               .HasForeignKey(x => x.CourseId)
+               .OnDelete(DeleteBehavior.Restrict);
         });
     }
 }

@@ -98,6 +98,7 @@ The module includes `LearningPathsServiceRegistration` and `LearningPathsEndpoin
 ## Migration Plan
 
 1. Create EF migration `AddLearningPaths` with new tables and indexes; do not apply it automatically
+   - Apply later from `backend/` with `dotnet ef database update --project src/ChurchLearn.Api`
 2. Deploy backend API endpoints
 3. Deploy frontend pages and navigation
 4. Rollback: migration down removes tables; no changes to existing Course/Enrollment data
