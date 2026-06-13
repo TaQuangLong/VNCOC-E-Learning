@@ -42,6 +42,12 @@ _Update this file each sprint as new endpoints are implemented._
 | GET    | /api/admin/authors                    | Yes  | Admin, SuperAdmin | 3      | ✅ done     |
 | POST   | /api/admin/authors                    | Yes  | Admin, SuperAdmin | 3      | ✅ done     |
 
+## Learning Paths
+
+| Method | Path                              | Auth | Roles             | Change         | Status  |
+|--------|-----------------------------------|------|-------------------|----------------|---------|
+| POST   | /api/admin/learning-paths         | Yes  | Admin, SuperAdmin | learning-paths | ✅ done |
+
 ## Lessons
 
 | Method | Path                                        | Auth | Roles             | Sprint | Status  |

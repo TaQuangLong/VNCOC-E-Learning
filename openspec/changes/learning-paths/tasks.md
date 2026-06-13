@@ -8,10 +8,10 @@
 
 ## 2. Backend — CreateLearningPath
 
-- [ ] 2.1 Create `Features/LearningPaths/CreateLearningPath/` with request DTO (nested sections + course IDs), FluentValidation, and handler
-- [ ] 2.2 Validator/handler validation: title/slug rules, unique slug check, all course IDs exist and are Published, no duplicate course in path, and no duplicate order indices
-- [ ] 2.3 Handler persists path + sections + join rows in one transaction; returns `Result<CreateLearningPathResponse>`
-- [ ] 2.4 Register `POST /api/admin/learning-paths` in admin group with Admin/SuperAdmin auth
+- [x] 2.1 Create `Features/LearningPaths/CreateLearningPath/` with request DTO (nested sections + course IDs), FluentValidation, and handler
+- [x] 2.2 Validator/handler validation: title/slug rules, unique slug check, all course IDs exist and are Published, no duplicate course in path, and no duplicate order indices
+- [x] 2.3 Handler persists path + sections + join rows in one transaction; returns `Result<CreateLearningPathResponse>`
+- [x] 2.4 Register `POST /api/admin/learning-paths` in admin group with Admin/SuperAdmin auth
 
 ## 3. Backend — GetAdminLearningPaths & GetAdminLearningPath
 
