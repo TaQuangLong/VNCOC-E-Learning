@@ -15,9 +15,9 @@
 
 ## 3. Backend — GetAdminLearningPaths & GetAdminLearningPath
 
-- [ ] 3.1 Create `GetAdminLearningPaths` handler with pagination, status filter, returning summaries with section/course counts
-- [ ] 3.2 Create `GetAdminLearningPath` handler returning full nested path detail for edit form
-- [ ] 3.3 Register `GET /api/admin/learning-paths` and `GET /api/admin/learning-paths/{id}`
+- [x] 3.1 Create `GetAdminLearningPaths` handler with pagination, status filter, returning summaries with section/course counts
+- [x] 3.2 Create `GetAdminLearningPath` handler returning full nested path detail for edit form
+- [x] 3.3 Register `GET /api/admin/learning-paths` and `GET /api/admin/learning-paths/{id}`
 
 ## 4. Backend — UpdateLearningPath
 
