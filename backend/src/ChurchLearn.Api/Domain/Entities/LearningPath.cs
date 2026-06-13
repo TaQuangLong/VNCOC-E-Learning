@@ -1,8 +1,10 @@
 using ChurchLearn.Api.Domain.Enums;
+using Microsoft.EntityFrameworkCore;
 
 namespace ChurchLearn.Api.Domain.Entities;
 
-public class Course
+[Index(nameof(Slug), IsUnique = true)]
+public class LearningPath
 {
     public int Id { get; set; }
     public string Title { get; set; } = string.Empty;
@@ -10,15 +12,11 @@ public class Course
     public string? ShortDescription { get; set; }
     public string? Description { get; set; }
     public string? ThumbnailUrl { get; set; }
-    public string? Category { get; set; }
-    public string? Level { get; set; }
-    public string? Language { get; set; }
-    public int AuthorId { get; set; }
-    public Author Author { get; set; } = null!;
-    public CourseStatus Status { get; set; } = CourseStatus.Draft;
+    public string? EstimatedDurationLabel { get; set; }
+    public LearningPathStatus Status { get; set; } = LearningPathStatus.Draft;
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
-    public ICollection<Lesson> Lessons { get; set; } = new List<Lesson>();
-    public ICollection<LearningPathCourse> LearningPathCourses { get; set; } = [];
+    public ICollection<LearningPathSection> Sections { get; set; } = [];
+    public ICollection<LearningPathCourse> Courses { get; set; } = [];
 }
