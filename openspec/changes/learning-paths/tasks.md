@@ -57,10 +57,10 @@
 
 ## 9. Frontend — Admin Pages
 
-- [ ] 9.1 Create `AdminLearningPathsPage.tsx` — table with title, slug, status, course count, actions (edit, publish/unpublish, archive)
-- [ ] 9.2 Create shared `LearningPathForm.tsx` — path fields + section builder (add/remove/reorder sections, add/remove/reorder courses per section via published course picker)
-- [ ] 9.3 Create `CreateLearningPathPage.tsx` and `EditLearningPathPage.tsx` wrapping the form
-- [ ] 9.4 Implement loading, error, and empty states; toast notifications; AlertDialog for archive confirmation
+- [x] 9.1 Create `AdminLearningPathsPage.tsx` — table with title, slug, status, course count, actions (edit, publish/unpublish, archive)
+- [x] 9.2 Create shared `LearningPathForm.tsx` — path fields + section builder (add/remove/reorder sections, add/remove/reorder courses per section via published course picker)
+- [x] 9.3 Create `CreateLearningPathPage.tsx` and `EditLearningPathPage.tsx` wrapping the form
+- [x] 9.4 Implement loading, error, and empty states; toast notifications; AlertDialog for archive confirmation
 
 ## 10. Frontend — Public Pages
 
