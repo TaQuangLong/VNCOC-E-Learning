@@ -21,16 +21,16 @@
 
 ## 4. Backend — UpdateLearningPath
 
-- [ ] 4.1 Create `Features/LearningPaths/UpdateLearningPath/` with request, validator, handler (replace-all sections/courses transactionally); reject updates to Archived paths with 409
-- [ ] 4.2 Register `PUT /api/admin/learning-paths/{id}` mapping Result to HTTP status codes
+- [x] 4.1 Create `Features/LearningPaths/UpdateLearningPath/` with request, validator, handler (replace-all sections/courses transactionally); reject updates to Archived paths with 409
+- [x] 4.2 Register `PUT /api/admin/learning-paths/{id}` mapping Result to HTTP status codes
 
 ## 5. Backend — Publish, Unpublish, Archive
 
-- [ ] 5.1 Create `PublishLearningPath` handler — require at least one non-empty section and verify all courses Published before setting status; reject Archived paths with 409
-- [ ] 5.2 Create `UnpublishLearningPath` handler — set status to Draft; reject Archived paths with 409
-- [ ] 5.3 Create `ArchiveLearningPath` handler — set status to Archived (soft delete)
-- [ ] 5.4 Register `POST .../publish`, `POST .../unpublish`, `DELETE .../{id}` admin routes
-- [ ] 5.5 Update course unpublish/archive handlers so the course status change and transition of affected Published learning paths to Draft happen transactionally
+- [x] 5.1 Create `PublishLearningPath` handler — require at least one non-empty section and verify all courses Published before setting status; reject Archived paths with 409
+- [x] 5.2 Create `UnpublishLearningPath` handler — set status to Draft; reject Archived paths with 409
+- [x] 5.3 Create `ArchiveLearningPath` handler — set status to Archived (soft delete)
+- [x] 5.4 Register `POST .../publish`, `POST .../unpublish`, `DELETE .../{id}` admin routes
+- [x] 5.5 Update course unpublish/archive handlers so the course status change and transition of affected Published learning paths to Draft happen transactionally
 
 ## 6. Backend — Public List & Detail
 
