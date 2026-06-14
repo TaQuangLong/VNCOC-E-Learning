@@ -25,6 +25,7 @@
 | 14     | GitHub Actions CI/CD           | ✅ Complete   | 2026-05-19   | ✓     |
 | 15     | Production Deployment (EC2)    | 🔲 Not Started | —            | —     |
 | 16     | Testing & Pilot Launch         | 🔲 Not Started | —            | —     |
+| 17     | Learning Paths                 | ✅ Complete   | 2026-06-14   | ✓     |
 
 ---
 
@@ -43,8 +44,7 @@
 
 | File                              | Last Updated | Sprint |
 |-----------------------------------|--------------|--------|
-| knowledge-graph/entities.md       | 2026-05-18   | 9      |
-| knowledge-graph/api-map.md        | 2026-05-19   | 13     |
-| knowledge-graph/dependency-graph.md | 2026-05-19 | 14     |
-| specs/PROGRESS.md                 | 2026-05-19   | 14     |
-
+| knowledge-graph/entities.md       | 2026-06-14   | 17     |
+| knowledge-graph/api-map.md        | 2026-06-14   | 17     |
+| knowledge-graph/dependency-graph.md | 2026-06-14 | 17     |
+| specs/PROGRESS.md                 | 2026-06-14   | 17     |

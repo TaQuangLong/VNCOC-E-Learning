@@ -77,6 +77,6 @@
 
 ## 12. Documentation
 
-- [ ] 12.1 Update `knowledge-graph/entities.md` with LearningPath, LearningPathSection, LearningPathCourse
+- [x] 12.1 Update `knowledge-graph/entities.md` with LearningPath, LearningPathSection, LearningPathCourse
 - [x] 12.2 Update `knowledge-graph/api-map.md` with new endpoints
-- [ ] 12.3 Update `knowledge-graph/dependency-graph.md` and `specs/PROGRESS.md` when sprint completes
+- [x] 12.3 Update `knowledge-graph/dependency-graph.md` and `specs/PROGRESS.md` when sprint completes

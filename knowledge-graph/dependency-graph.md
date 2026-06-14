@@ -13,6 +13,7 @@ Foundation (no deps)
               └── Lessons Backend (needs: Courses)
                     └── Learning Page Frontend (needs: Lessons API)
                           └── Enrollment (needs: Auth + Courses)
+                                ├── Learning Paths (needs: Courses + Enrollment)
                                 └── Progress (needs: Enrollment + Lessons)
                                       └── Quiz (needs: Lessons + Progress)
                                             └── Discussion (needs: Lessons + Auth)
@@ -42,3 +43,4 @@ Foundation (no deps)
 | 14     | CI/CD                  | ✅ done        | —                                        | All features          | specs/sprint-14-cicd/SPEC.md                |
 | 15     | Production             | 🔲 not-started | —                                        | CI/CD                 | specs/sprint-15-production/SPEC.md          |
 | 16     | Pilot Launch           | 🔲 not-started | —                                        | Production            | specs/sprint-16-pilot/SPEC.md               |
+| 17     | Learning Paths         | ✅ done        | LearningPath, LearningPathSection, LearningPathCourse | Courses, Enrollment | openspec/changes/learning-paths/specs/learning-paths/spec.md |

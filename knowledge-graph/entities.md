@@ -1,6 +1,6 @@
 # ChurchLearn — Entity Relationships
 
-_Updated: Sprint 8 (progress tracking). Update this file each sprint as new entities are added._
+_Updated: Sprint 17 (learning paths). Update this file each sprint as new entities are added._
 
 ---
 
@@ -27,9 +27,37 @@ _Updated: Sprint 8 (progress tracking). Update this file each sprint as new enti
 - Belongs to one Author
 - Has many Lessons
 - Has many Enrollments
+- Can belong to many LearningPaths through LearningPathCourse
 - Status: Draft | Published | Archived
 - Unique index on: Slug
 - Fields: Id, Title, Slug, ShortDescription, Description, ThumbnailUrl, Category, Level, Language, AuthorId, Status, CreatedAt, UpdatedAt
+
+## LearningPath — ✅ Sprint 17
+- Has many LearningPathSections
+- Has many LearningPathCourses
+- Status: Draft | Published | Archived
+- Archived is terminal in the MVP; archived paths cannot be edited, published, or unpublished
+- Public visibility requires the path and all referenced Courses to be Published
+- Student progress is derived from existing Enrollments; there is no path-level enrollment entity
+- Unique index on: Slug
+- Fields: Id, Title, Slug, ShortDescription?, Description?, ThumbnailUrl?, EstimatedDurationLabel?, Status, CreatedAt, UpdatedAt
+
+## LearningPathSection — ✅ Sprint 17
+- Belongs to one LearningPath
+- Has many LearningPathCourses
+- Ordered by: OrderIndex within LearningPath
+- Unique index on: (LearningPathId, OrderIndex)
+- Cascade deleted with its LearningPath
+- Fields: Id, LearningPathId, Title, Description?, OrderIndex
+
+## LearningPathCourse — ✅ Sprint 17
+- Join entity linking one LearningPath, one LearningPathSection, and one Course
+- Ordered by: OrderIndex within LearningPathSection
+- A Course can appear at most once within a LearningPath
+- Unique indexes on: (LearningPathId, CourseId), (LearningPathSectionId, OrderIndex)
+- Additional index on: CourseId
+- Cascade deleted with its LearningPath or LearningPathSection; Course deletion is restricted
+- Fields: Id, LearningPathId, LearningPathSectionId, CourseId, OrderIndex
 
 ## Lesson — ✅ Sprint 5
 - Belongs to one Course
