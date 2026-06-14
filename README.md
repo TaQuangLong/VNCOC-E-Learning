@@ -154,6 +154,19 @@ Backend config (`appsettings.json`) also reads:
 - `Jwt:Secret`, `Jwt:Issuer`, `Jwt:Audience`, `Jwt:ExpiryMinutes`
 - `SuperAdmin:Email`, `SuperAdmin:Password`
 - `Cors:AllowedOrigins`
+- `Seed:DemoData`
+
+### Demo Data
+
+Demo courses, lessons, and learning paths are seeded at startup in Development and Staging. In other environments, enable the same dataset with `Seed:DemoData=true` (or the environment variable `Seed__DemoData=true`). When the flag is false outside Development and Staging, demo catalog data is not seeded.
+
+The demo dataset includes these published English learning paths:
+
+- **Christian Foundations**
+- **Bible & Theology**
+- **Ministry Leadership**
+
+Learning paths reuse the existing published demo courses. A path is skipped if any required course is missing or not Published. Seeding is idempotent: if a path slug already exists, its metadata, status, sections, and courses are left unchanged.
 
 ---
 

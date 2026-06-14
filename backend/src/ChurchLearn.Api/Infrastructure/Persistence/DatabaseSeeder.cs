@@ -9,6 +9,96 @@ namespace ChurchLearn.Api.Infrastructure.Persistence;
 
 public static class DatabaseSeeder
 {
+    private static readonly LearningPathSeed[] LearningPathSeeds =
+    [
+        new(
+            Title: "Christian Foundations",
+            Slug: "christian-foundations",
+            ShortDescription: "Build a strong foundation for everyday Christian faith and practice.",
+            Description: "A guided introduction to spiritual growth, essential Christian beliefs, the life of Jesus, prayer, community, and sharing your faith.",
+            EstimatedDurationLabel: "6 courses",
+            Sections:
+            [
+                new(
+                    Title: "Start Here",
+                    Description: "Begin with the beliefs and story at the heart of Christian faith.",
+                    CourseSlugs:
+                    [
+                        "foundations-of-spiritual-growth",
+                        "core-christian-doctrines",
+                        "life-of-christ-the-four-gospels",
+                    ]),
+                new(
+                    Title: "Practices for Everyday Faith",
+                    Description: "Put faith into practice through prayer, community, and witness.",
+                    CourseSlugs:
+                    [
+                        "the-art-of-prayer",
+                        "healthy-relationships-in-community",
+                        "sharing-your-faith",
+                    ]),
+            ]),
+        new(
+            Title: "Bible & Theology",
+            Slug: "bible-and-theology",
+            ShortDescription: "Explore the biblical story, Christian doctrine, and the history of the Church.",
+            Description: "A structured journey through Scripture, theology, and major periods that shaped Christian belief and practice.",
+            EstimatedDurationLabel: "6 courses",
+            Sections:
+            [
+                new(
+                    Title: "The Biblical Story",
+                    Description: "Trace God's redemptive story through the Old Testament and the four Gospels.",
+                    CourseSlugs:
+                    [
+                        "walking-through-the-old-testament",
+                        "life-of-christ-the-four-gospels",
+                    ]),
+                new(
+                    Title: "Christian Doctrine",
+                    Description: "Develop a clear and connected understanding of core Christian theology.",
+                    CourseSlugs:
+                    [
+                        "core-christian-doctrines",
+                        "systematic-theology-essentials",
+                    ]),
+                new(
+                    Title: "Church Through the Ages",
+                    Description: "Study defining people, movements, and events in Church history.",
+                    CourseSlugs:
+                    [
+                        "the-early-church-100-500-ad",
+                        "reformation-and-modern-christianity",
+                    ]),
+            ]),
+        new(
+            Title: "Ministry Leadership",
+            Slug: "ministry-leadership",
+            ShortDescription: "Grow as a servant leader who equips teams and cares for people well.",
+            Description: "Practical preparation for Christ-centered leadership, healthy ministry teams, relational service, evangelism, and family discipleship.",
+            EstimatedDurationLabel: "5 courses",
+            Sections:
+            [
+                new(
+                    Title: "Lead Like Jesus",
+                    Description: "Develop the character and team-building practices of servant leadership.",
+                    CourseSlugs:
+                    [
+                        "servant-leadership-in-the-church",
+                        "growing-your-ministry-team",
+                    ]),
+                new(
+                    Title: "Serve People Well",
+                    Description: "Strengthen the relationships and ministry skills needed to serve others faithfully.",
+                    CourseSlugs:
+                    [
+                        "healthy-relationships-in-community",
+                        "sharing-your-faith",
+                        "raising-faith-filled-families",
+                    ]),
+            ]),
+    ];
+
     public static async Task SeedAsync(IServiceProvider serviceProvider)
     {
         await using var scope = serviceProvider.CreateAsyncScope();
@@ -61,14 +151,21 @@ public static class DatabaseSeeder
         }
 
         // Course seeding — Development, Staging, or when demo data flag is set (e.g. fly.io demo)
-        var seedDemoData = config.GetValue<bool>("Seed:DemoData");
-        if (env.IsDevelopment() || env.IsStaging() || seedDemoData)
+        if (ShouldSeedDemoData(env, config))
         {
             var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
             await SeedCoursesAsync(db);
             await SeedLessonsAsync(db, CancellationToken.None);
+            await SeedLearningPathsAsync(db, CancellationToken.None);
         }
     }
+
+    internal static bool ShouldSeedDemoData(
+        IWebHostEnvironment environment,
+        IConfiguration configuration) =>
+        environment.IsDevelopment()
+        || environment.IsStaging()
+        || configuration.GetValue<bool>("Seed:DemoData");
 
     private static async Task SeedCoursesAsync(AppDbContext db)
     {
@@ -460,4 +557,91 @@ public static class DatabaseSeeder
 
         await db.SaveChangesAsync(ct);
     }
+
+    internal static async Task SeedLearningPathsAsync(
+        AppDbContext db,
+        CancellationToken cancellationToken)
+    {
+        foreach (var seed in LearningPathSeeds)
+        {
+            var pathExists = await db.LearningPaths
+                .AnyAsync(path => path.Slug == seed.Slug, cancellationToken);
+            if (pathExists)
+                continue;
+
+            var requiredCourseSlugs = seed.Sections
+                .SelectMany(section => section.CourseSlugs)
+                .Distinct()
+                .ToArray();
+            var publishedCourses = await db.Courses
+                .AsNoTracking()
+                .Where(course =>
+                    requiredCourseSlugs.Contains(course.Slug)
+                    && course.Status == CourseStatus.Published)
+                .ToDictionaryAsync(course => course.Slug, course => course.Id, cancellationToken);
+
+            if (publishedCourses.Count != requiredCourseSlugs.Length)
+                continue;
+
+            db.LearningPaths.Add(BuildLearningPath(seed, publishedCourses));
+            await db.SaveChangesAsync(cancellationToken);
+        }
+    }
+
+    private static LearningPath BuildLearningPath(
+        LearningPathSeed seed,
+        IReadOnlyDictionary<string, int> courseIdsBySlug)
+    {
+        var learningPath = new LearningPath
+        {
+            Title = seed.Title,
+            Slug = seed.Slug,
+            ShortDescription = seed.ShortDescription,
+            Description = seed.Description,
+            EstimatedDurationLabel = seed.EstimatedDurationLabel,
+            Status = LearningPathStatus.Published,
+        };
+
+        for (var sectionIndex = 0; sectionIndex < seed.Sections.Count; sectionIndex++)
+        {
+            var sectionSeed = seed.Sections[sectionIndex];
+            var section = new LearningPathSection
+            {
+                LearningPath = learningPath,
+                Title = sectionSeed.Title,
+                Description = sectionSeed.Description,
+                OrderIndex = sectionIndex,
+            };
+
+            for (var courseIndex = 0; courseIndex < sectionSeed.CourseSlugs.Count; courseIndex++)
+            {
+                var learningPathCourse = new LearningPathCourse
+                {
+                    LearningPath = learningPath,
+                    LearningPathSection = section,
+                    CourseId = courseIdsBySlug[sectionSeed.CourseSlugs[courseIndex]],
+                    OrderIndex = courseIndex,
+                };
+                section.Courses.Add(learningPathCourse);
+                learningPath.Courses.Add(learningPathCourse);
+            }
+
+            learningPath.Sections.Add(section);
+        }
+
+        return learningPath;
+    }
+
+    private sealed record LearningPathSeed(
+        string Title,
+        string Slug,
+        string ShortDescription,
+        string Description,
+        string EstimatedDurationLabel,
+        IReadOnlyList<LearningPathSectionSeed> Sections);
+
+    private sealed record LearningPathSectionSeed(
+        string Title,
+        string Description,
+        IReadOnlyList<string> CourseSlugs);
 }
